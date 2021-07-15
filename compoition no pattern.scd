@@ -8,14 +8,14 @@ SynthDef.new(\id, {
 	p=p*(-1);
 	b=TChoose.kr(1,[6/5,7/4,8/3,9/2],[8,5,3,2]);
 	fund=fund*b;
-	4.do{
+	60.do{
 		p=p+1/4;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		y.postln;
 		envelope=EnvGen.ar(Env.perc(attack,decay,1,[-4,-6]),doneAction:2);
       //wave=SinOsc.ar(y*fund,mul: (1/y))*envelope;
-	wave=BLowPass.ar(LFSaw.ar(y*fund,mul: (1/y),iphase:p),220,1);
+	wave=BLowPass.ar(LFSaw.ar(y*fund,mul: (1/y),iphase:p),440,1);
 		//wave=LFNoise1.ar(y*fund,mul: (1/y));
 		sum= sum+wave;};
 	Out.ar(0,PanAz.ar(2,sum*envelope,bus));
@@ -75,7 +75,7 @@ s.options.numOutputBusChannels=8;
 TempoClock.default.tempo_(60/60);
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
-s.options.sampleRate =96000;
+s.options.sampleRate =48000;
 s.options.device_("USB Sound Device");
 s.options.memSize = 65536;
 s.options.memSize
