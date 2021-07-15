@@ -1,45 +1,63 @@
-//////////////////////////////////a wave  fundamental as notes////bell pare ta arxidia mou///tetraedro apla pramata
+//////////////////////////////////
 
-(
 (
 SynthDef.new(\id, {
-	arg a=1,fund=2,b=1,o=10,x=1;
-	var y,decay=4,sum=0,wave;
+	arg a=1,fund=2,b=1,o=10,x=0,bus=0,attack=1,decay=2;
+	var y,sum=0,wave;
 	var envelope;
-	b=TChoose.kr(Dust.ar(1),[2,2.1,2.3,2.4,2.5,2.6,2.7,2.8,2.9,3]);
-	fund=fund*b;
-
-	4.do{
+	b=TChoose.kr(1,[2/3,3/4,4/5,5/6,6/7,7/8,8/9]);
+	b=b+1;
+	fund=fund;
+	32.do{
 		x=x+1;
 		y=((x**b)+a)/(x**(1/b));
-		envelope=EnvGen.ar(Env.perc(0.01,decay,1/b,[-2,-4]),doneAction:2);
-		wave=BLowPass.ar(LFSaw.ar(y*fund,mul: (1/y)),y*fund,1);
+		envelope=EnvGen.ar(Env.perc(attack,decay,1/b,[-2,-2]),doneAction:2);
+		wave=BLowPass.ar(LFSaw.ar(y*fund,mul: (1/y)),220,1);
 		sum= sum+wave;
 	};
-	Out.ar(0,wave*10*envelope!2);
+	Out.ar(0,PanAz.ar(2,wave*400*envelope,0));
 
 }).add;
-);
 )
-.
-Synth.new(\id)
-/////////////////////////////////////
 
-    (
-        SynthDef(\RmOctaver, { |out|
-            var in, freq, hasFreq;
-            in = SoundIn.ar(0);
-            # freq, hasFreq = Pitch.kr(in);
-            Out.ar(out, SinOsc.ar(freq: freq * 0.5) * in + in);
-        }).add;
-    )
-
-    Synth.new(\RmOctaver);
-
-/////////////////////////////////////
 (
-~pot1 = MIDIFunc.cc( { arg vel,nn,chan,src; [vel,nn,chan,src];  ~a= vel.linlin(6,87,2,20).postln; "a".postln}, 71, 0);
-~pot2 = MIDIFunc.cc( { arg vel,nn,chan,src; [vel,nn,chan,src];  ~b= vel.linlin(14,124,10,55).round.postln;"b".postln}, 73, 0);
+Tdef(\1,
+      {
+
+				 1.do({(
+Tdef(\synth_x, { loop { 0.25.wait; (
+	Synth.new(\id,[\fund,220,\attack,0.01,\decay,1]));
+} }).play;) ;  0.5.yield});
+
+			 1.do({(
+Tdef(\synth_y, { loop { 0.5.wait; (
+	Synth.new(\id,[\fund,110,\attack,0.1,\decay,2]));
+} }).play;) ;1.yield});
+		1.do({(
+Tdef(\synth_z, { loop { 2.wait; (
+	Synth.new(\id,[\fund,440,\attack,1,\decay,4]));
+} }).play;) ;  0.5.yield});
+				1.do({(
+Tdef(\synth_z, { loop { 2.wait; (
+	Synth.new(\id,[\fund,55,\attack,1,\decay,4]));
+} }).play;) ;  0.5.yield});
+
+			})
+)
+
+
+Tdef(\1).play;
+
+
+
+
+
+/////////////////////////////////////
+
+(
+//~pot1 = MIDIFunc.cc( { arg vel,nn,chan,src; [vel,nn,chan,src];  ~a= vel.linlin(6,87,2,20).postln; "a".postln}, 71, 0);
+//~pot2 = MIDIFunc.cc( { arg vel,nn,chan,src; [vel,nn,chan,src];  ~b= vel.linlin(14,124,0.01,1).round.postln;"b".postln}, 73, 0);
+~pot2 = MIDIFunc.cc( , 73, 0);
 )
 
 MIDIClient.init;
@@ -57,7 +75,7 @@ c= Pdef(\ii, Pbind(\instrument, \id,
 
 
 s.options.numOutputBusChannels=8;
-TempoClock.default.tempo_(120/83);
+TempoClock.default.tempo_(120/120);
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
 s.options.sampleRate =48000;
