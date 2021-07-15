@@ -4,21 +4,20 @@
 SynthDef.new(\id, {
 	arg a=1,fund=200,b=1,o=10,x=0,bus=0,attack=1,decay=1;
 	var y,sum=0,wave,c;
-	var envelope,p=1/6;
-	p=p*(-1);
+	var envelope,p=0;
 	b=TChoose.kr(1,[6/5,7/4,8/3,9/2],[8,5,3,2]);
 	fund=fund*b;
-	60.do{
-		p=p+1/4;
+	b=b*(-1);
+	2.do{
+		p=p+1/2;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		y.postln;
 		envelope=EnvGen.ar(Env.perc(attack,decay,1,[-4,-6]),doneAction:2);
-      //wave=SinOsc.ar(y*fund,mul: (1/y))*envelope;
-	wave=BLowPass.ar(LFSaw.ar(y*fund,mul: (1/y),iphase:p),440,1);
-		//wave=LFNoise1.ar(y*fund,mul: (1/y));
+     //wave=SinOsc.ar(y*fund,mul: (1/y))*envelope;
+	wave=BLowPass.ar(LFTri.ar(y*fund,mul: (1/y),iphase:p),500,1);
 		sum= sum+wave;};
-	Out.ar(0,PanAz.ar(2,sum*envelope,bus));
+	Out.ar(0,PanAz.ar(2,sum*100*envelope,bus));
 
 }).add;
 )
@@ -30,12 +29,12 @@ Tdef(\sa,
       {
 				 1.do({(
 Tdef(\synth_x, { loop { 1.wait; (
-	Synth.new(\id,[\fund,220,\attack,1,\decay,4,\bus,-0.5]));
+	Synth.new(\id,[\fund,110,\attack,1,\decay,4,\bus,-0.5]));
 } }).play;) ;  0.yield});
 
 					 1.do({(
 Tdef(\synth_y, { loop { 1.wait; (
-	Synth.new(\id,[\fund,221,\attack,1,\decay,4,\bus,0.5]));
+	Synth.new(\id,[\fund,111,\attack,1,\decay,4,\bus,0.5]));
 } }).play;) ;  16.yield});
 
 		Tdef(\synth_x).stop; 8.yield;
@@ -72,7 +71,7 @@ c= Pdef(\ii, Pbind(\instrument, \id,
 
 
 s.options.numOutputBusChannels=8;
-TempoClock.default.tempo_(60/60);
+TempoClock.default.tempo_(60/30);
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
 s.options.sampleRate =48000;
