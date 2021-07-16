@@ -2,21 +2,21 @@
 
 (
 SynthDef.new(\id, {
-	arg a=1,fund=200,b=1,o=10,x=0,bus=0,attack=1,decay=1,fil=440;
-	var y,sum=0,wave,c;
+	arg a=1,fund=200,b=1,o=10,x=1,bus=0,attack=1,decay=1,fil=440,presens=1;
+	var y,sum=0,wave,c,k;
 	var envelope,p=0;
 	b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
 	b=b*(-1);
-	3.do{
-		p=p+1/3;
+	fund=fund/2;
+	2.do{
+		p=p+1/2;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
-		y.postln;
-		envelope=EnvGen.ar(Env.perc(attack,decay,1,[-4,-6]),doneAction:2);
-     //wave=SinOsc.ar(y*fund,mul: (1/y))*envelope;
-		wave=BLowPass.ar(VarSaw.ar(y*fund,mul: (1/y),iphase:p,width:1/y),fil,1);
+		k=Complex(x,y).abs;
+		envelope=EnvGen.ar(Env.perc(attack,decay,k,[-4,-4]),doneAction:2);
+		wave=BLowPass.ar(VarSaw.ar(k*fund,mul: (1/k),iphase:p,width:1/k),fil,1);
 		sum= sum+wave;};
-	Out.ar(0,PanAz.ar(2,sum*100*envelope,bus));
+	Out.ar(0,PanAz.ar(2,sum*presens*envelope,SinOsc.ar(bus)));
 
 }).add;
 )
@@ -25,22 +25,22 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 
 (
 (e= Pdef(\pat1, Pbind(\instrument, \id,
-	\dur,1,
-           \fund, 440,
-			\b,Prand([1,2,3,4],inf),
-	\attack,
-	\decay,
-	\fill,
-	\bus,0.5;
+	\dur,Pwrand([4,2,1,0.5,0.25,0.125],[0.1,0.2,0.3,0.3,0.2,0.1],inf),
+       \fund, Pwrand([50,100],[0.1,0.2],inf),
+	\b,Pwrand([4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.6],inf),
+	\attack,1,
+	\decay,2,
+	\fil,440,
+	\bus,1.1;
 )).play(quant:1));
 (d= Pdef(\pat2, Pbind(\instrument, \id,
-	\dur,1,
-           \fund, 440,
-			\b,Prand([1,2,3,4],inf),
-	\attack,
-	\decay,
-	\fill,
-	\bus,(-0.5);
+	\dur,Pwrand([4,2,1,0.5,0.25,0.125],[0.1,0.2],inf),
+       \fund, Pwrand([51,101],[0.1,0.2],inf),
+	\b,Pwrand([4/1,5/2,6/3],[0.1,0.2,0.3],inf),
+	\attack,1,
+	\decay,2,
+	\fil,220,
+	\bus,1.5;
 )).play(quant:1))
 )
 
@@ -81,7 +81,7 @@ c= Pdef(\ii, Pbind(\instrument, \id,
 
 
 s.options.numOutputBusChannels=8;
-TempoClock.default.tempo_(60/45);
+TempoClock.default.tempo_(60/29);
 );
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
