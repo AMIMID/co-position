@@ -16,7 +16,7 @@ SynthDef.new(\id, {
      //wave=SinOsc.ar(y*fund,mul: (1/y))*envelope;
 		wave=BLowPass.ar(VarSaw.ar(y*fund,mul: (1/y),iphase:p,width:1/y),fil,1);
 		sum= sum+wave;};
-	Out.ar(0,PanAz.ar(2,sum*100*envelope,bus));
+	Out.ar(0,PanAz.ar(2,sum*envelope,bus));
 
 }).add;
 )
