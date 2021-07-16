@@ -24,43 +24,31 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 
 
 (
+(e= Pdef(\pat1, Pbind(\instrument, \id,
+	\dur,1,
+           \fund, 440,
+			\b,Prand([1,2,3,4],inf),
+	\attack,
+	\decay,
+	\fill,
+	\bus,0.5;
+)).play(quant:1));
+(d= Pdef(\pat2, Pbind(\instrument, \id,
+	\dur,1,
+           \fund, 440,
+			\b,Prand([1,2,3,4],inf),
+	\attack,
+	\decay,
+	\fill,
+	\bus,(-0.5);
+)).play(quant:1))
+)
+
+
+(
 Tdef(\sa,
       {
-				 1.do({(
-Tdef(\synth_x, { loop { 2.wait; (
-				Synth.new(\id,[\fund,((9/6)*100),\attack,2,\decay,4,\bus,-0.5,\fil,440]));
-} }).play;) ;  0.yield});
 
-					 1.do({(
-Tdef(\synth_y, { loop { 5.wait; (
-	Synth.new(\id,[\fund,((9/6)*100)+1,\attack,2,\decay,4,\bus,0.5,\fil,440]));
-} }).play;) ;  32.yield});
-
-		Tdef(\synth_x).stop; 0.yield;
-		Tdef(\synth_y).stop; 0.yield;
-					 1.do({(
-Tdef(\synth_x, { loop { 2.wait; (
-	Synth.new(\id,[\fund,((8/5)*100),\attack,2,\decay,4,\bus,-0.5,\fil,440]));
-} }).play;) ;  0.yield});
-
-					 1.do({(
-Tdef(\synth_y, { loop { 5.wait; (
-	Synth.new(\id,[\fund,((8/5)*100)+1,\attack,2,\decay,4,\bus,0.5,\fil,440]));
-} }).play;) ;  32.yield});
-				Tdef(\synth_x).stop; 0.yield;
-		Tdef(\synth_y).stop; 4.yield;
-						 1.do({(
-Tdef(\synth_x, { loop { 2.wait; (
-				Synth.new(\id,[\fund,((7/4)*100),\attack,2,\decay,4,\bus,-0.5,\fil,440]));
-} }).play;) ;  0.yield});
-
-					 1.do({(
-Tdef(\synth_y, { loop { 5.wait; (
-	Synth.new(\id,[\fund,((7/4)*100)+1,\attack,2,\decay,4,\bus,0.5,\fil,440]));
-} }).play;) ;  32.yield});
-
-		Tdef(\synth_x).stop; 0.yield;
-		Tdef(\synth_y).stop; 0.yield;
 			})
 )
 Tdef(\sa).play;

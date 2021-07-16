@@ -1,31 +1,49 @@
 //////////////////////////////////no pattern + vokoder
 
 (
-(
 SynthDef.new(\id, {
-	arg a=1,fund=4,b=1,x=1;
-	var y,decay=4,sum=0,wave;
-	var envelope;
-	b=TChoose.kr(1,[2,2.1,2.3,2.5,2.8,3.3]);
-	decay=TChoose.kr(1,[2,3,4,5]);
+	arg a=1,fund=200,b=1,o=10,x=0,bus=0,attack=1,decay=1;
+	var y,sum=0,wave,c;
+	var envelope,p=1/6;
+	p=p*(-1);
+	b=TChoose.kr(1,[6/5,7/4,8/3,9/2],[8,5,3,2]);
 	fund=fund*b;
-	2.do{
+	30.do{
+		p=p+1/4;
 		x=x+1;
-		y=((x**b)+a)/(x**(1/b));
-		//envelope=EnvGen.ar(Env.perc(0.6,decay,1/b,[-2,-4]),doneAction:2);
-		//wave=BLowPass.ar(LFSaw.ar(y*fund,mul: (1/y)),y*fund,1);
-		wave=PitchShift.ar(SoundIn.ar([0,1]),0.2,pitchRatio:(y*fund),mul:1/y);
+		y=((x**b)+a)/(x**(b));
+		envelope=EnvGen.ar(Env.perc(attack,decay,1,[-4,-6]),doneAction:2);
+      wave=SinOsc.ar(y*fund,mul: (1/y))*envelope;
+		//wave=PitchShift.ar(SoundIn.ar([0,1]),0.2,pitchRatio:(y*fund),mul:1/y);
 		sum= sum+wave;
 	};
-	Out.ar(0,LeakDC.ar(wave,)!2);
+	Out.ar(0,LeakDC.ar(wave,));
 
 }).add;
-);)
-(
-Synth.new(\id,[\fund,1]);
-Synth.new(\id,[\fund,2]);
-
 )
+Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
+
+
+(
+Tdef(\sa,
+      {
+				 1.do({(
+Tdef(\synth_x, { loop { 1.wait; (
+	Synth.new(\id,[\fund,110,\attack,1,\decay,4,\bus,-0.5]));
+} }).play;) ;  0.yield});
+
+					 1.do({(
+Tdef(\synth_y, { loop { 1.wait; (
+	Synth.new(\id,[\fund,111,\attack,1,\decay,4,\bus,0.5]));
+} }).play;) ;  16.yield});
+
+		Tdef(\synth_x).stop; 8.yield;
+		Tdef(\synth_y).stop; 8.yield;
+			})
+)
+Tdef(\sa).play;
+Tdef(\sa).stop;
+
 /////////////////////////////////////
 /////////////////////////////////////
 (
