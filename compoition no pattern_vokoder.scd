@@ -2,19 +2,18 @@
 
 (
 SynthDef.new(\id, {
-	arg a=1,fund=200,b=1,o=10,x=0,bus=0,attack=1,decay=1;
+	arg a=1,fund=200,b=1,o=10,x=0,bus=0,attack=1,decay=1,fil=440;
 	var y,sum=0,wave,c;
-	var envelope,p=1/6;
-	p=p*(-1);
-	b=TChoose.kr(1,[6/5,7/4,8/3,9/2],[8,5,3,2]);
-	fund=fund*b;
-	30.do{
-		p=p+1/4;
+	var envelope,p=0;
+	b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
+	b=b*(-1);
+	3.do{
+		p=p+1/3;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
+		y.postln;
 		envelope=EnvGen.ar(Env.perc(attack,decay,1,[-4,-6]),doneAction:2);
-      wave=SinOsc.ar(y*fund,mul: (1/y))*envelope;
-		//wave=PitchShift.ar(SoundIn.ar([0,1]),0.2,pitchRatio:(y*fund),mul:1/y);
+		wave=PitchShift.ar(SoundIn.ar([0,1]),0.2,pitchRatio:(y*fund),mul:1/y);
 		sum= sum+wave;
 	};
 	Out.ar(0,LeakDC.ar(wave,));
