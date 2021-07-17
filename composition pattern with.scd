@@ -8,8 +8,8 @@ SynthDef.new(\id, {
 	//b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
 	b=b*(-1);
 	//fund=fund/2;
-	6.do{
-		p=p+1/6;
+	3.do{
+		p=p+1/3;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
@@ -33,8 +33,8 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 	\dur,Pwrand([4,2,1,0.5,0.25],[0.1,0.2,0.6,0.4,0.2],inf),
        \fund, Pwrand([100,200],[0.1,0.3],inf),
 \b,Pwrand([3/2,5/3,8/5,13/8],[0.1,0.2,0.5,0.3],inf),
-	\attack,0.075,
-	\decay,2.75,
+\attack,0.01,
+	\decay,3,
 	\fil,440,
 	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
 )).play(quant:1));
@@ -42,8 +42,8 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 		\dur,Pwrand([4,2,1,0.5,0.25],[0.1,0.2,0.6,0.4,0.2],inf),
        \fund, Pwrand([50.3,100.3],[0.1,0.3],inf),
 \b,Pwrand([3/2,5/3,8/5,13/8],[0.1,0.2,0.5,0.3],inf),
-	\attack,0.075,
-	\decay,2.75,
+\attack,0.01,
+	\decay,3,
 	\fil,440,
 	\bus,Prand([0.5,0.333,(-0.333),(-0.5)],inf);
 )).play(quant:1))
@@ -70,9 +70,9 @@ SynthDef.new(\id, {
 	var y,sum=0,wave,k,s;
 	var envelope,p=0;
 	b=b*(-1);
-	fund=fund/2;
-	6.do{
-		p=p+1/6;
+	fund=fund/;
+	3.do{
+		p=p+1/3;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
@@ -95,9 +95,9 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 (e= Pdef(\pat1, Pbind(\instrument, \id,
 	\dur,Pwrand([4,2,1,0.5,0.25,0.125],[0.1,0.2,0.3,0.3,0.2,0.1],inf),
        \fund, Pwrand([100,200],[0.1,0.2],inf),
-\b,Pwrand([3/2,5/3,8/5,13/8],[0.1,0.2,0.5,0.3],inf),
-	\attack,0.075,
-	\decay,4.75,
+\b,Pwrand([2/1,3/2,5/3,8/5,13/8],[0.4,0.1,0.2,0.5,0.3],inf),
+	\attack,0.01,
+	\decay,3,
 	\fil,440,
 		\el,Prand([0.5,0.333,(-0.333),(-0.5)],inf),
 	\az1,Prand([0.5,0.333,(-0.333),(-0.5)],inf),
@@ -106,9 +106,9 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 (d= Pdef(\pat2, Pbind(\instrument, \id,
 	\dur,Pwrand([4,2,1,0.5,0.25,0.125],[0.1,0.2,0.3,0.3,0.2,0.1],inf),
        \fund, Pwrand([50.1,100.1],[0.1,0.2],inf),
-\b,Pwrand([3/2,5/3,8/5,13/8],[0.1,0.2,0.5,0.3],inf),
-	\attack,0.075,
-	\decay,4.75,
+\b,Pwrand([2/1,3/2,5/3,8/5,13/8],[0.4,0.1,0.2,0.5,0.3],inf),
+\attack,0.01,
+	\decay,3,
 	\fil,440,
 	\el,Prand([0.5,0.333,(-0.333),(-0.5)],inf),
 		\az1,Prand([0.5,0.333,(-0.333),(-0.5)],inf),
@@ -130,7 +130,7 @@ MIDIIn.connectAll;
 
 
 s.options.numOutputBusChannels=12
-TempoClock.default.tempo_(60/15);
+TempoClock.default.tempo_(60/30);
 );
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
