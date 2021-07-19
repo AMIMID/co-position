@@ -41,25 +41,7 @@ Synth.new(\id,[\fund,1,\attack,1,\decay,4,\bus,]);
 	\bus,Prand([0.5,0.333,(-0.333),(-0.5)],inf);
 )).play(quant:1))
 )
-(
-Tdef(\sa,
-      {
-				 1.do({(
-Tdef(\synth_x, { loop { 1.wait; (
-	Synth.new(\id,[\fund,110,\attack,1,\decay,4,\bus,-0.5]));
-} }).play;) ;  0.yield});
 
-					 1.do({(
-Tdef(\synth_y, { loop { 1.wait; (
-	Synth.new(\id,[\fund,111,\attack,1,\decay,4,\bus,0.5]));
-} }).play;) ;  16.yield});
-
-		Tdef(\synth_x).stop; 8.yield;
-		Tdef(\synth_y).stop; 8.yield;
-			})
-)
-Tdef(\sa).play;
-Tdef(\sa).stop;
 
 /////////////////////////////////////
 /////////////////////////////////////
@@ -72,12 +54,6 @@ MIDIClient.init;
 MIDIIn.connectAll;
 
 ////////////////////////////////////////////////////////////////////////////////////installation pattern
-////////////////////////////////////////////////////////////////////////////////////////////////////
-(
-c= Pdef(\ii, Pbind(\instrument, \id,
-\b,Pgauss(2,3,1/4,inf)
-)).play(quant:1));
-
 
 
 
