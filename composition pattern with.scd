@@ -14,11 +14,11 @@ SynthDef.new(\id, {
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
 		s=Complex(x,y).angle;
-		envelope=EnvGen.ar(Env.perc(attack,decay,1/20,[-4,-4]),doneAction:2);
-		wave=SinOsc.ar(k*fund,mul: (1/k),phase:p);
+		envelope=EnvGen.ar(Env.perc(attack,decay,1/k,[-4,-4]),doneAction:2);
+		wave=SinOsc.ar(k*fund,mul: envelope,phase:p);
 		//wave=BLowPass.ar(VarSaw.ar(k*fund,mul: (1/k),iphase:p,width:SinOsc.ar(0.075/s)),fil,1)*envelope;
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,sum*gain*envelope,s*bus));
+		Out.ar(0,PanAz.ar(2,sum*envelope,s*bus));
 	};
 
 

@@ -9,15 +9,16 @@ SynthDef.new(\idvoc, {
 	b=b*(-1);
 	//fund=fund/2;
 	4.do{
+		p=p+((1/4)*pi);
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
 		s=Complex(x,y).angle;
-		envelope=EnvGen.ar(Env.perc(attack,decay,1,[-3,-4]),doneAction:2);
-		wave=PitchShift.ar(SoundIn.ar(0),3.5,pitchRatio:k.linlin(2,130,0,4),mul:1/k)*envelope;
+		envelope=EnvGen.ar(Env.perc(attack,decay,1/k,[-3,-4]),doneAction:2);
+		wave=PitchShift.ar(SoundIn.ar(0),4,pitchRatio:k.linlin(2,130,0,4),mul:envelope);
 		sum= sum+wave;
 	};
-	Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),s*bus));
+	Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*10*envelope),s*bus));
 
 }).add;
 )
@@ -27,7 +28,7 @@ Tdef(\sa,
       {
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.5,0.3],inf),
-       \fund, Pwrand([1,1],[0.1,0.1],inf),
+       \fund, Pwrand([100,200],[0.1,0.1],inf),
 \b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3],inf),
 \attack,4,
 	\decay,8,
@@ -36,7 +37,7 @@ Tdef(\sa,
 )).play(quant:1));  0.yield});
 				 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.5,0.3],inf),
-       \fund, Pwrand([1.1,1.1],[0.1,0.1],inf),
+       \fund, Pwrand([100.1,200.1],[0.1,0.1],inf),
 \b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3],inf),
 \attack,4,
 	\decay,8,
