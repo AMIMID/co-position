@@ -14,7 +14,7 @@ SynthDef.new(\id, {
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
 		s=Complex(x,y).angle;
-		envelope=EnvGen.ar(Env.perc(attack,decay,gain,[-4,-4]),doneAction:2);
+		envelope=EnvGen.ar(Env.perc(attack,decay,1/20,[-4,-4]),doneAction:2);
 		wave=SinOsc.ar(k*fund,mul: (1/k),phase:p);
 		//wave=BLowPass.ar(VarSaw.ar(k*fund,mul: (1/k),iphase:p,width:SinOsc.ar(0.075/s)),fil,1)*envelope;
 		sum= sum+wave;
@@ -28,9 +28,8 @@ SynthDef.new(\id, {
 Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 
 
-(
 (e= Pdef(\pat1, Pbind(\instrument, \id,
-	\dur,Pwrand([4,2,1,0.5,0.25],[0.1,0.2,0.6,0.4,0.2],inf),
+	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.6,0.4],inf),
        \fund, Pwrand([100,200],[0.1,0.3],inf),
 \b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3],inf),
 \attack,0.01,
@@ -38,22 +37,30 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 	\fil,440,
 	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
 )).play(quant:1));
-(d= Pdef(\pat2, Pbind(\instrument, \id,
-		\dur,Pwrand([4,2,1,0.5,0.25],[0.1,0.2,0.6,0.4,0.2],inf),
-       \fund, Pwrand([50.3,100.3],[0.1,0.3],inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3],inf),
-\attack,0.01,
-	\decay,3,
-	\fil,440,
-	\bus,Prand([0.5,0.333,(-0.333),(-0.5)],inf);
-)).play(quant:1))
-)
-
 
 (
 Tdef(\sa,
       {
-
+				 1.do({(e= Pdef(\1, Pbind(\instrument, \id,
+	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.5,0.3],inf),
+       \fund, Pwrand([100,200],[0.1,0.1],inf),
+\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3],inf),
+\attack,0.01,
+	\decay,3,
+	\fil,220,
+	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
+)).play(quant:1));  30.yield});
+Pdef(\1).stop; 10.yield;
+		1.do({(e= Pdef(\1, Pbind(\instrument, \id,
+	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.5,0.3],inf),
+       \fund, Pwrand([100,200],[0.1,0.1],inf),
+\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3],inf),
+\attack,0.01,
+	\decay,3,
+	\fil,220,
+	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
+)).play(quant:1));  30.yield});
+Pdef(\1).stop;
 			})
 )
 Tdef(\sa).play;
@@ -136,7 +143,7 @@ MIDIIn.connectAll;
 
 
 s.options.numOutputBusChannels=24
-TempoClock.default.tempo_(60/26);
+TempoClock.default.tempo_(60/15);
 );
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
