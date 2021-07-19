@@ -66,13 +66,13 @@ Tdef(\sa).stop;
 //////////////////////////////////////////////////////////////////////////////////////////////////////with spat
 (
 SynthDef.new(\id, {
-	arg az1=0,az2=0,az3=0,az4=0,el=0,a=1,fund=200, b=1,x=1,bus=0,attack=1,decay=1,fil=440,gain=1;
+	arg az1=0,az2=0,az3=0,az4=0,el=0,a=1,fund=200, b=1,x=0,bus=0,attack=1,decay=1,fil=440,gain=1;
 	var y,sum=0,wave,k,s;
 	var envelope,p=0;
 	b=b*(-1);
 	//fund=fund/2
-	3.do{
-		p=p+1/3;
+	4.do{
+		p=p+1/4;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
@@ -81,7 +81,7 @@ SynthDef.new(\id, {
 		wave=SinOsc.ar(k*fund,mul: (1/k),phase:p);
 		sum= sum+wave;
 		Out.ar(20,PanAz.ar(4,sum*envelope,s*el));
-		Out.ar(0,PanAz.ar(5,InFeedback.ar(20)*envelope,s*az1));
+		Out.ar(0,PanAz.ar(20,InFeedback.ar(20)*envelope,s*az1));
 		Out.ar(5,PanAz.ar(5,InFeedback.ar(21)*envelope,s*az2));
 		Out.ar(10,PanAz.ar(5,InFeedback.ar(22)*envelope,s*az3));
 		Out.ar(15,PanAz.ar(5,InFeedback.ar(23)*envelope,s*az4));
