@@ -28,23 +28,26 @@ SynthDef.new(\id, {
 Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 
 
-(e= Pdef(\pat1, Pbind(\instrument, \id,
+(k= Pdef(\pat1,{
+	var a;
+	a=Pseq([0.1,0.2,0.3,0.4,0.5,0.6],inf);
+	Pbind(\instrument, \id,
 	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.6,0.4].normalizeSum,inf),
        \fund, Pwrand([100,200],[0.1,0.3].normalizeSum,inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3].normalizeSum,inf),
+	\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3].normalizeSum,inf),
 \attack,0.01,
 	\decay,3,
 	\fil,440,
 	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
-)).play(quant:1));
+)}).play);
 
 (
 Tdef(\sa,
       {
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \id,
-	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.5,0.3],inf),
-       \fund, Pwrand([100,200],[0.1,0.1],inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3],inf),
+	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.5,0.3].normalizeSum,inf),
+       \fund, Pwrand([100,200],[0.1,0.1].normalizeSum,inf),
+\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3].normalizeSum,inf),
 \attack,0.01,
 	\decay,3,
 	\fil,220,
@@ -52,9 +55,9 @@ Tdef(\sa,
 )).play(quant:1));  30.yield});
 Pdef(\1).stop; 10.yield;
 		1.do({(e= Pdef(\1, Pbind(\instrument, \id,
-	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.5,0.3],inf),
-       \fund, Pwrand([100,200],[0.1,0.1],inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3],inf),
+	\dur,Pwrand([4,2,1,0.5],[0.1,0.2,0.5,0.3].normalizeSum,inf),
+       \fund, Pwrand([100,200],[0.1,0.1].normalizeSum,inf),
+\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.3,0.5,0.8,1.3].normalizeSum,inf),
 \attack,0.01,
 	\decay,3,
 	\fil,220,
@@ -102,9 +105,9 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 
 (
 (e= Pdef(\pat1, Pbind(\instrument, \id,
-	\dur,Pwrand([4,2,1,0.5,0.25,0.125],[0.1,0.2,0.3,0.3,0.2,0.1],inf),
-       \fund, Pwrand([100,200],[0.1,0.2],inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3],inf),
+	\dur,Pwrand([4,2,1,0.5,0.25,0.125],[0.1,0.2,0.3,0.3,0.2,0.1].normalizeSum,inf),
+       \fund, Pwrand([100,200],[0.1,0.2].normalizeSum,inf),
+\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3].normalizeSum,inf),
 	\attack,0.01,
 	\decay,3,
 	\fil,440,
@@ -115,9 +118,9 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 	\az4,Prand([0.5,0.333,(-0.333),(-0.5)],inf);
 )).play(quant:1));
 (d= Pdef(\pat2, Pbind(\instrument, \id,
-	\dur,Pwrand([4,2,1,0.5,0.25,0.125],[0.1,0.2,0.3,0.3,0.2,0.1],inf),
-       \fund, Pwrand([50.1,100.1],[0.1,0.2],inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3],inf),
+	\dur,Pwrand([4,2,1,0.5,0.25,0.125],[0.1,0.2,0.3,0.3,0.2,0.1].normalizeSum,inf),
+       \fund, Pwrand([50.1,100.1],[0.1,0.2].normalizeSum,inf),
+\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3].normalizeSum,inf),
 \attack,0.01,
 	\decay,3,
 	\fil,440,
