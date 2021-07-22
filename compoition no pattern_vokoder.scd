@@ -1,22 +1,22 @@
 //////////////////////////////////no pattern + vokoder
 s.options.memSize = 2097152
-TempoClock.default.tempo_(120/8);
+TempoClock.default.tempo_(120/74);
 
 (
 SynthDef.new(\idvoc, {
-	arg a=1,fund=200,b=1,x=0,bus=0,attack=1,decay=1;
+	arg a=1,fund=200,b=1,x=0,bus=1,attack=1,decay=1;
 	var y,sum=0,wave,k,s;
 	var envelope,p=0;
 	//b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
 	b=b*(-1);
 	//fund=fund/2;
-	7.do{
-		p=p+((1/7)*pi);
+	4.do{
+		p=p+((1/4)*pi);
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
 		s=Complex(x,y).angle;
-		envelope=EnvGen.ar(Env.perc(attack,decay,47/k,[-2,-4]),doneAction:2);
+		envelope=EnvGen.ar(Env.perc(attack,decay,2/k,[-4,-4]),doneAction:2);
 		wave=PitchShift.ar(SoundIn.ar(0),3,pitchRatio:(fund*k).linlin(2,130,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
 	};
@@ -29,18 +29,18 @@ SynthDef.new(\idvoc, {
 Tdef(\sa,
       {
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
-	\dur,Pwrand([4,2,1,0.5,0.25],[2,3,5,3,2].normalizeSum,inf),
-       \fund, Pwrand([10,20,30,40,50],[2,3,5,3,2].normalizeSum,inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/3],[2,3,5,3,2].normalizeSum,inf),
-\attack,0.1,
+	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
+       \fund, Pwrand([10,20,30,40,50],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([3/1,4/2,5/3,6/4,7/3],[1,2,4,2,1].normalizeSum,inf),
+\attack,4,
 	\decay,4,
 	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
 )).play(quant:1));  0.yield});
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
-	\dur,Pwrand([4,2,1,0.5,0.25],[2,3,5,3,2].normalizeSum,inf),
-       \fund, Pwrand([10,20,30,40,50],[2,3,5,3,2].normalizeSum,inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/3],[2,3,5,3,2].normalizeSum,inf),
-\attack,0.01,
+	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
+       \fund, Pwrand([10.1,20.1,30.1,40.1,50.1],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([3/1,4/2,5/3,6/4,7/3],[1,2,4,2,1].normalizeSum,inf),
+\attack,4,
 	\decay,4,
 	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
 )).play(quant:1));  3600.yield});
