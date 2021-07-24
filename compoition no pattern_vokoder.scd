@@ -1,6 +1,6 @@
 //////////////////////////////////no pattern + vokoder
 s.options.memSize = 2097152
-TempoClock.default.tempo_(120/80);
+TempoClock.default.tempo_(120/240);
 
 (
 SynthDef.new(\idvoc, {
@@ -9,46 +9,50 @@ SynthDef.new(\idvoc, {
 	var envelope,p=0;
 	b=b*(-1);
 	fund=fund/2;
-	3.do{
-		p=p+((1/3)*pi);
+	26.do{
+		p=p+(1/26);
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
 		s=Complex(x,y).angle;
-		envelope=EnvGen.ar(Env.perc(attack,decay,2/k,[-4,-4]),doneAction:2);
-		wave=PitchShift.ar(SoundIn.ar(0),4,pitchRatio:(fund*k).linlin(2,130,0,4),mul:envelope,timeDispersion:p);
+		envelope=EnvGen.ar(Env.perc(attack,decay,12/k,[-4,-4]),doneAction:2);
+		wave=PitchShift.ar(SoundIn.ar(0),3,pitchRatio:(fund*k).linlin(2,130,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
 	};
-	Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),s*bus));
+	2.do{
+		x=x+1;
+		y=((x**b)+a)/(x**(b));
+		s=Complex(x,y).angle;
+		Out.ar(0,PanAz.ar(2,sum*envelope,s*bus));
+	};
 
 }).add;
 )
 
 (
-Tdef(\sa,
-      {
+Tdef(\sa,{
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
-       \fund, Pwrand([10,20,30,40,50],[1,2,4,2,1].normalizeSum,inf),
+       \fund, 10,
 \b,Pwrand([3/1,4/2,5/3,6/4,7/3],[1,2,4,2,1].normalizeSum,inf),
-\attack,2,
-	\decay,4,
+\attack,4,
+	\decay,8,
 	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
 		)).play(quant:1));  (pi/2).yield});
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
-       \fund, Pwrand([10,20,30,40,50],[1,2,4,2,1].normalizeSum,inf),
+       \fund, 20,
 \b,Pwrand([3/1,4/2,5/3,6/4,7/3],[1,2,4,2,1].normalizeSum,inf),
-\attack,2,
-	\decay,4,
+\attack,4,
+	\decay,8,
 	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
 )).play(quant:1));  (pi/2).yield});
 			 1.do({(e= Pdef(\3, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
-       \fund, Pwrand([10.2,20.2,30.2,40.2,50.2],[1,2,4,2,1].normalizeSum,inf),
+       \fund, 40,
 \b,Pwrand([3/1,4/2,5/3,6/4,7/3],[1,2,4,2,1].normalizeSum,inf),
-\attack,2,
-	\decay,4,
+\attack,4,
+	\decay,8,
 	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
 )).play(quant:1));  360.yield});
 
@@ -74,21 +78,29 @@ SynthDef.new(\vokoda, {
 	var envelope,p=0;
 	b=b*(-1);
 	fund=fund/2;
-8.do{
+12.do{
 		p=p+1/4;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
 		s=Complex(x,y).angle;
-		envelope=EnvGen.ar(Env.perc(attack,decay,2/k,[-4,-4]),doneAction:2);
-		wave=PitchShift.ar(SoundIn.ar(0),4,pitchRatio:(fund*k).linlin(2,130,0,4),mul:envelope,timeDispersion:p);
+		envelope=EnvGen.ar(Env.perc(attack,decay,8/k,[-4,-4]),doneAction:2);
+		wave=PitchShift.ar(SoundIn.ar(0),3,pitchRatio:(fund*k).linlin(2,130,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
-		Out.ar(20,PanAz.ar(4,sum*envelope,s*el));
-		Out.ar(0,PanAz.ar(20,InFeedback.ar(20)*envelope,s*az1));
-		Out.ar(5,PanAz.ar(5,InFeedback.ar(21)*envelope,s*az2));
-		Out.ar(10,PanAz.ar(5,InFeedback.ar(22)*envelope,s*az3));
-		Out.ar(15,PanAz.ar(5,InFeedback.ar(23)*envelope,s*az4));
 	};
+
+4.do{
+		x=x+1;
+		y=((x**b)+a)/(x**(b));
+		s=Complex(x,y).angle;
+		Out.ar(20,PanAz.ar(4,LeakDC.ar(sum)*envelope,s*el));
+		Out.ar(0,PanAz.ar(20,LeakDC.ar(InFeedback.ar(20))*envelope,s*az1));
+		Out.ar(5,PanAz.ar(5,LeakDC.ar(InFeedback.ar(21))*envelope,s*az2));
+		Out.ar(10,PanAz.ar(5,LeakDC.ar(InFeedback.ar(22))*envelope,s*az3));
+		Out.ar(15,PanAz.ar(5,LeakDC.ar(InFeedback.ar(23))*envelope,s*az4));
+
+	};
+
 
 
 }).add;
