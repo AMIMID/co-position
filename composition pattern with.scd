@@ -5,27 +5,41 @@ SynthDef.new(\id, {
 	arg a=1,fund=200,b=1,x=0,bus=0,attack=1,decay=1,fil=440,gain=1;
 	var y,sum=0,wave;
 	var envelope,p=0;
-	var k,kpos,z,zpos,l,lpos,m,mpos;
+	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
 	//b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
 	b=b*(-1);
-	fund=fund*2;
-	6.do{
+	//fund=fund/2;
+	32.do{
 		p=p+1/6;
-		x=x+1;
+	    x=x+1;
 		y=((x**b)+a)/(x**(b));
+
 		k=Complex(x,y).abs;
 		kpos=Complex(x,y).angle;
+
 		z=((k**b)+a)/(k**b);
 		zpos=((kpos**b)+a)/(kpos**b);
+
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
+
 		m=((l**b)+a)/(l**b);
 		mpos=((lpos**b)+a)/(lpos**b);
-		envelope=EnvGen.ar(Env.perc(attack,decay,1/m,[-2,-4]),doneAction:2);
-		wave=BLowPass.ar(SinOsc.ar(m*fund,mul: envelope,phase:p),440);
-		//wave=LFTri.ar(k*fund,mul: (1/k),iphase:p,mul:envelope);
+
+		j=Complex(m,l).abs;
+		jpos=Complex(lpos,mpos).angle;
+
+		i=((j**b)+a)/(j**b);
+		ipos=((jpos**b)+a)/(jpos**b);
+
+		ay=Complex(i,j).abs;
+		apos=Complex(ipos,jpos).angle;
+
+
+		envelope=EnvGen.ar(Env.perc(attack,decay,5/i,[-2,-4]),doneAction:2);
+		wave=BLowPass.ar(SinOsc.ar(ay*fund,mul: envelope,phase:p),1200);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,sum*envelope,mpos*bus));
+		Out.ar(0,PanAz.ar(2,sum*envelope,(apos)*bus));
 	};
 
 
@@ -51,7 +65,7 @@ Tdef(\sa,
 		)).play(quant:1));  (0).yield});
 		1.do({(f= Pdef(\2, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,3].normalizeSum.postln,inf),
-       \fund, Pwrand([100.05,200.05,300.05,400.05,],[5,3,2,1].normalizeSum,inf),
+       \fund, Pwrand([10.05,20.05,30.05,40.05,],[5,3,2,1].normalizeSum,inf),
 \b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6,9/7],[1,2,3,5,3,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,2,
@@ -136,13 +150,13 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 ~pot2 = MIDIFunc.cc( , 73, 0);
 )
 
-MIDIClient.init;
+MIDIClient.init;.
 MIDIIn.connectAll;
 
 
 
 s.options.numOutputBusChannels=24
-TempoClock.default.tempo_(60/12);
+TempoClock.default.tempo_(60/15);
 );
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);

@@ -35,7 +35,7 @@ SynthDef.new(\idvoc, {
 		ay=Complex(i,j).abs;
 		apos=Complex(ipos,jpos).angle;
 
-		envelope=EnvGen.ar(Env.perc(attack,decay,10/z,[-4,-4]),doneAction:2);
+		envelope=EnvGen.ar(Env.perc(attack,decay,4/z,[-4,-4]),doneAction:2);
 		wave=PitchShift.ar(SoundIn.ar(0),3,pitchRatio:(fund*l).linlin(2,2000,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
 		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),zpos*bus));
@@ -47,7 +47,7 @@ SynthDef.new(\idvoc, {
 Tdef(\sa,{
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
-       \fund, 29,
+       \fund, 200,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,4,
 	\decay,8,
@@ -55,7 +55,7 @@ Tdef(\sa,{
 		)).play(quant:1));  (pi/2).yield});
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
-       \fund, 20.1,
+       \fund, 200.1,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,4,
 	\decay,8,
