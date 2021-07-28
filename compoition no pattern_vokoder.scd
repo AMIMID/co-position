@@ -1,13 +1,13 @@
 //////////////////////////////////no pattern + vokoder
 s.options.memSize = 2097152
-TempoClock.default.tempo_(120/120);
+TempoClock.default.tempo_(120/30);
 
 (
 SynthDef.new(\idvoc, {
 	arg a=1,fund=200,b=1,x=0,bus=1,attack=1,decay=1;
 	var y,sum=0,wave;
 	var envelope,p=0;
-	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos;
+	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
 	b=b*(-1);
 	fund=fund/2;
 	6.do{
@@ -16,20 +16,29 @@ SynthDef.new(\idvoc, {
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
 		kpos=Complex(x,y).angle;
+
 		z=((k**b)+a)/(k**b);
 		zpos=((kpos**b)+a)/(kpos**b);
+
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
+///////////////////////////////////////////
 		m=((l**b)+a)/(l**b);
 		mpos=((lpos**b)+a)/(lpos**b);
+
 		j=Complex(m,l).abs;
 		jpos=Complex(lpos,mpos).angle;
+
 		i=((j**b)+a)/(j**b);
 		ipos=((jpos**b)+a)/(jpos**b);
-		envelope=EnvGen.ar(Env.perc(attack,decay,1/y,[-4,-4]),doneAction:2);
-		wave=PitchShift.ar(SoundIn.ar(0),4,pitchRatio:(fund*i).linlin(0,400,0,4),mul:envelope,timeDispersion:p);
+
+		ay=Complex(i,j).abs;
+		apos=Complex(ipos,jpos).angle;
+
+		envelope=EnvGen.ar(Env.perc(attack,decay,10/z,[-4,-4]),doneAction:2);
+		wave=PitchShift.ar(SoundIn.ar(0),3,pitchRatio:(fund*l).linlin(2,2000,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),i*bus));
+		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),zpos*bus));
 	};
 }).add;
 )
@@ -38,7 +47,7 @@ SynthDef.new(\idvoc, {
 Tdef(\sa,{
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
-       \fund, 1,
+       \fund, 29,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,4,
 	\decay,8,
@@ -46,20 +55,13 @@ Tdef(\sa,{
 		)).play(quant:1));  (pi/2).yield});
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
-       \fund, 2,
+       \fund, 20.1,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,4,
 	\decay,8,
 	\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
-)).play(quant:1));  (pi/2).yield});
-			 1.do({(e= Pdef(\3, Pbind(\instrument, \idvoc,
-	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
-       \fund, 3,
-\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
-\attack,4,
-	\decay,8,
-	\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
-)).play(quant:1));  360.yield});
+)).play(quant:1));  (3600).yield});
+
 
 Pdef(\2).stop; 0.yield;
 Pdef(\1).stop; 6.yield;
