@@ -1,6 +1,6 @@
 //////////////////////////////////no pattern + vokoder
 s.options.memSize = 2097152
-TempoClock.default.tempo_(120/30);
+TempoClock.default.tempo_(120/60);
 
 (
 SynthDef.new(\idvoc, {
@@ -35,8 +35,8 @@ SynthDef.new(\idvoc, {
 		ay=Complex(i,j).abs;
 		apos=Complex(ipos,jpos).angle;
 
-		envelope=EnvGen.ar(Env.perc(attack,decay,4/z,[-4,-4]),doneAction:2);
-		wave=PitchShift.ar(SoundIn.ar(0),3,pitchRatio:(fund*l).linlin(2,2000,0,4),mul:envelope,timeDispersion:p);
+		envelope=EnvGen.ar(Env.perc(attack,decay,1/y,[-4,-4]),doneAction:2);
+		wave=PitchShift.ar(SoundIn.ar(0),4,pitchRatio:(fund*z).linlin(2,2000,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
 		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),zpos*bus));
 	};
@@ -47,7 +47,7 @@ SynthDef.new(\idvoc, {
 Tdef(\sa,{
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
-       \fund, 200,
+       \fund, 100.1,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,4,
 	\decay,8,
@@ -55,7 +55,7 @@ Tdef(\sa,{
 		)).play(quant:1));  (pi/2).yield});
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum.postln,inf),
-       \fund, 200.1,
+       \fund, 100,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,4,
 	\decay,8,
