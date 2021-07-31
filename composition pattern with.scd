@@ -8,8 +8,8 @@ SynthDef.new(\id, {
 	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
 	//b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
 	b=b*(-1);
-	fund=fund/2;
-	26.do{
+	fund=fund*2;
+	12.do{
 		p=p+1/6;
 	    x=x+1;
 		y=((x**b)+a)/(x**(b));
@@ -27,7 +27,7 @@ SynthDef.new(\id, {
 		envelope=EnvGen.ar(Env.perc(attack,decay,1/k,[-2,-4]),doneAction:2);
 		wave=BLowPass.ar(SinOsc.ar(l,mul: envelope,phase:p),1200);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,sum*envelope,(lpos)*bus,width:2));
+		Out.ar(0,PanAz.ar(2,sum*envelope,(lpos)*bus,width:1));
 	};
 
 
@@ -44,8 +44,8 @@ Tdef(\sa,
       {
 				 1.do({(g= Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,3].normalizeSum.postln,inf),
-       \fund, Pwrand([50,60,70,80],[5,3,2,1].normalizeSum,inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6,9/7],[1,2,3,5,3,2,1].normalizeSum,inf),
+       \fund, Prand([10,20],inf),
+\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,4,
 	\fil,440,
@@ -53,12 +53,12 @@ Tdef(\sa,
 		)).play(quant:1));  (0).yield});
 		1.do({(f= Pdef(\2, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,3].normalizeSum.postln,inf),
-       \fund, Pwrand([50.1,60.1,70.1,80.1],[5,3,2,1].normalizeSum,inf),
-\b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6,9/7],[1,2,3,5,3,2,1].normalizeSum,inf),
+			\fund, Prand([10.1,20.1],inf),
+\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,4,
 	\fil,440,
-	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
+	\bus,Prand([0.5,0.25,0,(-0.25),(-0.5)],inf);
 )).play(quant:1));  (360).yield});
 Pdef(\1).stop;
 		Pdef(\2).stop;
@@ -144,7 +144,7 @@ MIDIIn.connectAll;
 
 
 s.options.numOutputBusChannels=4
-TempoClock.default.tempo_(60/30);
+TempoClock.default.tempo_(60/15);
 );
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
