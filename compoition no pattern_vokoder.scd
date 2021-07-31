@@ -22,23 +22,11 @@ SynthDef.new(\idvoc, {
 
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
-///////////////////////////////////////////
-		m=((l**b)+a)/(l**b);
-		mpos=((lpos**b)+a)/(lpos**b);
 
-		j=Complex(m,l).abs;
-		jpos=Complex(lpos,mpos).angle;
-
-		i=((j**b)+a)/(j**b);
-		ipos=((jpos**b)+a)/(jpos**b);
-
-		ay=Complex(i,j).abs;
-		apos=Complex(ipos,jpos).angle;
-
-		envelope=EnvGen.ar(Env.perc(attack,decay,1/y,[-4,-4]),doneAction:2);
-		wave=PitchShift.ar(SoundIn.ar(0),4,pitchRatio:(fund*z).linlin(2,2000,0,4),mul:envelope,timeDispersion:p);
+		envelope=EnvGen.ar(Env.perc(attack,decay,3/z,[-4,-4]),doneAction:2);
+		wave=PitchShift.ar(SoundIn.ar(0),5,pitchRatio:(fund*z).linlin(2,2000,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),zpos*bus));
+		Out.ar(0,PanAz.ar(6,LeakDC.ar(sum*envelope),zpos*bus,width:2));
 	};
 }).add;
 )
@@ -130,7 +118,7 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 )
 
 
-s.options.numOutputBusChannels=4;
+s.options.numOutputBusChannels=6;
 TempoClock.default.tempo_(120/60);
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
@@ -139,6 +127,6 @@ s.options.device_("Aggregate Device");
 s.options.memSize = 524288
 s.options.memSize
 s.options.memSize
-s.options.numInputBusChannels=1;
-s.record(numChannels:2) ;
+s.options.numInputBusChannels=0;
+s.record(numChannels:6) ;
 

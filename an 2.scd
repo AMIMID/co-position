@@ -8,19 +8,21 @@ var  p1,p2,p3,p4,p5,p6;
 var run = true, kapa, y, z,x=1,theta;
 var ray=200;
 var angle=1,mag=1;
-var a=1,t;
-var b=(-3);
+var a=1,t,s;
+var b=(-2);
+var partial=12;
 ///////0//////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
-    w = Window("S",Rect( 600,100,1000,1000),scroll:false).front.alwaysOnTop_(true);
+    w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
     w.alpha = 1;  w.view.background = Color.black;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////view
-v = UserView.new(w,Rect(100,100,800,800)).background_(Color.black);
+v = UserView.new(w,Rect(100,100,1600,800)).background_(Color.black);
 v.drawFunc ={
-	Pen.translate(400,400);
+	Pen.translate(800,400);
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
-	2000.do{
-		~p1=Polar.new(200,pi/2).asPoint;v.refresh;
+	(partial*100).do{
+		~p1=Polar.new(400,pi/2).asPoint;v.refresh;
 			x=x+1;
 		y=((x**b)+a)/(x**(b));
 		~k = Complex(x,y).angle;
@@ -28,15 +30,15 @@ v.drawFunc ={
 		~r = Complex(t,~k).angle;
 
 
-			Pen.width=0.3;
+			Pen.width=0.1;
 		angle=angle+(~r**b);
-		Color(red:1,green:1,blue:1,alpha:0.8).set;
-		Pen.line(~p1,Polar.new(180,angle).asPoint);Pen.stroke;v.refresh;
-		Pen.rotate(pi/32);Pen.stroke;v.refresh;
+		Color(red:1,green:1,blue:1,alpha:1).set;
+		Pen.line(~p1,Polar.new(400,angle).asPoint);Pen.stroke;v.refresh;
+		Pen.rotate(pi/(partial/2));Pen.stroke;v.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
 };
-{ while { run } {v.background_(Color.black); v.refresh; (1/10).wait } }.fork(AppClock);
+{ while { run } {v.background_(Color.black); v.refresh; (2/60).wait } }.fork(AppClock);
 )
 
 ~pot1 = MIDIFunc.cc( { arg vel,nn,chan,src; [vel,nn,chan,src].postln;  ~az = vel.linlin(10,92,1,2000)}, 71, 0);
