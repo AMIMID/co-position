@@ -7,7 +7,7 @@ SynthDef.new(\id, {
 	var envelope,p=0;
 	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
 	//b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
-	fund=fund/56;
+	fund=fund/;
 	b=b*(-1);
 	12.do{
 		p=p+1/26;
