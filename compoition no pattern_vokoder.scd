@@ -1,6 +1,6 @@
 //////////////////////////////////no pattern + vokoder
 s.options.memSize = 2097152
-TempoClock.default.tempo_(120/120);
+TempoClock.default.tempo_(120/60);
 
 (
 SynthDef.new(\idvoc, {
@@ -17,16 +17,16 @@ SynthDef.new(\idvoc, {
 		k=Complex(x,y).abs;
 		kpos=Complex(x,y).angle;
 
-			z=(((k**b)+a)*fund)/(k**b);
-		zpos=((kpos**b)+a)/(kpos**b);
+			z=(((k**b)-a)*fund)/(k**b);
+		zpos=((kpos**b)-a)/(kpos**b);
 
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
 
-		envelope=EnvGen.ar(Env.perc(attack,decay,1/k,[-4,-4]),doneAction:2);
-		wave=PitchShift.ar(SoundIn.ar(0),4,pitchRatio:l.linlin(2,400,0,4),mul:envelope,timeDispersion:p);
+		envelope=EnvGen.ar(Env.perc(attack,decay,3/k,[-4,-4]),doneAction:2);
+		wave=PitchShift.ar(SoundIn.ar(0),4,pitchRatio:l.linlin(0,4000,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),zpos*bus,width:2));
+		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),lpos*bus,width:1));
 	};
 }).add;
 )
@@ -35,18 +35,18 @@ SynthDef.new(\idvoc, {
 Tdef(\sa,{
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
-           \fund, Prand([10,20],inf),
+           \fund, 10,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
-\attack,4,
-	\decay,8,
+\attack,2,
+	\decay,3,
 		\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
 		)).play(quant:1));  (pi/2).yield});
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
-      	\fund, Prand([10.1,20.1],inf),
+      	\fund, 10.1,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
-\attack,4,
-	\decay,8,
+\attack,2,
+	\decay,3,
 	\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
 )).play(quant:1));  (3600).yield});
 
@@ -119,7 +119,7 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 
 
 s.options.numOutputBusChannels=6;
-TempoClock.default.tempo_(120/60);
+TempoClock.default.tempo_(120/30);
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
 s.options.sampleRate =48000;

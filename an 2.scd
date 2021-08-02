@@ -9,8 +9,8 @@ var run = true, kapa, y, z,x=1,theta;
 var ray=200;
 var angle=1,mag=1;
 var a=1,t,s;
-var b=(-2);
-var partial=6;
+var b=(-5);
+var partial=8;
 ///////0//////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
     w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
@@ -21,12 +21,12 @@ v.drawFunc ={
 	Pen.translate(800,400);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
-	(partial*2000).do{
-		~p1=Polar.new(400,pi/2).asPoint;v.refresh;
+	(partial*100).do{
+		~p1=Polar.new(100,pi/2).asPoint;v.refresh;
 			x=x+1;
 		y=((x**b)+a)/(x**(b));
 		~k = Complex(x,y).angle;
-		t=(((~k**b)+a)*100)/(~k**b);
+		t=(((~k**b)-a)*40)/(~k**b);
 		~r = Complex(t,~k).abs;
 
 
@@ -38,7 +38,7 @@ v.drawFunc ={
 			};
 ////////////////////////////////////////////////////////////////////////////////
 };
-{ while { run } {v.background_(Color.black); v.refresh; (2/60).wait } }.fork(AppClock);
+{ while { run } {v.background_(Color.black); v.refresh; (1/10).wait } }.fork(AppClock);
 )
 
 ~pot1 = MIDIFunc.cc( { arg vel,nn,chan,src; [vel,nn,chan,src].postln;  ~az = vel.linlin(10,92,1,2000)}, 71, 0);

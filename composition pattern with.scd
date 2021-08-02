@@ -8,24 +8,23 @@ SynthDef.new(\id, {
 	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
 	//b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
 	b=b*(-1);
-	fund=fund*2;
-	12.do{
-		p=p+1/6;
+	26.do{
+		p=p+1/26;
 	    x=x+1;
 		y=((x**b)+a)/(x**(b));
 
 		k=Complex(x,y).abs;
 		kpos=Complex(x,y).angle;
 
-		z=(((k**b)+a)*fund)/(k**b);
-		zpos=((kpos**b)+a)/(kpos**b);
+		z=(((k**b)-a)*fund)/(k**b);
+		zpos=((kpos**b)-a)/(kpos**b);
 
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
 
 
 		envelope=EnvGen.ar(Env.perc(attack,decay,1/k,[-2,-4]),doneAction:2);
-		wave=BLowPass.ar(SinOsc.ar(l,mul: envelope,phase:p),1200);
+		wave=SinOsc.ar(l,mul: envelope,phase:p);
 		sum= sum+wave;
 		Out.ar(0,PanAz.ar(2,sum*envelope,(lpos)*bus,width:1));
 	};
@@ -42,26 +41,60 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 (
 Tdef(\sa,
       {
-				 1.do({(g= Pdef(\1, Pbind(\instrument, \id,
-	\dur,Pwrand([2,1,0.5],[1,2,3].normalizeSum.postln,inf),
-       \fund, Prand([10,20],inf),
+				 1.do({( Pdef(\1, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
+       \fund, 5,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
-	\decay,4,
-	\fil,440,
-	\bus,Prand([0.5,0.25,(-0.25),(-0.5)],inf);
+	\decay,6,
+	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
-		1.do({(f= Pdef(\2, Pbind(\instrument, \id,
-	\dur,Pwrand([2,1,0.5],[1,2,3].normalizeSum.postln,inf),
-			\fund, Prand([10.1,20.1],inf),
+		1.do({( Pdef(\2, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
+			\fund, 5.1,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
-	\decay,4,
-	\fil,440,
-	\bus,Prand([0.5,0.25,0,(-0.25),(-0.5)],inf);
+	\decay,6,
+			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
+)).play(quant:1));  (0).yield});
+			 1.do({( Pdef(\3, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
+       \fund, 10,
+\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[2,4,2,1,1].normalizeSum,inf),
+\attack,0.01,
+	\decay,6,
+	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
+		)).play(quant:1));  (0).yield});
+		1.do({( Pdef(\4, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
+			\fund, 10.1,
+\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[2,4,2,1,1].normalizeSum,inf),
+\attack,0.01,
+	\decay,6,
+			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
+)).play(quant:1));  (0).yield});
+		 1.do({(g= Pdef(\5, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
+       \fund, 20,
+\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[4,2,1,1,2].normalizeSum,inf),
+\attack,0.01,
+	\decay,6,
+	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
+		)).play(quant:1));  (0).yield});
+		1.do({(Pdef(\6, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
+			\fund, 20.1,
+			\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[4,2,1,1,2].normalizeSum,inf),
+\attack,0.01,
+	\decay,6,
+			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 )).play(quant:1));  (360).yield});
 Pdef(\1).stop;
 		Pdef(\2).stop;
+		Pdef(\3).stop;
+		Pdef(\4).stop;
+		Pdef(\5).stop;
+		Pdef(\6).stop;
 			})
 )
 Tdef(\sa).play;
@@ -107,7 +140,7 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
        \fund, Pwrand([100,200],[0.1,0.2],inf),
 \b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3],inf),
 	\attack,0.01,
-	\decay,3,
+	\decay,8,
 	\fil,440,
 		\el,Prand([0.5,0.333,(-0.333),(-0.5)],inf),
 	\az1,Prand([0.5,0.333,(-0.333),(-0.5)],inf),
@@ -120,7 +153,7 @@ Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
        \fund, Pwrand([50.1,100.1],[0.1,0.2],inf),
 \b,Pwrand([3/1,4/2,5/3,6/4,7/5,8/6],[0.1,0.2,0.5,0.3],inf),
 \attack,0.01,
-	\decay,3,
+	\decay,8,
 	\fil,440,
 	\el,Prand([0.5,0.333,(-0.333),(-0.5)],inf),
 		\az1,Prand([0.5,0.333,(-0.333),(-0.5)],inf),
@@ -143,8 +176,8 @@ MIDIIn.connectAll;
 
 
 
-s.options.numOutputBusChannels=4
-TempoClock.default.tempo_(60/15);
+s.options.numOutputBusChannels=6
+TempoClock.default.tempo_(120/75);
 );
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
@@ -153,5 +186,5 @@ s.options.device_("USB Sound Device");
 s.options.memSize = 65536;
 s.options.memSize
 s.options.numInputBusChannels=0;
-s.record(numChannels:2) ;
+s.record(numChannels:6) ;
 
