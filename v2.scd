@@ -1,5 +1,5 @@
 s.options.memSize = 2097152
-TempoClock.default.tempo_(120/30);
+TempoClock.default.tempo_(120/60);
 
 (
 SynthDef.new(\idvoc, {
@@ -22,7 +22,7 @@ SynthDef.new(\idvoc, {
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
 
-		envelope=EnvGen.ar(Env.perc(attack,decay,20/k,[-4,-4]),doneAction:2);
+		envelope=EnvGen.ar(Env.perc(attack,decay,10/k,[-4,-4]),doneAction:2);
 		wave=PitchShift.ar(InFeedback.ar(3),6,pitchRatio:l.linlin(2,400,0,4),mul:envelope,timeDispersion:p);
 			//wave=FreqShift.ar(InFeedback.ar(3),freq:l,mul:envelope,phase:p);
 		sum= sum+wave;
@@ -37,16 +37,16 @@ Tdef(\sa,{
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
            \fund, 180,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
-\attack,8,
-	\decay,1,
+\attack,5,
+	\decay,5,
 		\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
 		)).play(quant:1));  (pi/2).yield});
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
       	\fund, 180.1,
 \b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
-\attack,8,
-	\decay,1,
+\attack,5,
+		\decay,5,
 	\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
 )).play(quant:1));  (3600).yield});
 
@@ -57,7 +57,7 @@ Pdef(\1).stop; 6.yield;
 			})
 )
 (
-({Out.ar(3,SoundIn.ar(0))}.play);
+({Out.ar(3,SoundIn.ar(0)*4)}.play);
 Tdef(\sa).play;
 )
 Tdef(\sa).stop;
