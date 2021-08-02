@@ -1,5 +1,5 @@
 s.options.memSize = 2097152
-TempoClock.default.tempo_(120/60);
+TempoClock.default.tempo_(120/80);
 
 (
 SynthDef.new(\idvoc, {
@@ -22,8 +22,8 @@ SynthDef.new(\idvoc, {
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
 
-		envelope=EnvGen.ar(Env.perc(attack,decay,10/k,[-4,-4]),doneAction:2);
-		wave=PitchShift.ar(InFeedback.ar(3),6,pitchRatio:l.linlin(36,361,0,4),mul:envelope,timeDispersion:p);
+		envelope=EnvGen.ar(Env.perc(attack,decay,20/k,[-4,-4]),doneAction:2);
+		wave=PitchShift.ar(InFeedback.ar(3),6,pitchRatio:l.linlin(360,1399860,0,4),mul:envelope,timeDispersion:p);
 			//wave=FreqShift.ar(InFeedback.ar(3),freq:l,mul:envelope,phase:p);
 		sum= sum+wave;
 		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),lpos*bus,width:1));
