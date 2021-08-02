@@ -53,3 +53,19 @@ var sig1,sig2,sig3,sig4,sig5,sig6;
 }).add;
 )
 Synth.new(\play);
+
+
+
+(Synth.new(\voc))
+s.options.memSize = 2097152
+s.options.numOutputBusChannels=6;
+TempoClock.default.tempo_(120/30);
+ServerOptions.inDevices.postln;
+s.record(numChannels:2);
+s.options.sampleRate =48000;
+s.options.device_("Aggregate Device");
+s.options.memSize = 524288
+s.options.memSize
+s.options.memSize
+s.options.numInputBusChannels=0
+s.record(numChannels:6) ;
