@@ -6,11 +6,11 @@ SynthDef.new(\id, {
 	var y,sum=0,wave;
 	var envelope,p=0;
 	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
-	//b=TWChoose.kr(1,[4/1,5/2,6/3,7/4,8/5,9/6],[0.1,0.2,0.5,0.6,0.4,0.1]);
-	fund=fund/;
+fund=fund*360;
 	b=b*(-1);
-	12.do{
-		p=p+1/26;
+	b=b/4;
+	6.do{
+		p=p+1/6;
 	    x=x+1;
 		y=((x**b)+a)/(x**(b));
 
@@ -37,65 +37,86 @@ SynthDef.new(\id, {
 Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 
 
-;
+
 
 (
 Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
-       \fund, 180,
-\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
+			\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,6,
 	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
 		1.do({( Pdef(\2, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
-			\fund, 5.1,
-\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
+			\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,6,
 			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 )).play(quant:1));  (0).yield});
-			 1.do({( Pdef(\3, Pbind(\instrument, \id,
+		 1.do({( Pdef(\3, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
-       \fund, 180,
-\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[2,4,2,1,1].normalizeSum,inf),
+\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,6,
 	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
 		1.do({( Pdef(\4, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
-			\fund, 10.1,
-\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[2,4,2,1,1].normalizeSum,inf),
+\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,6,
 			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 )).play(quant:1));  (0).yield});
-		 1.do({(g= Pdef(\5, Pbind(\instrument, \id,
+
+		 1.do({( Pdef(\5, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
-       \fund, 20,
-\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[4,2,1,1,2].normalizeSum,inf),
+	\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,6,
 	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
-		1.do({(Pdef(\6, Pbind(\instrument, \id,
+		1.do({( Pdef(\6, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
-			\fund, 20.1,
-			\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[4,2,1,1,2].normalizeSum,inf),
+		\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
+\attack,0.01,
+	\decay,6,
+			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
+)).play(quant:1));  (0).yield});
+		 1.do({( Pdef(\7, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
+  \fund, Pxrand([1.1,1],inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
+\attack,0.01,
+	\decay,6,
+	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
+		)).play(quant:1));  (0).yield});
+		1.do({( Pdef(\8, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,4].normalizeSum,inf),
+		\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
 \attack,0.01,
 	\decay,6,
 			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 )).play(quant:1));  (360).yield});
+
+
 Pdef(\1).stop;
 		Pdef(\2).stop;
 		Pdef(\3).stop;
 		Pdef(\4).stop;
 		Pdef(\5).stop;
 		Pdef(\6).stop;
+		Pdef(\7).stop;
+		Pdef(\8).stop;
 			})
 )
 Tdef(\sa).play;

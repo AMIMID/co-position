@@ -1,5 +1,5 @@
 s.options.memSize = 2097152
-TempoClock.default.tempo_(120/80);
+TempoClock.default.tempo_(120/60);
 
 (
 SynthDef.new(\idvoc, {
@@ -36,7 +36,7 @@ Tdef(\sa,{
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
            \fund, 180,
-\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
 \attack,5,
 	\decay,6,
 		\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
@@ -44,7 +44,7 @@ Tdef(\sa,{
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
       	\fund, 180.03,
-\b,Pwrand([5/1,6/2,7/3,8/4,9/5],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
 \attack,5,
 		\decay,6,
 	\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
