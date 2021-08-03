@@ -9,8 +9,8 @@ var run = true, kapa, y, z,x=1,theta;
 var ray=200;
 var angle=1,mag=1;
 var a=1,t,s;
-var b=(-5);
-var partial=8;
+var b=(-2);
+var partial=10;
 ///////0//////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
     w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
@@ -21,24 +21,24 @@ v.drawFunc ={
 	Pen.translate(800,400);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
-	(partial*100).do{
-		~p1=Polar.new(100,pi/2).asPoint;v.refresh;
+	(partial*1000).do{
+		~p1=Polar.new(360,pi/2).asPoint;v.refresh;
 			x=x+1;
-		y=((x**b)+a)/(x**(b));
+		y=(((x**b)+a)*36)/(x**(b));
 		~k = Complex(x,y).angle;
-		t=(((~k**b)-a)*40)/(~k**b);
+		t=(((~k**b)-a))/(~k**b);
 		~r = Complex(t,~k).abs;
 
 
 			Pen.width=0.1;
 		angle=angle+(~k**b);
-		Color(red:1,green:1,blue:1,alpha:1).set;
+		Color(red:0,green:0,blue:0,alpha:1).set;
 		Pen.line(~p1,Polar.new(~r,angle).asPoint);Pen.stroke;v.refresh;
 		Pen.rotate(pi/(partial/2));Pen.stroke;v.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
 };
-{ while { run } {v.background_(Color.black); v.refresh; (1/10).wait } }.fork(AppClock);
+{ while { run } {v.background_(Color.white); v.refresh; (10/1).wait } }.fork(AppClock);
 )
 
 ~pot1 = MIDIFunc.cc( { arg vel,nn,chan,src; [vel,nn,chan,src].postln;  ~az = vel.linlin(10,92,1,2000)}, 71, 0);

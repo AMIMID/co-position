@@ -17,8 +17,8 @@ fund=fund*2;
 		k=Complex(x,y).abs;
 		kpos=Complex(x,y).angle;
 
-		z=(((k**b)-a)*fund)/(k**b);
-		zpos=((kpos**b)-a)/(kpos**b);
+		z=(((k**b)+a)*fund)/(k**b);
+		zpos=((kpos**b)+a)/(kpos**b);
 
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
