@@ -127,18 +127,19 @@ s.options.numInputBusChannels=1
 s.record(numChannels:6) ;
 /////////////////////////////////////voc buff
 
-///////////////////////////////////////////////////vok
-a= Buffer.readChannel(s,channels:0,path:"/Users/petrostatsiopoulos/Dokuments/portfolio/sound/wav/untitled 2.wav")
+///////////////////////////////////////////////////vok +autechre patch
+
+a= Buffer.readChannel(s,channels:0,path:"/Users/petrostatsiopoulos/Desktop/untitled 1.wav")
 (
 SynthDef.new(\voc, {
 arg a=1,fund=180,b=1,x=0,bus=1,attack=1,decay=1,dur;
 	var y,sum=0,wave;
 	var envelope,p=0;
 	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
-	b=b*(1);
-	fund=fund*180;
-	6.do{
-		p=p+(1/6);
+	b=b*(-1);
+	fund=fund*MouseX.kr(110,440).postln;
+	12.do{
+		p=p+12;
 		x=x+1;
 		y=((x**b)+a)/(x**(b));
 		k=Complex(x,y).abs;
@@ -149,10 +150,12 @@ arg a=1,fund=180,b=1,x=0,bus=1,attack=1,decay=1,dur;
 
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
-		wave=PitchShift.ar(PlayBuf.ar(1,0,BufRateScale.kr(0),loop:inf),3,pitchRatio:l.linlin(25,3000,0,4),mul:1/k,timeDispersion:p);
+		wave=	wave=SinOsc.ar(l,mul: 1/k,phase:p);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum),lpos,width:2));
+		//Out.ar(0,PanAz.ar(2,LeakDC.ar(BLowPass.ar(sum*PlayBuf.ar(1,0,BufRateScale.kr(0)),440)),lpos,width:2));
+		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum *SoundIn.ar(0,mul:1/10)),lpos,width:2));
 	};
+
 }).add;
 )
 (Synth.new(\voc))

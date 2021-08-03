@@ -9,9 +9,9 @@ var run = true, kapa, y, z,x=1,theta;
 var ray=200;
 var angle=1,mag=1;
 var a=1,t,s;
-var b=(-2);
+var b=(-6);
 var partial=10;
-///////0//////////////////////////////////////////////////////////////////////////////////////////////////
+///////0/////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
     w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
     w.alpha = 1;  w.view.background = Color.black;
@@ -22,9 +22,9 @@ v.drawFunc ={
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
 	(partial*1000).do{
-		~p1=Polar.new(360,pi/2).asPoint;v.refresh;
+		~p1=Polar.new(300,pi/2).asPoint;v.refresh;
 			x=x+1;
-		y=(((x**b)+a)*36)/(x**(b));
+		y=(((x**b)+a)*360)/(x**(b));
 		~k = Complex(x,y).angle;
 		t=(((~k**b)-a))/(~k**b);
 		~r = Complex(t,~k).abs;
@@ -33,7 +33,7 @@ v.drawFunc ={
 			Pen.width=0.1;
 		angle=angle+(~k**b);
 		Color(red:0,green:0,blue:0,alpha:1).set;
-		Pen.line(~p1,Polar.new(~r,angle).asPoint);Pen.stroke;v.refresh;
+		Pen.line(~p1,Polar.new(~r*20,angle).asPoint);Pen.stroke;v.refresh;
 		Pen.rotate(pi/(partial/2));Pen.stroke;v.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
