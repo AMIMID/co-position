@@ -7,23 +7,25 @@ SynthDef.new(\idvoc, {
 	var y,sum=0,wave;
 	var envelope,p=0;
 	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
-	b=b*(1);
-	fund=fund*360;
-	6.do{
-		p=p+(1/6);
-		x=x+1;
-		y=((x**b)+a)/(x**(b));
+fund=fund*2;
+	b=b*(-1);
+	12.do{
+		p=p+1/12;
+	    x=x+1;
+		y=(((x**b))+a)/(x**(b));
+
 		k=Complex(x,y).abs;
 		kpos=Complex(x,y).angle;
 
-			z=(((k**b)-a)*fund)/(k**b);
+		z=(((k**b)-a)*fund)/(k**b);
 		zpos=((kpos**b)-a)/(kpos**b);
 
 		l=Complex(k,z).abs;
 		lpos=Complex(kpos,zpos).angle;
 
+
 		envelope=EnvGen.ar(Env.perc(attack,decay,2/k,[-4,-4]),doneAction:2);
-		wave=PitchShift.ar(InFeedback.ar(3),3,pitchRatio:l.linlin(25,3000,0,4),mul:envelope,timeDispersion:p);
+		wave=PitchShift.ar(SoundIn.ar(0),3,pitchRatio:l.linlin(7,15000,0,4),mul:envelope,timeDispersion:p);
 			//wave=FreqShift.ar(InFeedback.ar(3),freq:l,mul:envelope,phase:p);
 		sum= sum+wave;
 		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),kpos*bus,width:1));
@@ -34,17 +36,19 @@ SynthDef.new(\idvoc, {
 (
 Tdef(\sa,{
 				 1.do({(e= Pdef(\1, Pbind(\instrument, \idvoc,
-	\dur,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
-           	\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
+	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
+			\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
+			\a,Prand([1,2],inf),
 \attack,6,
 	\decay,6,
 		\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
 		)).play(quant:1));  (0).yield});
 			 1.do({(e= Pdef(\2, Pbind(\instrument, \idvoc,
-		\dur,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
-      	\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([1,2,3,4,5],[1,2,4,2,1].normalizeSum,inf),
+		\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
+			\fund, Pxrand([1.1,1],inf),
+\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
+			\a,Prand([1,2],inf),
 \attack,6,
 		\decay,6,
 	\bus,Prand([0.5,0.25,0.2,0,(-0.2),(-0.25),(-0.5)],inf);
@@ -57,9 +61,10 @@ Pdef(\1).stop; 6.yield;
 			})
 )
 (
-({Out.ar(3,SoundIn.ar(0))}.play);
 Tdef(\sa).play;
 )
+
+
 Tdef(\sa).stop;
 s.options.numOutputBusChannels=6;
 TempoClock.default.tempo_(120/120);
@@ -108,7 +113,7 @@ SynthDef.new(\voc, {
 ({Out.ar(2,SoundIn.ar(0))}.play);
 )
 
-s.options.numOutputBusChannels=6;
+s.options.numOutputBusChannels=3;
 TempoClock.default.tempo_(120/30);
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
