@@ -199,7 +199,7 @@ arg a=1,fund=180,b=2,x=0,bus=1,attack=1,decay=1,dur;
 	var envelope,p=0;
 	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
 	b=b*(-1);
-	fund=880;
+	fund=220;
 	24.do{
 		p=p+(1/24);
 		x=x+1;

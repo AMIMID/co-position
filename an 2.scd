@@ -56,7 +56,7 @@ var ray=200;
 var angle=1,mag=1;
 var a=1,t,s;
 var b=(-2);
-var partial=6;
+var partial=32;
 ///////0/////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
    ~w = Window.new("S",Rect( 600,100,1000,500),scroll:false).front.alwaysOnTop_(true);
@@ -66,7 +66,7 @@ var partial=6;
 	Pen.translate(500,250);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
-	(partial*1000).do{
+	(partial*100).do{
 		~p1=Polar.new(200,pi/2).asPoint;~w.refresh;
 			x=x+1;
 		y=(((x**b)+a)*90)/(x**(b));
@@ -77,13 +77,13 @@ var partial=6;
 
 			Pen.width=0.1;
 		angle=angle+(~k**b);
-		Color(red:0,green:0,blue:0,alpha:1).set;
+		Color(red:1,green:1,blue:1,alpha:1).set;
 		Pen.line(~p1,Polar.new(~r*100,angle).asPoint);Pen.stroke;~w.refresh;
 		Pen.rotate(pi/(partial/2));Pen.stroke;~w.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
 };
-~w.background_(Color.white); ~w.refresh;
+~w.background_(Color.black); ~w.refresh;
 )
 (
     ~i = Image.fromWindow(~w);

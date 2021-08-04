@@ -1,15 +1,15 @@
 //////////////////////////////////
-
+TempoClock.default.tempo_(120/80);
 (
 SynthDef.new(\id, {
 	arg a=1,fund=200,b=1,x=0,bus=0,attack=1,decay=1,fil=440,gain=1;
 	var y,sum=0,wave;
 	var envelope,p=0;
 	var k,kpos,z,zpos,l,lpos,m,mpos,j,jpos,i,ipos,ay,apos;
-fund=fund*2;
+//fund=fund*2;
 	b=b*(-1);
-	12.do{
-		p=p+1/12;
+	8.do{
+		p=p+(1/8);
 	    x=x+1;
 		y=(((x**b))+a)/(x**(b));
 
@@ -23,10 +23,10 @@ fund=fund*2;
 		lpos=Complex(kpos,zpos).angle;
 
 
-		envelope=EnvGen.ar(Env.perc(attack,decay,1/k,[-2,-4]),doneAction:2);
-		wave=SinOsc.ar(l,mul: envelope,phase:p);
+		envelope=EnvGen.ar(Env.perc(attack,decay,1/k,[-1,-8]),doneAction:2);
+		wave=BLowPass.ar(SinOsc.ar(l,mul: envelope,phase:p),880);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,sum*envelope,(kpos)*bus,width:1));
+		Out.ar(0,PanAz.ar(2,sum*envelope,(kpos)*bus,width:1.5));
 	};
 
 
@@ -35,7 +35,8 @@ fund=fund*2;
 
 Synth.new(\id,[\fund,400,\attack,1,\decay,4,\bus,]);
 
-
+Tdef(\sa).play
+Tdef(\sa).stop;
 
 
 (
@@ -44,77 +45,58 @@ Tdef(\sa,
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
 			\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([2,3,4],[1,2,1].normalizeSum,inf),
 			\a,Prand([1,2],inf),
 \attack,0.01,
-	\decay,6,
+	\decay,8,
 	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
 		1.do({( Pdef(\2, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
 			\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([2,3,4],[1,2,1].normalizeSum,inf),
 			\a,Prand([1,2],inf),
 \attack,0.01,
-	\decay,6,
+		\decay,8,
 			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 )).play(quant:1));  (0).yield});
 		 1.do({( Pdef(\3, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
 			\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([2,3,4],[1,2,1].normalizeSum,inf),
 			\a,Prand([1,2],inf),
 \attack,0.01,
-	\decay,6,
+		\decay,8,
 	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
 		1.do({( Pdef(\4, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
 			\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([2,3,4],[1,2,1].normalizeSum,inf),
 			\a,Prand([1,2],inf),
 \attack,0.01,
-	\decay,6,
+		\decay,8,
 			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 )).play(quant:1));  (0).yield});
 
 		 1.do({( Pdef(\5, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
 			\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([2,3,4],[1,2,1].normalizeSum,inf),
 			\a,Prand([1,2],inf),
 \attack,0.01,
-	\decay,6,
+		\decay,8,
 	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
 		1.do({( Pdef(\6, Pbind(\instrument, \id,
 \dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
 			\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
+\b,Pwrand([2,3,4],[1,2,1].normalizeSum,inf),
 			\a,Prand([1,2],inf),
 \attack,0.01,
-	\decay,6,
-			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
-)).play(quant:1));  (0).yield});
-		 1.do({( Pdef(\7, Pbind(\instrument, \id,
-	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
-			\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
-			\a,Prand([1,2],inf),
-\attack,0.01,
-	\decay,6,
-	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
-		)).play(quant:1));  (0).yield});
-		1.do({( Pdef(\8, Pbind(\instrument, \id,
-	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
-			\fund, Pxrand([1.1,1],inf),
-\b,Pwrand([2,3,4,5,6],[1,2,4,2,1].normalizeSum,inf),
-			\a,Prand([1,2],inf),
-\attack,0.01,
-	\decay,6,
+	\decay,8,
 			\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 )).play(quant:1));  (360).yield});
-
 
 Pdef(\1).stop;
 		Pdef(\2).stop;
@@ -122,8 +104,6 @@ Pdef(\1).stop;
 		Pdef(\4).stop;
 		Pdef(\5).stop;
 		Pdef(\6).stop;
-		Pdef(\7).stop;
-		Pdef(\8).stop;
 			})
 )
 Tdef(\sa).play
@@ -247,8 +227,7 @@ Pdef(\1).stop;
 			})
 )
 
-Tdef(\sa).play;
-Tdef(\sa).stop;
+
 /////////////////////////////////////
 
 (
