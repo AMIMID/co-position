@@ -5,11 +5,11 @@ SynthDef.new(\id, {
 	var sum=0,wave;
 	var envelope,p=0;
 	var k,kpos,z,zpos;
-fund=fund*220;
+fund=fund*110;
 	b=b*(-1);
 
-	10.do{
-		p=p+1/2100;
+	4.do{
+		p=p+1/4;
 		x=x+1;
 		y=(x+1)/x;
 		k=Complex(x,y).angle;
@@ -20,7 +20,7 @@ fund=fund*220;
 		envelope=EnvGen.ar(Env.perc(attack,decay,100/z,[-1,-8]),doneAction:2);
 		wave=BLowPass.ar(SinOsc.ar(z,mul: envelope,phase:p),880);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,sum*envelope,(zpos)*bus,width:1.5));
+		Out.ar(0,PanAz.ar(2,sum*envelope,(zpos)*bus,width:1));
 	};
 
 
@@ -61,13 +61,10 @@ SynthDef.new(\id, {
 	var sum=0,wave;
 	var envelope,p=0;
 	var k,kpos,z,zpos;
-fund=fund*220;
+fund=fund*110;
 	b=b*(-1);
 
-	6.do{
 		p=p+1/6;
-				x=x+1;
-		y=(x+1)/x;
 			k=Complex(x,y).angle;
 	a=Complex(x,y).abs;
 		z=(((k)+a)*fund)/(k);
@@ -76,7 +73,6 @@ fund=fund*220;
 		envelope=EnvGen.ar(Env.perc(attack,decay,220/z,[-1,-8]),doneAction:2);
 		wave=PitchShift.ar(SoundIn.ar(0),0.2,pitchRatio:z.linlin(1,2200,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
-	};
 		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),zpos*bus,width:1));
 
 
@@ -91,6 +87,16 @@ Tdef(\sa).stop;
 Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
+	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
+			\fund, Pxrand([2.1,2],inf),
+\b,Pwrand([2,3,4],[1,2,1].normalizeSum,inf),
+			\x,Pexprand(0.1,1,inf),
+			\y,Pexprand(0.1,1,inf),
+\attack,2,
+	\decay,8,
+	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
+		)).play(quant:1));  (0).yield});
+Pdef(\1).stop; 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
 			\fund, Pxrand([1.1,1],inf),
 \b,Pwrand([2,3,4],[1,2,1].normalizeSum,inf),
