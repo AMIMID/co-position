@@ -9,36 +9,36 @@ var run = true, kapa, y, z,x=1,theta;
 var ray=200;
 var angle=1,mag=1;
 var a=1,t,s;
-var b=(-6);
-var partial=10;
+var partial=3;
 ///////0/////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
     w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
     w.alpha = 1;  w.view.background = Color.black;
+x=50;
+y=30;
+~k=Complex(x,y).angle;
+~r=Complex(x,y).abs;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////view
 v = UserView.new(w,Rect(100,100,1600,800)).background_(Color.black);
 v.drawFunc ={
 	Pen.translate(800,400);
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
-	(partial*1000).do{
+	(partial*2000).do{
 		~p1=Polar.new(300,pi/2).asPoint;v.refresh;
 			x=x+1;
-		y=(((x**b)+a)*360)/(x**(b));
-		~k = Complex(x,y).angle;
-		t=(((~k**b)-a))/(~k**b);
-		~r = Complex(t,~k).abs;
+		~z=(((x)+a)*90)/(x);
+		~ro=(((~r)+a))/(~r);
 
 
 			Pen.width=0.1;
-		angle=angle+(~k**b);
-		Color(red:0,green:0,blue:0,alpha:1).set;
-		Pen.line(~p1,Polar.new(~r*20,angle).asPoint);Pen.stroke;v.refresh;
+		angle=angle+(~z);
+		Color(red:1,green:1,blue:1,alpha:1).set;
+		Pen.line(~p1,Polar.new(~ro*300,angle).asPoint);Pen.stroke;v.refresh;
 		Pen.rotate(pi/(partial/2));Pen.stroke;v.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
 };
-{ while { run } {v.background_(Color.white); v.refresh; (10/1).wait } }.fork(AppClock);
+{ while { run } {v.background_(Color.black); v.refresh; (1/100).wait } }.fork(AppClock);
 )
 
 /////////////////////////////////////////////////////////////////////
