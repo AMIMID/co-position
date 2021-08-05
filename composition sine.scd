@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(120/15);
+TempoClock.default.tempo_(120/60);
 
 (
 SynthDef.new(\id, {
@@ -8,20 +8,20 @@ SynthDef.new(\id, {
 	var w=0,sig,total=0,env,s,spos;
 x=dur/(dur+o);
 fund=fund*180;
-180.do{
-		p=p+(1/180);
+64.do{
+		p=p+(1/64);
 		w=w+1;
 		y=(w+1)/w;
 	k=Complex(x,y).angle;
 	a=Complex(x,y).abs;
 		z=(((k)+a)*fund)/(k);
-		zpos=((k)+a)/(k);
+		zpos=(((k)+a)/(k));
 		s= Complex(z,w).abs;
 			spos=Complex(z,w).angle;
-			env=EnvGen.ar(Env.perc(0.05,dur,2/s,[-4,-4]),doneAction:2);
-		sig=BLowPass.ar(SinOsc.ar(s,mul: env,phase:p),20000);
+			env=EnvGen.ar(Env.perc(0.01,dur,2/s,[-4,-4]),doneAction:2);
+		sig=BLowPass.ar(SinOsc.ar(z,mul: env,phase:p),20000);
 		total=total+sig;
-		Out.ar(0,PanAz.ar(2,total*env,(spos)*(x.linlin(0.5,1,-1,1)),width:1));
+		Out.ar(0,PanAz.ar(2,total*env,LFSaw.ar(zpos),width:1));
 };
 
 
@@ -38,13 +38,13 @@ Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pseq([3,5,8],inf),
-			\sustain,Pexprand([0.1,1],inf),
+			\sustain,Pexprand([1,2],inf),
 			\fund, Pxrand([1.1,1],inf),
 			\o,Pexprand(1,10,inf);
 		)).play(quant:1));  (0).yield});
 		 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pseq([3,5,8],inf),
-			\sustain,Pexprand([0.1,1],inf),
+			\sustain,Pexprand([1,2],inf),
 			\fund, Pxrand([1.1,1],inf),
 			\o,Pexprand(1,10,inf);
 		)).play(quant:1));  (880).yield});
@@ -72,10 +72,10 @@ fund=fund*220;
 		zpos=((k)+a)/(k);
 
 
-		envelope=EnvGen.ar(Env.perc(5,2+sustain,100/z,[-1,-8]),doneAction:2);
+		envelope=EnvGen.ar(Env.perc(2,2+sustain,100/z,[-1,-8]),doneAction:2);
 		wave=PitchShift.ar(SoundIn.ar(0),0.2,pitchRatio:z.linlin(1,2200,0,4),mul:envelope,timeDispersion:p);
 		sum= sum+wave;
-		Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),zpos*bus,width:1));
+	Out.ar(0,PanAz.ar(2,LeakDC.ar(sum*envelope),LFSaw.ar(zpos),width:1));
 
 
 }).add;
@@ -96,7 +96,6 @@ Tdef(\sav,
 			\y,Pexprand(0.1,1,inf),
 \attack,2,
 	\decay,8,
-	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
 Pdef(\1).stop; 1.do({( Pdef(\5, Pbind(\instrument, \idvoc,
 	\dur,Pwrand([2,1,0.5],[1,2,1].normalizeSum,inf),
@@ -106,7 +105,6 @@ Pdef(\1).stop; 1.do({( Pdef(\5, Pbind(\instrument, \idvoc,
 			\y,Pexprand(0.1,1,inf),
 \attack,2,
 	\decay,8,
-	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (365).yield});
 		Pdef(\5).stop;
 		Pdef(\6).stop;
