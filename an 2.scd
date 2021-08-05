@@ -1,44 +1,38 @@
 (
 var w,v,hexa_points,radius;
-var x_axis,y_axis,z_axis,circle;
-var	r1,r2,r3,r4,r5,r6;
-var  c_side_1,c_side_2,c_side_3,c_side_4,c_side_5,c_side_6;
-var	p1_c,p2_c,p3_c,p4_c,p5_c,p6_c;
-var  p1,p2,p3,p4,p5,p6;
-var run = true, kapa, y, z,x=1,theta;
+var run = true;
 var ray=200;
 var angle=1,mag=1;
-var a=1,t,s;
-var partial=3;
+var a=1;
+var partial=24;
 ///////0/////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
     w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
     w.alpha = 1;  w.view.background = Color.black;
-x=50;
-y=30;
-~k=Complex(x,y).angle;
-~r=Complex(x,y).abs;
+~x=1;~y=1;
+	~slider1= Slider(w,Rect(500,900,800,10)).action_({ arg obj; ~x = obj.value.linlin(0,1,1,360); v.refresh;});
+~slider2 = Slider(w, Rect(500,930,800,10)).action_({ arg obj; ~y = obj.value.linlin(0,1,1,360); v.refresh;});
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////view
-v = UserView.new(w,Rect(100,100,1600,800)).background_(Color.black);
+v = UserView.new(w,Rect(100,100,2000,800)).background_(Color.black);
 v.drawFunc ={
+		~k=Complex(~x,~y).angle;
+~r=Complex(~x,~y).abs;
+			~z=(((~k)+a))/(~k);
+		~ro=(((~r)+a))/(~r);
 	Pen.translate(800,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
-	(partial*2000).do{
+	(partial*100).do{
 		~p1=Polar.new(300,pi/2).asPoint;v.refresh;
-			x=x+1;
-		~z=(((x)+a)*90)/(x);
-		~ro=(((~r)+a))/(~r);
-
-
 			Pen.width=0.1;
 		angle=angle+(~z);
 		Color(red:1,green:1,blue:1,alpha:1).set;
-		Pen.line(~p1,Polar.new(~ro*300,angle).asPoint);Pen.stroke;v.refresh;
+		Pen.line(~p1,Polar.new(~ro*150,angle).asPoint);Pen.stroke;v.refresh;
 		Pen.rotate(pi/(partial/2));Pen.stroke;v.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
 };
-{ while { run } {v.background_(Color.black); v.refresh; (1/100).wait } }.fork(AppClock);
+{ while { run } {v.background_(Color.black); v.refresh; (1/10).wait } }.fork(AppClock);
 )
 
 /////////////////////////////////////////////////////////////////////
