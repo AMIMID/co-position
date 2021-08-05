@@ -7,9 +7,9 @@ SynthDef.new(\id, {
 	var k,kpos,z,zpos;
 	var w=0,sig,total=0,env,s,spos;
 x=dur/(dur+o);
-fund=fund*180;
-64.do{
-		p=p+(1/64);
+fund=fund*220;
+100.do{
+		p=p+(1/100);
 		w=w+1;
 		y=(w+1)/w;
 	k=Complex(x,y).angle;
@@ -18,10 +18,10 @@ fund=fund*180;
 		zpos=(((k)+a)/(k));
 		s= Complex(z,w).abs;
 			spos=Complex(z,w).angle;
-			env=EnvGen.ar(Env.perc(0.01,dur,2/s,[-4,-4]),doneAction:2);
+			env=EnvGen.ar(Env.perc(1,dur+1,5/s,[-4,-4]),doneAction:2);
 		sig=BLowPass.ar(SinOsc.ar(z,mul: env,phase:p),20000);
 		total=total+sig;
-		Out.ar(0,PanAz.ar(2,total*env,LFSaw.ar(zpos),width:1));
+		Out.ar(0,PanAz.ar(2,total*env,LFSaw.ar(zpos),width:2));
 };
 
 
@@ -38,13 +38,11 @@ Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pseq([3,5,8],inf),
-			\sustain,Pexprand([1,2],inf),
 			\fund, Pxrand([1.1,1],inf),
 			\o,Pexprand(1,10,inf);
 		)).play(quant:1));  (0).yield});
 		 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pseq([3,5,8],inf),
-			\sustain,Pexprand([1,2],inf),
 			\fund, Pxrand([1.1,1],inf),
 			\o,Pexprand(1,10,inf);
 		)).play(quant:1));  (880).yield});
