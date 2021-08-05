@@ -4,7 +4,7 @@ var run = true;
 var ray=200;
 var angle=1,mag=1;
 var a=1;
-var partial=24;
+var partial=100;
 ///////0/////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
     w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
@@ -22,12 +22,12 @@ v.drawFunc ={
 		~ro=(((~r)+a))/(~r);
 	Pen.translate(800,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
-	(partial*100).do{
+	(partial*10).do{
 		~p1=Polar.new(300,pi/2).asPoint;v.refresh;
 			Pen.width=0.1;
 		angle=angle+(~z);
 		Color(red:1,green:1,blue:1,alpha:1).set;
-		Pen.line(~p1,Polar.new(~ro*150,angle).asPoint);Pen.stroke;v.refresh;
+		Pen.line(~p1,Polar.new(~ro*300,angle).asPoint);Pen.stroke;v.refresh;
 		Pen.rotate(pi/(partial/2));Pen.stroke;v.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
