@@ -1,24 +1,24 @@
-TempoClock.default.tempo_(120/30);
+TempoClock.default.tempo_(120/15);
 
 (
 SynthDef.new(\id, {
-	arg a=1,fund=1,b=1,x=1,bus=1,dur;
+	arg a=1,fund=1,b=1,x=1,bus=1,dur,o=2;
 	var y=1,p=0;
 	var k,kpos,z,zpos;
-	var w=0,o=1,sig,total=0,env,s,spos;
-x=dur/(dur+1);
+	var w=0,sig,total=0,env,s,spos;
+x=dur/(dur+o);
 fund=fund*180;
 180.do{
 		p=p+(1/180);
 		w=w+1;
-		y=(w+o)/w;
+		y=(w+1)/w;
 	k=Complex(x,y).angle;
 	a=Complex(x,y).abs;
 		z=(((k)+a)*fund)/(k);
 		zpos=((k)+a)/(k);
 		s= Complex(z,w).abs;
 			spos=Complex(z,w).angle;
-			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-2,-2]),doneAction:2);
+			env=EnvGen.ar(Env.perc(0.05,dur,2/s,[-4,-4]),doneAction:2);
 		sig=BLowPass.ar(SinOsc.ar(s,mul: env,phase:p),20000);
 		total=total+sig;
 		Out.ar(0,PanAz.ar(2,total*env,(spos)*(x.linlin(0.5,1,-1,1)),width:1));
@@ -28,7 +28,7 @@ fund=fund*180;
 }).add;
 )
 
-Tdef(\sa).play
+Tdef(\sa).play;
 Tdef(\sa).stop;
 
 
@@ -37,14 +37,16 @@ Tdef(\sa).stop;
 Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
-	\dur,Pseq([1,2,3,4,5,6],inf),
+	\dur,Pseq([3,5,8],inf),
 			\sustain,Pexprand([0.1,1],inf),
 			\fund, Pxrand([1.1,1],inf),
+			\o,Pexprand(1,10,inf);
 		)).play(quant:1));  (0).yield});
 		 1.do({( Pdef(\1, Pbind(\instrument, \id,
-\dur,Pseq([6,5,4,3,2,1],inf),
+	\dur,Pseq([3,5,8],inf),
 			\sustain,Pexprand([0.1,1],inf),
 			\fund, Pxrand([1.1,1],inf),
+			\o,Pexprand(1,10,inf);
 		)).play(quant:1));  (880).yield});
 Pdef(\1).stop;
 		Pdef(\2).stop;
