@@ -6,7 +6,7 @@ SynthDef.new(\id, {
 	var k,kpos,z,zpos;
 	var w=0,o=1,sig,total=0,env;
 
-fund=fund*220;
+fund=fund*110;
 240.do{
 		p=p+(1/240);
 		w=w+1;
@@ -15,7 +15,7 @@ fund=fund*220;
 	a=Complex(x,y).abs;
 		z=(((k)+a)*fund)/(k);
 		zpos=((k)+a)/(k);
-			env=EnvGen.ar(Env.perc(0.01,dur,10/z,[-2,-2]),doneAction:2);
+			env=EnvGen.ar(Env.perc(1,dur,10/z,[-2,-2]),doneAction:2);
 		sig=BLowPass.ar(SinOsc.ar(z,mul: env,phase:p),20000);
 		total=total+sig;
 };
@@ -34,15 +34,15 @@ Tdef(\sa).stop;
 Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
-	\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
+	\dur,Pseq([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],inf),
 			\fund, Pxrand([1.1,1],inf),
-			\x,Pwrand([2/3,3/4,4/5,5/6,6/7,7/8,8/9],[1,2,3,4,3,2,1].normalizeSum,inf),
+			\x,Pseq([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],inf),
 	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
 		 1.do({( Pdef(\1, Pbind(\instrument, \id,
-\dur,Pwrand([4,2,1,0.5,0.25],[1,2,4,2,1].normalizeSum,inf),
+\dur,Pseq([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],inf),
 			\fund, Pxrand([1.1,1],inf),
-		\x,Pwrand([2/3,3/4,4/5,5/6,6/7,7/8,8/9],[1,2,3,4,3,2,1].normalizeSum,inf),
+	\x,Pseq([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],inf),
 	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (365).yield});
 Pdef(\1).stop;
