@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(120/60);
+TempoClock.default.tempo_(120/30);
 
 (
 SynthDef.new(\id, {
@@ -19,9 +19,8 @@ fund=fund*220;
 			env=EnvGen.ar(Env.perc(0.01,dur,1/z,[-2,-2]),doneAction:2);
 		sig=BLowPass.ar(SinOsc.ar(z,mul: env,phase:p),20000);
 		total=total+sig;
-				Out.ar(0,PanAz.ar(2,total*env,(zpos)*bus,width:1));
+		Out.ar(0,PanAz.ar(2,total*env,(zpos)*(x.linlin(0.5,0.9,-1,1)),width:1));
 };
-
 
 
 }).add;
@@ -43,13 +42,11 @@ Tdef(\sa,
 	\dur,Pseq([1,3,5,8],inf),
 			\sustain,Pexprand([0.1,1],inf),
 			\fund, Pxrand([1.1,1],inf),
-	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (0).yield});
 		 1.do({( Pdef(\1, Pbind(\instrument, \id,
 \dur,Pseq([1,3,5,8],inf),
 			\sustain,Pexprand([0.1,1],inf),
 			\fund, Pxrand([1.1,1],inf),
-	\bus,Prand([1,0.75,0.5,0.25,0,(-0.25),(-0.5),(-0.75),(-1)],inf);
 		)).play(quant:1));  (365).yield});
 Pdef(\1).stop;
 		Pdef(\2).stop;
