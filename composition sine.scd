@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(120/24);
+TempoClock.default.tempo_(120/6);
 s.options.numOutputBusChannels=20
 TempoClock.default.tempo_(120/45);
 );
@@ -18,9 +18,10 @@ SynthDef.new(\id, {
 	var y=1,p=0;
 	var k,kpos,z,zpos;
 	var w=0,sig,total=0,env,s,spos;
-fund=fund*50;
-24.do{
-		p=p+(1/24);
+	x=1/dur;
+fund=fund*100;
+6.do{
+		p=p+(1/6);
 		x=x+1;
 		y=(x+1)/x;
 	k=Complex(x,y).angle;
@@ -28,7 +29,7 @@ fund=fund*50;
 		z=(((k)+a)*fund)/(k);
 		zpos=(((k)+a)/(k));
 		s= Complex(z,w).abs;
-			env=EnvGen.ar(Env.perc(0.01,dur,20/s,[-4,-4]),doneAction:2);
+			env=EnvGen.ar(Env.perc(dur/s,dur,1/s,[4,-4]),doneAction:2);
 		sig=BLowPass.ar(SinOsc.ar(s,mul: env,phase:p),880);
 		total=total+sig;
 		Out.ar(0,PanAz.ar(2,total*env*20000,s,width:1));
@@ -49,20 +50,18 @@ Tdef(\sa,
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pseq([6,8,9,12],inf),
 			\fund, Pxrand([1.1,1],inf),
-			\x,Pexprand(1,10,inf);
+
 			)).play(quant:1));  (0).yield});
 				 1.do({( Pdef(\2, Pbind(\instrument, \id,
 	\dur,Pseq([6,8,9,12],inf),
 			\fund, Pxrand([1.1,1],inf),
-			\x,Pexprand(1,10,inf);
 				)).play(quant:1));  (0).yield});
 					 1.do({( Pdef(\3, Pbind(\instrument, \id,
 	\dur,Pseq([6,8,9,12],inf),
 			\fund, Pxrand([1.1,1],inf),
-			\x,Pexprand(1,10,inf);
 		)).play(quant:1));  (1000).yield});
 
-Pdef(\1).stop;Pdef(\2).stop;Pdef(\3).stop;
+//Pdef(\1).stop;Pdef(\2).stop;Pdef(\3).stop;
 			})
 )
 
