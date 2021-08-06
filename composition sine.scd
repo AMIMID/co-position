@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(60/4);
+TempoClock.default.tempo_(60/12);
 s.options.numOutputBusChannels=20
 TempoClock.default.tempo_(120/45);
 );
@@ -30,11 +30,12 @@ fund=fund*100;
 		z=(((k)+a)*fund)/(k);
 		zpos=(((k)+a)/(k));
 		s= Complex(z,x).abs;
-		spos= Complex(z,zpos).angle;
+		spos= Complex(z,zpos).abs;
 			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[4,-4]),doneAction:2);
 		sig=SinOsc.ar(s,mul: env,phase:p);
 		total=total+sig;
-		Out.ar(0,PanAz.ar(2,total*env*20000,LFSaw.ar(spos)*pos,width:1));
+		Out.ar(2,PanAz.ar(2,total*env*20,spos));
+		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2)),pos));
 };
 
 
