@@ -14,12 +14,11 @@ s.record(numChannels:6) ;
 
 (
 SynthDef.new(\id, {
-	arg a=1,fund=1,b=1,x=1,bus=1,dur,o=2;
+	arg a=1,fund=110,b=1,x=1,bus=1,dur,o=2;
 	var y=1,p=0;
 	var k,kpos,z,zpos,pos;
 	var w=0,sig,total=0,env,s,spos;
 	x=1/dur;
-fund=fund*110;
 6.do{
 		p=p+(1/6);
 		x=x+1;
@@ -33,7 +32,7 @@ fund=fund*110;
 			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
 		sig=SinOsc.ar(s,mul: env,phase:p);
 		total=total+sig;
-		Out.ar(2,PanAz.ar(3,total*env*20,LFSaw.ar(spos)));
+		Out.ar(2,PanAz.ar(4,total*env*20,LFSaw.ar(spos)));
 		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2,2)),LFSaw.ar(spos)));
 };
 
@@ -51,22 +50,18 @@ Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pseq([6,8,9,12],inf),
-			\fund, 1
 			)).play(quant:1));  (0).yield});
 
 		1.do({( Pdef(\2, Pbind(\instrument, \id,
 	\dur,Pseq([8,9,12,6],inf),
-			\fund, 1
 			)).play(quant:1));  (0).yield});
 
 			1.do({( Pdef(\3, Pbind(\instrument, \id,
 	\dur,Pseq([9,12,6,8],inf),
-			\fund, 1
 		)).play(quant:1));  (0).yield});
 
 			1.do({( Pdef(\4, Pbind(\instrument, \id,
 	\dur,Pseq([12,6,8,9],inf),
-			\fund, 1
 			)).play(quant:1));  (0).yield});
 
 			})
