@@ -1,5 +1,5 @@
-TempoClock.default.tempo_(60/8);
-s.options.numOutputBusChannels=20
+TempoClock.default.tempo_(60/6);
+s.options.numOutputBusChannels=8
 TempoClock.default.tempo_(120/45);
 );
 ServerOptions.inDevices.postln;
@@ -19,7 +19,6 @@ SynthDef.new(\id, {
 	var k,kpos,z,zpos,pos;
 	var w=0,sig,total=0,env,s,spos;
 	x=1/dur;
-	pos=dur.explin(6,12,-0.5,5).poll;
 fund=fund*110;
 6.do{
 		p=p+(1/6);
@@ -30,12 +29,12 @@ fund=fund*110;
 		z=(((k)+a)*fund)/(k);
 		zpos=(((k)+a)/(k));
 		s= Complex(z,x).abs;
-		spos= Complex(x,zpos).abs;
+		spos= Complex(zpos,x).abs;
 			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
 		sig=SinOsc.ar(s,mul: env,phase:p);
 		total=total+sig;
-		Out.ar(2,PanAz.ar(2,total*env*20,LFSaw.ar(spos*s)));
-		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2,1)),LFSaw.ar(pos)));
+		Out.ar(2,PanAz.ar(3,total*env*20,LFSaw.ar(spos)));
+		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2,2)),LFSaw.ar(spos)));
 };
 
 
@@ -52,22 +51,22 @@ Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
 	\dur,Pseq([6,8,9,12],inf),
-			\fund, Prand([1.01,1],inf),
+			\fund, 1
 			)).play(quant:1));  (0).yield});
 
 		1.do({( Pdef(\2, Pbind(\instrument, \id,
 	\dur,Pseq([8,9,12,6],inf),
-			\fund, Prand([1.01,1],inf),
+			\fund, 1
 			)).play(quant:1));  (0).yield});
 
 			1.do({( Pdef(\3, Pbind(\instrument, \id,
 	\dur,Pseq([9,12,6,8],inf),
-			\fund, Prand([1.01,1],inf),
+			\fund, 1
 		)).play(quant:1));  (0).yield});
 
 			1.do({( Pdef(\4, Pbind(\instrument, \id,
 	\dur,Pseq([12,6,8,9],inf),
-			\fund, Prand([1.01,1],inf),
+			\fund, 1
 			)).play(quant:1));  (0).yield});
 
 			})
