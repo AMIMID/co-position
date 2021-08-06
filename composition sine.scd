@@ -19,10 +19,10 @@ SynthDef.new(\id, {
 	var k,kpos,z,zpos,pos;
 	var w=0,sig,total=0,env,s,spos;
 	x=1/dur;
-	pos=dur;
-fund=fund*60;
-12.do{
-		p=p+(1/12);
+	pos=dur.explin(6,12,-0.5,5).poll;
+fund=fund*110;
+6.do{
+		p=p+(1/6);
 		x=x+1;
 		y=(x+1)/x;
 	k=Complex(x,y).angle;
@@ -30,12 +30,12 @@ fund=fund*60;
 		z=(((k)+a)*fund)/(k);
 		zpos=(((k)+a)/(k));
 		s= Complex(z,x).abs;
-		spos= Complex(z,zpos).abs;
-			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[4,-4]),doneAction:2);
+		spos= Complex(x,zpos).abs;
+			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
 		sig=SinOsc.ar(s,mul: env,phase:p);
 		total=total+sig;
-		Out.ar(2,PanAz.ar(2,total*env*20,spos));
-		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2)),LFSaw.ar(pos)));
+		Out.ar(2,PanAz.ar(2,total*env*20,LFSaw.ar(spos*s)));
+		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2,1)),LFSaw.ar(pos)));
 };
 
 
@@ -63,7 +63,7 @@ Tdef(\sa,
 			1.do({( Pdef(\3, Pbind(\instrument, \id,
 	\dur,Pseq([9,12,6,8],inf),
 			\fund, Prand([1.01,1],inf),
-			)).play(quant:1));  (0).yield});
+		)).play(quant:1));  (0).yield});
 
 			1.do({( Pdef(\4, Pbind(\instrument, \id,
 	\dur,Pseq([12,6,8,9],inf),
