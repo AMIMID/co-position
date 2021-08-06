@@ -1,10 +1,11 @@
-TempoClock.default.tempo_(60/6);
-s.options.numOutputBusChannels=8
+TempoClock.default.tempo_(60/10);
+s.options.numOutputBusChannels=5
 TempoClock.default.tempo_(120/45);
 );
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
-s.options.sampleRate =48000;
+s.options.sampleRate =48000
+
 s.options.device_("USB Sound Device");
 s.options.memSize = 65536;
 s.options.memSize
@@ -14,7 +15,7 @@ s.record(numChannels:6) ;
 
 (
 SynthDef.new(\id, {
-	arg a=1,fund=110,b=1,x=1,bus=1,dur,o=2;
+	arg a=1,fund=100,b=1,x=1,bus=1,dur,o=2;
 	var y=1,p=0;
 	var k,kpos,z,zpos,pos;
 	var w=0,sig,total=0,env,s,spos;
@@ -27,12 +28,12 @@ SynthDef.new(\id, {
 	a=Complex(x,y).abs;
 		z=(((k)+a)*fund)/(k);
 		zpos=(((k)+a)/(k));
-		s= Complex(z,x).abs;
-		spos= Complex(zpos,x).abs;
+		s= Complex(z,k).abs;
+		spos= Complex(zpos,k).abs;
 			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
 		sig=SinOsc.ar(s,mul: env,phase:p);
 		total=total+sig;
-		Out.ar(2,PanAz.ar(4,total*env*20,LFSaw.ar(spos)));
+		Out.ar(2,PanAz.ar(3,total*env*20,LFSaw.ar(spos)));
 		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2,2)),LFSaw.ar(spos)));
 };
 
