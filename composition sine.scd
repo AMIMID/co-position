@@ -18,12 +18,13 @@ SynthDef.new(\id, {
 	arg a=1,fund=100,b=1,x=1,bus=1,dur,o=2;
 	var y=1,p=0;
 	var k,kpos,z,zpos,pos;
-	var w=0,sig,total=0,env,s,spos;
+	var sig,total=0,env,s,spos;
 	x=1/dur;
+	y=dur;
 6.do{
 		p=p+(1/6);
-		x=x+1;
-		y=(x+1)/x;
+		//x=x+1;
+	//	y=(x+1)/x;
 	k=Complex(x,y).angle;
 	a=Complex(x,y).abs;
 		z=(((k)+a)*fund)/(k);
@@ -53,17 +54,17 @@ Tdef(\sa,
 	\dur,Pseq([6,8,9,12],inf),
 			)).play(quant:1));  (0).yield});
 
-		1.do({( Pdef(\2, Pbind(\instrument, \id,
-	\dur,Pseq([8,9,12,6],inf),
-			)).play(quant:1));  (0).yield});
+	//	1.do({( Pdef(\2, Pbind(\instrument, \id,
+	//\dur,Pseq([8,9,12,6],inf),
+//			)).play(quant:1));  (0).yield});
 
-			1.do({( Pdef(\3, Pbind(\instrument, \id,
-	\dur,Pseq([9,12,6,8],inf),
-		)).play(quant:1));  (0).yield});
+//			1.do({( Pdef(\3, Pbind(\instrument, \id,
+//	\dur,Pseq([9,12,6,8],inf),
+//		)).play(quant:1));  (0).yield});
 
-			1.do({( Pdef(\4, Pbind(\instrument, \id,
-	\dur,Pseq([12,6,8,9],inf),
-			)).play(quant:1));  (0).yield});
+	//		1.do({( Pdef(\4, Pbind(\instrument, \id,
+	//\dur,Pseq([12,6,8,9],inf),
+	//		)).play(quant:1));  (0).yield});
 
 			})
 )

@@ -3,22 +3,21 @@ var w,v,hexa_points,radius;
 var run = true;
 var angle=1;
 var a=1,r=0;
-var partial=100;
+var partial=10000;
 ///////0/////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
     w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
     w.alpha = 1;  w.view.background = Color.black;
-~x=1;~y=1;
-	//~slider1= Slider(w,Rect(500,900,850,10)).action_({ arg obj; ~x = obj.value.linlin(0,1,0.01,360); v.refresh;});
+~x=1;y=1;
+	~slider1= Slider(w,Rect(500,900,850,10)).action_({ arg obj; ~x = obj.value.linlin(0,1,1,360); v.refresh;});
+~slider1= Slider(w,Rect(500,950,850,10)).action_({ arg obj; ~y = obj.value.linlin(0,1,1,360); v.refresh;});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////view
 v = UserView.new(w,Rect(50,100,1800,800)).background_(Color.black);
 v.drawFunc ={
 	Pen.translate(900,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
-	(partial*10).do{
-		~p1=Polar.new(60,pi/2).asPoint;v.refresh;
-		~x=~x+1;
-		~y=(~x+1)/~x;
+	(partial).do{
+		~p1=Polar.new(1,pi/2).asPoint;v.refresh;
 				~k=Complex(~x,~y).angle;
 ~r=Complex(~x,~y).abs;
 			~z=(((~k)+a))/(~k);
@@ -27,13 +26,13 @@ v.drawFunc ={
 		~radius=Complex(~ro,~r).abs;
 			Pen.width=0.1;
 		//angle=angle+(~z);
-		Color(red:1,green:1,blue:1,alpha:1).set;
+		Color(red:1,green:1,blue:1,alpha:0.1).set;
 		Pen.line(~p1,Polar.new(~radius,~angle).asPoint);Pen.stroke;v.refresh;
 		Pen.rotate(pi/(partial/2));Pen.stroke;v.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
 };
-{ while { run } {v.background_(Color.black); v.refresh; (1/100).wait } }.fork(AppClock);
+{ while { run } {v.background_(Color.black); v.refresh; (1/10).wait } }.fork(AppClock);
 )
 
 /////////////////////////////////////////////////////////////////////
