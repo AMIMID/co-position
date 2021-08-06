@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(60/12);
+TempoClock.default.tempo_(60/8);
 s.options.numOutputBusChannels=20
 TempoClock.default.tempo_(120/45);
 );
@@ -19,10 +19,10 @@ SynthDef.new(\id, {
 	var k,kpos,z,zpos,pos;
 	var w=0,sig,total=0,env,s,spos;
 	x=1/dur;
-	pos=dur.linlin(6,12,1,-1);
-fund=fund*100;
-5.do{
-		p=p+(1/5);
+	pos=dur;
+fund=fund*60;
+12.do{
+		p=p+(1/12);
 		x=x+1;
 		y=(x+1)/x;
 	k=Complex(x,y).angle;
@@ -35,7 +35,7 @@ fund=fund*100;
 		sig=SinOsc.ar(s,mul: env,phase:p);
 		total=total+sig;
 		Out.ar(2,PanAz.ar(2,total*env*20,spos));
-		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2)),pos));
+		Out.ar(0,PanAz.ar(2,LeakDC.ar(InFeedback.ar(2)),LFSaw.ar(pos)));
 };
 
 
