@@ -1,5 +1,5 @@
-TempoClock.default.tempo_(100/40);
-s.options.numOutputBusChannels=8
+TempoClock.default.tempo_(100/18);
+s.options.numOutputBusChannels=10;
 TempoClock.default.tempo_(120/45);
 );
 ServerOptions.inDevices.postln;
@@ -19,22 +19,78 @@ SynthDef.new(\id, {
 	var y=1,pan;
 	var k,z,pos;
 	var sig,env,s;
-	var total;
+	var total=0;
 	x=dur.cos;
 	y=dur.sin;
-	fund=110;
-6.do	{
+	fund=55;
+1.do{
 		x=x+1;
-		y=(x+a);
+		y=(x+1)/x;
+	k=Complex(x,y).abs;
+	a=Complex(x,y).angle;
+		z=(((k)+a))/(k);
+		s= Complex(k,z).abs;
+	pan= Complex(k,s).angle;
+			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
+		sig=SinOsc.ar(s*fund,mul: env);
+		total=total+sig;
+	Out.ar(0,PanAz.ar(2,LeakDC.ar(sig*env),LFSaw.ar(a),width:1));
+
+};
+}).add;
+)
+
+Tdef(\sa).play;
+Tdef(\sa).stop;
+
+(
+Tdef(\sa,
+      {
+				 1.do({( Pdef(\1, Pbind(\instrument, \id,
+	\dur,Pseq([4,6,8,9,12],inf),
+			)).play(quant:1));  (0).yield});
+
+		1.do({( Pdef(\2, Pbind(\instrument, \id,
+	\dur,Pseq([12,9,8,6,4],inf),
+			)).play(quant:1));  (0).yield});
+
+		1.do({( Pdef(\3, Pbind(\instrument, \id,
+	\dur,Pseq([9,12,6,8],inf),
+		)).play(quant:1));  (0).yield});
+
+	1.do({( Pdef(\4, Pbind(\instrument, \id,
+	\dur,Pseq([12,6,8,9],inf),
+	)).play(quant:1));  (0).yield});
+
+			})
+)
+
+////////////////////////////////////////////////////////voc
+s.options.memSize = 2097152
+(
+SynthDef.new(\id, {
+	arg a=1,fund,b=1,x=1,bus=1,dur;
+	var y=1,pan;
+	var k,z,pos;
+	var sig,env,s;
+	var total=0;
+	x=dur.cos;
+	y=dur.sin;
+	fund=100;
+2.do{
+		x=x+1;
+		y=(x+1)/x;
 	k=Complex(x,y).angle;
 	a=Complex(x,y).abs;
 		z=(((k)+a))/(k);
 		s= Complex(k,z).abs;
 	pan= Complex(a,s).angle;
 			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
-		sig=SinOsc.ar(s*fund,mul: env);
-	Out.ar(0,PanAz.ar(3,LeakDC.ar(sig*env),LFSaw.ar(pan),width:2));
-}
+		sig=PitchShift.ar(SoundIn.ar(0),3,pitchRatio:s.linlin(1,40,0,4),mul:env);
+				total=total+sig;
+	Out.ar(0,PanAz.ar(4,LeakDC.ar(sig*env),LFSaw.ar(pan),width:2));
+
+	}
 }).add;
 )
 
@@ -63,54 +119,3 @@ Tdef(\sa,
 			})
 )
 
-////////////////////////////////////////////////////////voc
-s.options.memSize = 2097152
-(
-SynthDef.new(\id, {
-	arg a=1,fund=1,b=1,x=1,bus=1,dur,o=2;
-	var y=1,p=0;
-	var k,kpos,z,zpos;
-	var w=0,sig,total=0,env,s,spos;
-fund=fund*220;
-8.do{
-		p=p+(1/8);
-		w=w+1;
-		x=dur/(dur+w);
-		y=(x+1)/x;
-	k=Complex(x,y).angle;
-	a=Complex(x,y).abs;
-		z=(((k)+a)*fund)/(k);
-		zpos=(((k)+a)/(k));
-		s= Complex(z,w).abs;
-			spos=Complex(z,w).angle;
-			env=EnvGen.ar(Env.perc(0.01,dur+2,440/s,[-4,-4]),doneAction:2);
-		sig=PitchShift.ar(SoundIn.ar(0),0.2,pitchRatio:s.linlin(1,2200,0,4),mul:env,timeDispersion:p);
-				total=total+sig;
-	Out.ar(0,PanAz.ar(2,LeakDC.ar(total*env),zpos,width:1));
-
-	}
-}).add;
-)
-
-Tdef(\sa).play
-Tdef(\sav).stop;
-
-
-(
-Tdef(\sa,
-      {
-				 1.do({( Pdef(\1, Pbind(\instrument, \id,
-	\dur,Pseq([6,8,9,12],inf),
-			\fund, Pxrand([1.1,1],inf),
-			\o,Pexprand(1,10,inf);
-		)).play(quant:1));  (0).yield});
-		 1.do({( Pdef(\2, Pbind(\instrument, \id,
-	\dur,Pseq([6,8,9,12],inf),
-			\fund, Pxrand([1.1,1],inf),
-			\o,Pexprand(1,10,inf);
-		)).play(quant:1));  (360).yield});
-Pdef(\1).stop;
-		Pdef(\2).stop;
-			Pdef(\3).stop;
-			})
-)
