@@ -17,13 +17,12 @@ v.drawFunc ={
 	Pen.translate(900,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
 	(partial).do{
-		~p1=Polar.new(1,pi/2).asPoint;v.refresh;
-				~k=Complex(~x,~y).angle;
-~r=Complex(~x,~y).abs;
-			~z=(((~k)+a))/(~k);
-		~ro=(((~r)+a))/(~r);
-		~angle=Complex(~z,~k).abs;
-		~radius=Complex(~ro,~r).abs;
+		~p1=Polar.new(200,pi/2).asPoint;v.refresh;
+				~k=Complex(~x,~y).abs;
+               ~a=Complex(~x,~y).angle;
+			~z=(((~k)+~a))/(~k);
+		~angle=Complex(~z,~a).angle;
+		~radius=Complex(~z,~k).abs;
 			Pen.width=0.1;
 		//angle=angle+(~z);
 		Color(red:1,green:1,blue:1,alpha:0.1).set;
