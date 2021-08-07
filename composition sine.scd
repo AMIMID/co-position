@@ -1,5 +1,5 @@
 TempoClock.default.tempo_(100/40);
-s.options.numOutputBusChannels=2
+s.options.numOutputBusChannels=8
 TempoClock.default.tempo_(120/45);
 );
 ServerOptions.inDevices.postln;
@@ -22,23 +22,20 @@ SynthDef.new(\id, {
 	x=dur.cos;
 	y=dur.sin;
 	fund=110;
-	pan=dur.explin(6,12,-1,1);
 	k=Complex(x,y).angle;
 	a=Complex(x,y).abs;
 		z=(((k)+a))/(k);
 		s= Complex(k,z).abs;
 	pan= Complex(a,s).angle;
-			env=EnvGen.ar(Env.perc(1,dur,1/s,[-4,-4]),doneAction:2);
+			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
 		sig=SinOsc.ar(s*fund,mul: env);
 		total=total+sig;
-	Out.ar(0,PanAz.ar(2,LeakDC.ar(total*env),LFSaw.ar(pan),width:2));
+	Out.ar(0,PanAz.ar(3,LeakDC.ar(total*env),LFSaw.ar(pan),width:2));
 }).add;
 )
 
 Tdef(\sa).play;
 Tdef(\sa).stop;
-
-
 
 (
 Tdef(\sa,

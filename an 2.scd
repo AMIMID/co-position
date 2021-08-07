@@ -8,9 +8,9 @@ var partial=10000;
     Window.closeAll;
     w = Window("S",Rect( 600,100,2000,1000),scroll:false).front.alwaysOnTop_(true);
     w.alpha = 1;  w.view.background = Color.black;
-~x=1;y=1;
-	~slider1= Slider(w,Rect(500,900,850,10)).action_({ arg obj; ~x = obj.value.linlin(0,1,1,360); v.refresh;});
-~slider1= Slider(w,Rect(500,950,850,10)).action_({ arg obj; ~y = obj.value.linlin(0,1,1,360); v.refresh;});
+~x=1; ~y=1;
+	~slider1= Slider(w,Rect(500,900,850,10)).action_({ arg obj; ~x = obj.value.linlin(0,1,1,3600); v.refresh;});
+~slider2= Slider(w,Rect(500,950,850,10)).action_({ arg obj; ~y = obj.value.linlin(0,1,1,3600); v.refresh;});
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////view
 v = UserView.new(w,Rect(50,100,1800,800)).background_(Color.black);
 v.drawFunc ={
