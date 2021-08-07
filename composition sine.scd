@@ -1,6 +1,6 @@
-TempoClock.default.tempo_(100/18);
-s.options.numOutputBusChannels=10;
-TempoClock.default.tempo_(120/45);
+TempoClock.default.tempo_(100/20);
+s.options.numOutputBusChannels=12;
+TempoClock.default.tempo_(120/20);
 );
 ServerOptions.inDevices.postln;
 s.record(numChannels:2);
@@ -22,19 +22,21 @@ SynthDef.new(\id, {
 	var total=0;
 	x=dur.cos;
 	y=dur.sin;
-	fund=55;
+	fund=56;
 1.do{
 		x=x+1;
-		y=(x+1)/x;
+		y=(x+2)/x;
 	k=Complex(x,y).abs;
 	a=Complex(x,y).angle;
 		z=(((k)+a))/(k);
 		s= Complex(k,z).abs;
-	pan= Complex(k,s).angle;
+	pan= Complex(z,s).angle;
 			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
 		sig=SinOsc.ar(s*fund,mul: env);
 		total=total+sig;
-	Out.ar(0,PanAz.ar(2,LeakDC.ar(sig*env),LFSaw.ar(a),width:1));
+	Out.ar(0,PanAz.ar(2,LeakDC.ar(sig*env),LFSaw.ar(pan),width:2));
+		Out.ar(0,PanAz.ar(4,LeakDC.ar(InFeedback.ar(0)*env),LFSaw.ar(a),width:2));
+		Out.ar(0,PanAz.ar(4,LeakDC.ar(InFeedback.ar(1)*env),LFSaw.ar(a),width:2));
 
 };
 }).add;
@@ -47,20 +49,20 @@ Tdef(\sa).stop;
 Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
-	\dur,Pseq([4,6,8,9,12],inf),
+	\dur,Pseq([6,8,9],inf),
 			)).play(quant:1));  (0).yield});
 
 		1.do({( Pdef(\2, Pbind(\instrument, \id,
-	\dur,Pseq([12,9,8,6,4],inf),
+		\dur,Pseq([6,8,9],inf),
 			)).play(quant:1));  (0).yield});
 
-		1.do({( Pdef(\3, Pbind(\instrument, \id,
-	\dur,Pseq([9,12,6,8],inf),
-		)).play(quant:1));  (0).yield});
+//		1.do({( Pdef(\3, Pbind(\instrument, \id,
+	//\dur,Pseq([9,12,6,8],inf),
+	//	)).play(quant:1));  (0).yield});
 
-	1.do({( Pdef(\4, Pbind(\instrument, \id,
-	\dur,Pseq([12,6,8,9],inf),
-	)).play(quant:1));  (0).yield});
+//	1.do({( Pdef(\4, Pbind(\instrument, \id,
+//	\dur,Pseq([12,6,8,9],inf),
+//	)).play(quant:1));  (0).yield});
 
 			})
 )
