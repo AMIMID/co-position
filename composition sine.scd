@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(100/10);
+TempoClock.default.tempo_(100/40);
 s.options.numOutputBusChannels=2
 TempoClock.default.tempo_(120/45);
 );
@@ -27,8 +27,8 @@ SynthDef.new(\id, {
 	a=Complex(x,y).abs;
 		z=(((k)+a))/(k);
 		s= Complex(k,z).abs;
-	pan= Complex(a,z).angle;
-			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
+	pan= Complex(a,s).angle;
+			env=EnvGen.ar(Env.perc(1,dur,1/s,[-4,-4]),doneAction:2);
 		sig=SinOsc.ar(s*fund,mul: env);
 		total=total+sig;
 	Out.ar(0,PanAz.ar(2,LeakDC.ar(total*env),LFSaw.ar(pan),width:2));
