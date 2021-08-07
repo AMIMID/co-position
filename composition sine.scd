@@ -18,10 +18,14 @@ SynthDef.new(\id, {
 	arg a=1,fund,b=1,x=1,bus=1,dur;
 	var y=1,pan;
 	var k,z,pos;
-	var sig,total=0,env,s;
+	var sig,env,s;
+	var total;
 	x=dur.cos;
 	y=dur.sin;
 	fund=110;
+6.do	{
+		x=x+1;
+		y=(x+a);
 	k=Complex(x,y).angle;
 	a=Complex(x,y).abs;
 		z=(((k)+a))/(k);
@@ -29,8 +33,8 @@ SynthDef.new(\id, {
 	pan= Complex(a,s).angle;
 			env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
 		sig=SinOsc.ar(s*fund,mul: env);
-		total=total+sig;
-	Out.ar(0,PanAz.ar(3,LeakDC.ar(total*env),LFSaw.ar(pan),width:2));
+	Out.ar(0,PanAz.ar(3,LeakDC.ar(sig*env),LFSaw.ar(pan),width:2));
+}
 }).add;
 )
 
@@ -49,12 +53,12 @@ Tdef(\sa,
 			)).play(quant:1));  (0).yield});
 
 //			1.do({( Pdef(\3, Pbind(\instrument, \id,
-	//\dur,Pseq([9,12,6,8],inf),
+//	\dur,Pseq([9,12,6,8],inf),
 //		)).play(quant:1));  (0).yield});
 
-//			1.do({( Pdef(\4, Pbind(\instrument, \id,
+//	1.do({( Pdef(\4, Pbind(\instrument, \id,
 //	\dur,Pseq([12,6,8,9],inf),
-//			)).play(quant:1));  (0).yield});
+//	)).play(quant:1));  (0).yield});
 
 			})
 )
