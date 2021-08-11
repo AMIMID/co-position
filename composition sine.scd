@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(120/40);
+TempoClock.default.tempo_(120/6);
 s.options.numOutputBusChannels=12;
 TempoClock.default.tempo_(120/20);
 );
@@ -18,11 +18,11 @@ SynthDef.new(\id, {
 	arg dur;
 	var fund,b=1,x=1,bus=1; var y=1,theta,phi; var k,z,pos; var sig,env,s;
 
-	x=dur.cos; y=dur.sin; fund=110;
+	x=dur.cos; y=dur.sin; fund=880;
 	k=Complex(x,y).abs; theta=Complex(x,y).angle;
 	z=(((k)+theta))/(k);
 	s= Complex(k,z).abs; phi= Complex(z,k).angle;
-	env=EnvGen.ar(Env.perc(1,dur,1/s,[4,-4]),doneAction:2);
+	env=EnvGen.ar(Env.perc(1,dur/10,1/s,[4,-4]),doneAction:2);
 	sig=SinOsc.ar(s*fund,mul: env);
 	Out.ar(0,PanAz.ar(2,sig*env,LFSaw.ar(phi*dur+s),width:2));
 	//	Out.ar(0,PanAz.ar(4,LeakDC.ar(InFeedback.ar(0)*env),LFSaw.ar(theta),width:2));
@@ -35,11 +35,11 @@ SynthDef.new(\id1, {
 	arg dur;
 	var fund,b=1,x=1,bus=1; var y=1,theta,phi; var k,z,pos; var sig,env,s;
 
-	x=dur.cos; y=dur.sin; fund=220*3/2;
+	x=dur.cos; y=dur.sin; fund=440*3/2;
 	k=Complex(x,y).abs; theta=Complex(x,y).angle;
 	z=(((k)+theta))/(k);
 	s= Complex(k,z).abs; phi= Complex(z,k).angle;
-	env=EnvGen.ar(Env.perc(1,dur,1/s,[4,-4]),doneAction:2);
+	env=EnvGen.ar(Env.perc(1,dur/10,1/s,[4,-4]),doneAction:2);
 	sig=SinOsc.ar(s*fund,mul: env);
 	Out.ar(0,PanAz.ar(2,sig*env,LFSaw.ar(phi*dur+s),width:2));
 	//	Out.ar(0,PanAz.ar(4,LeakDC.ar(InFeedback.ar(0)*env),LFSaw.ar(theta),width:2));
@@ -50,16 +50,17 @@ SynthDef.new(\id1, {
 )
 
 Tdef(\sa).play;
+
 Tdef(\sa).stop;
 
 (
 Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
-			\dur,Pseq([1,4/3,3/2,2/1,3/2,4/3],inf);
+			\dur,Pseq([12,16,18],inf);
 			)).play(quant:1));  (0).yield});
 		 1.do({( Pdef(\2, Pbind(\instrument, \id1,
-			\dur,Pseq([4/3,1,3/2,2],inf);
+			\dur,Pseq([24,16,18],inf);
 			)).play(quant:1));  (0).yield});
 			})
 )
