@@ -10,24 +10,22 @@ var partial=100;
     w.alpha = 1;  w.view.background = Color.black;
 	~slider1= Slider(w,Rect(500,900,850,10)).action_({ arg obj; ~x = obj.value.linlin(0,1,1,3600); v.refresh;});
 ~slider2= Slider(w,Rect(500,950,850,10)).action_({ arg obj; ~y = obj.value.linlin(0,1,1,3600); v.refresh;});
+~x=~x.cos;~y=~y.sin;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////view
 v = UserView.new(w,Rect(50,100,1800,800)).background_(Color.black);
 v.drawFunc ={
 	Pen.translate(900,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////lines
 	(partial).do{
-		~x=~x+1;
-		~y=(~x+1)/~x;
 		~p1=Polar.new(200,pi/2).asPoint;v.refresh;
 				~k=Complex(~x,~y).abs;
                ~a=Complex(~x,~y).angle;
 			~z=(((~k)+~a))/(~k);
-		~angle=Complex(~z,~a).angle;
+		~angle=Complex(~z,~k).angle;
 		~radius=Complex(~z,~k).abs;
-			Pen.width=0.1;
-		//angle=angle+(~z);
+			Pen.width=0.3;
 		Color(red:1,green:1,blue:1,alpha:1).set;
-		Pen.line(~p1,Polar.new(~radius,~angle).asPoint);Pen.stroke;v.refresh;
+		Pen.line(~p1,Polar.new(~radius,~angle.rand).asPoint);Pen.stroke;v.refresh;
 		Pen.rotate(pi/(partial/2));Pen.stroke;v.refresh;
 			};
 ////////////////////////////////////////////////////////////////////////////////
