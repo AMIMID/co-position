@@ -53,10 +53,10 @@ Tdef(\sa).stop;
 Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
-				\dur,Pseq([24,16,18,12],inf);
+				\dur,Pseq([3/2,4/3,2,1],inf);
 			)).play(quant:1));  (0).yield});
 		1.do({( Pdef(\2, Pbind(\instrument, \id1,
-		\dur,Pseq([24,16,18,12],inf);
+		\dur,Pseq([3/2,4/3,2,1],inf);
 		)).play(quant:1));  (0).yield});
 
 			})
