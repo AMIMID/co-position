@@ -1,5 +1,5 @@
-TempoClock.default.tempo_(120/10);
-s.options.numOutputBusChannels=10;
+TempoClock.default.tempo_(120/30);
+s.options.numOutputBusChannels=30;
 TempoClock.default.tempo_(120/12);
 );
 ServerOptions.inDevices.postln;
@@ -64,11 +64,11 @@ SynthDef.new(\id, {
 	x=dur.cos; y=dur.sin;
 	k=Complex(x,y).abs; theta=Complex(x,y).angle;
 	z=(((k)+theta))/(k);
-	s= Complex(k,z).abs; phi= Complex(z,k).angle;
-	env=EnvGen.ar(Env.perc(0.01,dur,1/s,[-4,-4]),doneAction:2);
-		//sig=PitchShift.ar(SoundIn.ar(0),0.2,pitchRatio:s.linlin(0,4,0,4),mul:1/s);
-	//sig=FSinOsc.ar(s*220,mul:1/s,iphase:phi*pi);
-	sig=FSinOsc.ar(s*220,mul:env,iphase:phi*pi);
+	s= Complex(k,z).abs;phi= Complex(k,z).angle;
+	env=EnvGen.ar(Env.perc(0.01,12,1/s,[-4,-4]),doneAction:2);
+	//sig=PitchShift.ar(SoundIn.ar(0),0.1,pitchRatio:s,mul:env);
+	sig=FSinOsc.ar(phi*440,mul:env,iphase:theta*pi);
+	//sig=BLowPass.ar(VarSaw.ar(s*440,width:s,mul:env),1200);
 	Out.ar(0,PanAz.ar(2,LeakDC.ar(sig)*env,SinOsc.ar(phi),width:2));
 	//	Out.ar(8,PanAz.ar(4,LeakDC.ar(sig*env*3),theta.linlin(1,2,-1,1),width:2));
 	//Out.ar(0,PanAz.ar(4,InFeedback.ar(8)*env,phi.linlin(0.3,0.5,-1,1),width:2));
@@ -86,10 +86,17 @@ Tdef(\sa,
       {
 				 1.do({( Pdef(\1, Pbind(\instrument, \id,
 			\dur,Pseq([6,8,9,12],inf),
-			\pow,Pexprand(1,30,inf),
+		//\pow,Pbrown(1,30,1,inf),
+			\pow,Pgauss(15,15,inf),
+			//\pow,Pcauchy(15,5,inf),
 			)).play(quant:1));  (0).yield});
+
 
 
 			})
 )
+
+////////////////////////////////////////////////////midi
+
+
 
