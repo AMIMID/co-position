@@ -59,15 +59,15 @@ SynthDef.new(\id, {
 (
 SynthDef.new(\id, {
 	arg dur,pow=0;
-	var x=1,y=1,theta,phi; var k,z,pos; var sig,env,s;
+	var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;
 	var sum=0;
 
 
 	dur=dur*(2**pow);
 	x=dur.cos; y=dur.sin;
-	k=Complex(x,y).abs; theta=Complex(x,y).angle;
-	z=(k+theta)/(k);
-	s= Complex(k,z).abs;phi= Complex(k,z).angle;
+	k=Complex(x,y).abs; t=Complex(x,y).angle;
+	z=(t+k)/(t);
+	s= Complex(t,z).abs;phi= Complex(ktz).angle;
 	env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
   /////////sig=PitchShift.ar(SoundIn.ar(0),0.1,pitchRatio:s,mul:env);
 	//sig=PitchShift.ar(InFeedback.ar(2),0.5,pitchRatio:s,mul:env);
