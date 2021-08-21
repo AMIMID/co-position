@@ -1,5 +1,5 @@
-TempoClock.default.tempo_(120/60);
-s.options.numOutputBusChannels=4;
+TempoClock.default.tempo_(120/45);
+s.options.numOutputBusChannels=8;
 TempoClock.default.tempo_(120/12);
 );
 ServerOptions.inDevices.postln;
@@ -60,7 +60,7 @@ SynthDef.new(\id, {
 SynthDef.new(\id, {
 	arg dur,pow=0;
 	var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;
-	var sum=0;
+	var r,o,a;
 
 
 	dur=dur*(2**pow);
@@ -68,16 +68,21 @@ SynthDef.new(\id, {
 	k=Complex(x,y).abs; t=Complex(x,y).angle;
 	z=(k+t)/(k);
 	s= Complex(k,z).abs;phi= Complex(k,z).angle;
-	env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
+	r=(s+phi)/s;
+	dur=dur.sin;
+	o=Complex(dur,r).angle;
+	a=Complex(dur,r).abs;
+	env=EnvGen.ar(Env.perc(0.01,8,1/s,[-4,-4]),doneAction:2);
   /////////sig=PitchShift.ar(SoundIn.ar(0),0.1,pitchRatio:s,mul:env);
 	//sig=PitchShift.ar(InFeedback.ar(2),0.5,pitchRatio:s,mul:env);
-	sig=FSinOsc.ar(phi*220,mul:env,iphase:theta*pi);
+	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi);
 	//+ FSinOsc.ar(phi*110*8,mul:env*1/8,iphase:theta*pi)
 	//+ FSinOsc.ar(phi*110*9,mul:env*1/9,iphase:theta*pi)
 	//+ FSinOsc.ar(phi*110*12,mul:env*1/12,iphase:theta*pi) ;
 
 	////////////////sig=BLowPass.ar(VarSaw.ar(s*440,width:s,mul:env),1200);
-	Out.ar(0,sig*env);
+	//Out.ar(0,sig*env);
+	Out.ar(0,PanAz.ar(2,sig*env,LFSaw.ar(a),width:o));
 
 }).add;
 )
@@ -120,34 +125,38 @@ Tdef(\sa,
 (
 (
 SynthDef.new(\a, {
-	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;var sum=0;
+	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;	var r,o,a;
 	dur=dur*(2**pow); x=dur.cos; y=dur.sin; k=Complex(x,y).abs; t=Complex(x,y).angle; z=(k+t)/(k);
-	s= Complex(k,z).abs;phi= Complex(k,z).angle; env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
-	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi);Out.ar(0,PanAz.ar(2,sig*env,SinOsc.ar(phi),width:2));
-}).add;
+	s= Complex(k,z).abs;phi= Complex(k,z).angle; 	r=(s+phi)/s; dur=dur.sin;o=Complex(dur,r).angle;a=Complex(dur,r).abs;
+	env=EnvGen.ar(Env.perc(0.01,12,1/s,[-4,-4]),doneAction:2);
+	sig=FSinOsc.ar(phi*512,mul:env,iphase:phi*pi);Out.ar(0,PanAz.ar(2,sig*env,LFSaw.ar(o),width:a));
+}).add;≥
 );
 (
 SynthDef.new(\b, {
-	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;var sum=0;
+	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;	var r,o,a;
 	dur=dur*(2**pow); x=dur.cos; y=dur.sin; k=Complex(x,y).abs; t=Complex(x,y).angle;  z=(k+t)/(k);
-	s= Complex(k,z).abs;phi= Complex(k,z).angle; env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
-	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,SinOsc.ar(phi),width:2));
+	s= Complex(k,z).abs;phi= Complex(k,z).angle; r=(s+phi)/s; dur=dur.sin;o=Complex(dur,r).angle;a=Complex(dur,r).abs;
+	env=EnvGen.ar(Env.perc(0.01,12,1/s,[-4,-4]),doneAction:2);
+	sig=FSinOsc.ar(phi*512,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,LFSaw.ar(o),width:a));
 }).add;
 );
 (
 SynthDef.new(\c, {
-	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;var sum=0;
+	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;	var r,o,a;
 	dur=dur*(2**pow); x=dur.cos; y=dur.sin; k=Complex(x,y).abs; t=Complex(x,y).angle;  z=(k+t)/(k);
-	s= Complex(k,z).abs;phi= Complex(k,z).angle; env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
-	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,SinOsc.ar(phi),width:2));
+	s= Complex(k,z).abs;phi= Complex(k,z).angle; 	r=(s+phi)/s; dur=dur.sin;o=Complex(dur,r).angle;a=Complex(dur,r).abs;
+	env=EnvGen.ar(Env.perc(0.01,12,1/s,[-4,-4]),doneAction:2);
+	sig=FSinOsc.ar(phi*512,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,LFSaw.ar(o),width:a));
 }).add;
 );
 (
 SynthDef.new(\d, {
-	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;var sum=0;
+	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;	var r,o,a;
 	dur=dur*(2**pow); x=dur.cos; y=dur.sin; k=Complex(x,y).abs; t=Complex(x,y).angle;  z=(k+t)/(k);
-	s= Complex(k,z).abs;phi= Complex(k,z).angle; env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
-	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,SinOsc.ar(phi),width:2));
+	s= Complex(k,z).abs;phi= Complex(k,z).angle; 	r=(s+phi)/s; dur=dur.sin;o=Complex(dur,r).angle;a=Complex(dur,r).abs;
+	env=EnvGen.ar(Env.perc(0.01,12,1/s,[-4,-4]),doneAction:2);
+	sig=FSinOsc.ar(phi*512,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,LFSaw.ar(o),width:a));
 }).add;
 );
 )
