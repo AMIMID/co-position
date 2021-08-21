@@ -66,8 +66,8 @@ SynthDef.new(\id, {
 	dur=dur*(2**pow);
 	x=dur.cos; y=dur.sin;
 	k=Complex(x,y).abs; t=Complex(x,y).angle;
-	z=(t+k)/(t);
-	s= Complex(t,z).abs;phi= Complex(ktz).angle;
+	z=(k+t)/(k);
+	s= Complex(k,z).abs;phi= Complex(k,z).angle;
 	env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
   /////////sig=PitchShift.ar(SoundIn.ar(0),0.1,pitchRatio:s,mul:env);
 	//sig=PitchShift.ar(InFeedback.ar(2),0.5,pitchRatio:s,mul:env);
@@ -115,8 +115,68 @@ Tdef(\sa,
 
 			})
 )
+////////////////////////////////////////////////////////////////////////////////////////////////////////spat
+///////////////////////////////////////////////////////////////////////////////////////////////
+(
+(
+SynthDef.new(\a, {
+	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;var sum=0;
+	dur=dur*(2**pow); x=dur.cos; y=dur.sin; k=Complex(x,y).abs; t=Complex(x,y).angle; z=(k+t)/(k);
+	s= Complex(k,z).abs;phi= Complex(k,z).angle; env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
+	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi);Out.ar(0,PanAz.ar(2,sig*env,SinOsc.ar(phi),width:2));
+}).add;
+);
+(
+SynthDef.new(\b, {
+	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;var sum=0;
+	dur=dur*(2**pow); x=dur.cos; y=dur.sin; k=Complex(x,y).abs; t=Complex(x,y).angle;  z=(k+t)/(k);
+	s= Complex(k,z).abs;phi= Complex(k,z).angle; env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
+	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,SinOsc.ar(phi),width:2));
+}).add;
+);
+(
+SynthDef.new(\c, {
+	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;var sum=0;
+	dur=dur*(2**pow); x=dur.cos; y=dur.sin; k=Complex(x,y).abs; t=Complex(x,y).angle;  z=(k+t)/(k);
+	s= Complex(k,z).abs;phi= Complex(k,z).angle; env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
+	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,SinOsc.ar(phi),width:2));
+}).add;
+);
+(
+SynthDef.new(\d, {
+	arg dur,pow=0;var x=1,y=1,t,phi; var k,z,pos; var sig,env,s;var sum=0;
+	dur=dur*(2**pow); x=dur.cos; y=dur.sin; k=Complex(x,y).abs; t=Complex(x,y).angle;  z=(k+t)/(k);
+	s= Complex(k,z).abs;phi= Complex(k,z).angle; env=EnvGen.ar(Env.perc(0.01,30,1/s,[-4,-4]),doneAction:2);
+	sig=FSinOsc.ar(phi*220,mul:env,iphase:phi*pi); Out.ar(0,PanAz.ar(2,sig*env,SinOsc.ar(phi),width:2));
+}).add;
+);
+)
 
 
+Tdef(\sa).play;
+Tdef(\sa).stop;
+
+(
+Tdef(\sa,
+      {
+			 1.do({( Pdef(\1, Pbind(\instrument, \a,\dur,Pseq([6,8,9,12],inf),\pow,Pbrown(1,30,1,inf),
+			//\pow,Pgauss(15,15,inf),//\pow,Pcauchy(15,5,inf),//\pow,Pwhite(1,30,inf);
+		     )).play(quant:1));  (0).yield});
+
+		1.do({( Pdef(\2, Pbind(\instrument, \b,	\dur,Pseq([6,8,9,12],inf),\pow,Pbrown(1,30,1,inf),
+			//\pow,Pgauss(15,15,inf),	//\pow,Pcauchy(15,5,inf),//\pow,Pwhite(1,30,inf);
+			)).play(quant:1));  (0).yield});
+
+		 1.do({( Pdef(\3, Pbind(\instrument, \c,\dur,Pseq([6,8,9,12],inf),\pow,Pbrown(1,30,1,inf),
+			//\pow,Pgauss(15,15,inf),//\pow,Pcauchy(15,5,inf),//\pow,Pwhite(1,30,inf);
+			)).play(quant:1));  (0).yield});
+
+		1.do({( Pdef(\4, Pbind(\instrument, \d,\dur,Pseq([6,8,9,12],inf),\pow,Pbrown(1,30,1,inf),
+			//\pow,Pgauss(15,15,inf),//\pow,Pcauchy(15,5,inf),//\pow,Pwhite(1,30,inf);
+			)).play(quant:1));  (0).yield})
+
+			})
+)
 
 
 
