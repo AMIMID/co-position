@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(120/60);
+TempoClock.default.tempo_(120/30);
 s.options.numOutputBusChannels=8;
 TempoClock.default.tempo_(120/12);
 ServerOptions.inDevices.postln;
@@ -16,21 +16,20 @@ SynthDef.new(\id, {
 	arg dur=1;
 	var x=1,y=1,t,phi;
 	var k=0; var sig,sig1,env,s;
-//~sig = Signal.sineFill(1024,[1,1/2,2/3,3/4,4/5,5/6,6/7,7/8,8/9],0!9);
-//	~sig.plot("signal");
-//	~wt =~sig.asWavetable;
-//	~b.loadCollection(~wt);
+~sig = Signal.sineFill(1024,[1,1/2,2/3,3/4],0!4);
+	~sig.plot("signal");
+	~wt =~sig.asWavetable;
+	~b.loadCollection(~wt);
 
-	x=dur.cos; y=dur.sin.poll;
+	x=dur.cos; y=dur.sin;
 	//k=Complex(x,dur).abs;
 	//t=Complex(x,dur).angle;
 
-	env=EnvGen.ar(Env.perc(1,8,0.1/x,[-4,-2]),doneAction:2);
-	//sig=Osc.ar(~b,t*440,mul:env,phase:t*pi);
-	sig=FSinOsc.ar(x*3000,mul:env,iphase:x*pi);
-	sig1=FSinOsc.ar(x*3010,mul:env,iphase:x*pi);
-	//sig=PitchShift.ar(SoundIn.ar(0),0.1,pitchRatio:dur,mul:env);
-	//sig1=PitchShift.ar(SoundIn.ar(0),0.1,pitchRatio:dur,mul:env);
+	env=EnvGen.ar(Env.perc(0.01,6,y/x,[-4,-2]),doneAction:2);
+//	sig1=Osc.ar(~b,x*440,mul:env,phase:x*pi);
+	//sig=Osc.ar(~b,x*441,mul:env,phase:x*pi);
+	sig=FSinOsc.ar(x*880,mul:env,iphase:x*pi);
+	sig1=FSinOsc.ar(x*881,mul:env,iphase:x*pi);
 
 	//Out.ar(0,PanAz.ar(2,sig*env,t,width:k));
 	Out.ar(0,Rotate2.ar(sig*env,sig1*env,LFSaw.ar(y)));
@@ -42,7 +41,7 @@ SynthDef.new(\id, {
 (
 ( Pdef(\1, Pbind(\instrument, \id,
 	//\dur,5;
-	\dur,Pbrown(1,2,9/8,inf),
+	\dur,Pbrown(2,4,9/8,inf),
 			)).play(quant:1));
 )
 ///////////////////////////////////////////////////////
