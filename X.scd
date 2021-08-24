@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(120/40);
+TempoClock.default.tempo_(120/60);
 s.options.numOutputBusChannels=8;
 TempoClock.default.tempo_(120/12);
 ServerOptions.inDevices.postln;
@@ -21,19 +21,19 @@ SynthDef.new(\id, {
 //	~wt =~sig.asWavetable;
 //	~b.loadCollection(~wt);
 
-	x=dur.cos.poll; y=dur.sin;
+	x=dur.cos; y=dur.sin.poll;
 	//k=Complex(x,dur).abs;
-	t=Complex(x,dur).angle;
+	//t=Complex(x,dur).angle;
 
-	env=EnvGen.ar(Env.perc(0.01,4,1,[-4,-2]),doneAction:2);
+	env=EnvGen.ar(Env.perc(1,8,0.1/x,[-4,-2]),doneAction:2);
 	//sig=Osc.ar(~b,t*440,mul:env,phase:t*pi);
-	sig=FSinOsc.ar(x*1200,mul:1/x,iphase:x*pi);
-	sig1=FSinOsc.ar(y*1200,mul:1/y,iphase:y*pi);
+	sig=FSinOsc.ar(x*3000,mul:env,iphase:x*pi);
+	sig1=FSinOsc.ar(x*3010,mul:env,iphase:x*pi);
 	//sig=PitchShift.ar(SoundIn.ar(0),0.1,pitchRatio:dur,mul:env);
 	//sig1=PitchShift.ar(SoundIn.ar(0),0.1,pitchRatio:dur,mul:env);
 
 	//Out.ar(0,PanAz.ar(2,sig*env,t,width:k));
-	Out.ar(0,Rotate2.ar(sig*env,sig1*env,LFSaw.ar(t)));
+	Out.ar(0,Rotate2.ar(sig*env,sig1*env,LFSaw.ar(y)));
 
 }).add;
 )
@@ -42,7 +42,7 @@ SynthDef.new(\id, {
 (
 ( Pdef(\1, Pbind(\instrument, \id,
 	//\dur,5;
-	\dur,Pbrown(1,2,0.125,inf),
+	\dur,Pbrown(1,2,9/8,inf),
 			)).play(quant:1));
 )
 ///////////////////////////////////////////////////////
