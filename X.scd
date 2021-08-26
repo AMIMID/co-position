@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(120/60);
+TempoClock.default.tempo_(120/30);
 s.options.numOutputBusChannels=8;
 TempoClock.default.tempo_(120/20);
 ServerOptions.inDevices.postln;
@@ -19,7 +19,7 @@ SynthDef.new(\id, {
 	var k=0, sig,sig1,env,s;
 	var sum=0,sum1=0;
 x=dur.cos; y=dur.sin;
-	env=EnvGen.ar(Env.perc(0.01,6,1/1,[-4,-4]),doneAction:2);
+	env=EnvGen.ar(Env.perc(0.01,3,1/1,[-4,-4]),doneAction:2);
 	sum=FSinOsc.ar(x*880,mul:env,iphase:x*pi);
 	sum1=FSinOsc.ar(y*880,mul:env,iphase:y*pi);
 6.do{
@@ -30,12 +30,12 @@ x=dur.cos; y=dur.sin;
 
 	//sig=FSinOsc.ar(x*880,mul:env,iphase:x*pi);
 //sig1=FSinOsc.ar(y*880,mul:env,iphase:y*pi);
-		sig=Blip.ar(x*440,mul:env,numharm:z)+FSinOsc.ar(x*440,mul:env,iphase:x*pi);
-sig1=Blip.ar(y*440,mul:env,numharm:z)+FSinOsc.ar(y*440,mul:env,iphase:y*pi);
+		sig=Blip.ar(x*880,mul:env,numharm:4/z);
+		sig1=Blip.ar(y*881,mul:env,numharm:4/z);
 sum1=sum1+sig1; sum=sum+sig;
 	};
-	Out.ar(0,PanAz.ar(2,sum*env,x,width:z));
-	Out.ar(0,PanAz.ar(2,sum1*env,y,width:z));
+	Out.ar(0,PanAz.ar(2,sum*env,LFSaw.ar(x),width:z));
+	Out.ar(0,PanAz.ar(2,sum1*env,LFSaw.ar(x),width:z));
 	Out.ar(0,Rotate2.ar(sum*env,sum1*env,LFSaw.ar(z)));
 
 
