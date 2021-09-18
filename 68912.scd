@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(60/60);
+TempoClock.default.tempo_(60/30);
 s.options.numOutputBusChannels=8
 TempoClock.default.tempo_(120/20);
 ServerOptions.inDevices.postln;
@@ -16,41 +16,88 @@ s.options.memSize = 2097152
 SynthDef.new(\id, {
 
 	arg dur=1;
-	var env1,env2,env3,env4,m=0;
+	var env1,env2,env3,env4,env5,env6;
+	var m=0;
 
-		6.do{
+		2.do{
 		dur=dur+1;
-	env1=EnvGen.ar(Env.perc(4,6,1/(6*dur),[-4,-4]),doneAction:2);
-	env2=EnvGen.ar(Env.perc(4,6,1/(8*dur),[-4,-4]),doneAction:2);
-	env3=EnvGen.ar(Env.perc(4,6,1/(9*dur),[-4,-4]),doneAction:2);
-	env4=EnvGen.ar(Env.perc(4,6,1/(12*dur),[-4,-4]),doneAction:2);
-	Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*6*20,mul:env1),LFSaw.ar(6/(6*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*8*20,mul:env2),LFSaw.ar(6/(8*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*9*20,mul:env3),LFSaw.ar(6/(9*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*12*20,mul:env4),LFSaw.ar(6/(12*dur)),width:2));
+	env1=EnvGen.ar(Env.perc(4,6,1/(3*dur),[-4,-4]),doneAction:2);
+	env2=EnvGen.ar(Env.perc(4,6,1/(4*dur),[-4,-4]),doneAction:2);
+	env3=EnvGen.ar(Env.perc(4,6,1/(6*dur),[-4,-4]),doneAction:2);
+	env4=EnvGen.ar(Env.perc(4,6,1/(8*dur),[-4,-4]),doneAction:2);
+	env5=EnvGen.ar(Env.perc(4,6,1/(9*dur),[-4,-4]),doneAction:2);
+	env6=EnvGen.ar(Env.perc(4,6,1/(12*dur),[-4,-4]),doneAction:2);
+
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*3*55,mul:env1),LFSaw.ar(2/(3*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*4*55,mul:env2),LFSaw.ar(2/(4*dur)),width:2));
+	Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*6*55,mul:env1),LFSaw.ar(2/(6*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*8*55,mul:env2),LFSaw.ar(2/(8*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*9*55,mul:env3),LFSaw.ar(2/(9*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*12*55,mul:env4),LFSaw.ar(2/(12*dur)),width:2));
+	}
+}).add;
+)
+(
+SynthDef.new(\idb, {
+
+	arg dur=1;
+	var env1,env2,env3,env4,env5,env6;
+	var m=0;
+
+		2.do{
+		dur=dur+1;
+	env1=EnvGen.ar(Env.perc(0.01,6,1/(3*dur),[-4,-4]),doneAction:2);
+	env2=EnvGen.ar(Env.perc(0.01,6,1/(4*dur),[-4,-4]),doneAction:2);
+	env3=EnvGen.ar(Env.perc(0.01,6,1/(6*dur),[-4,-4]),doneAction:2);
+	env4=EnvGen.ar(Env.perc(0.01,6,1/(8*dur),[-4,-4]),doneAction:2);
+	env5=EnvGen.ar(Env.perc(0.01,6,1/(9*dur),[-4,-4]),doneAction:2);
+	env6=EnvGen.ar(Env.perc(0.01,6,1/(12*dur),[-4,-4]),doneAction:2);
+
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*3*110,mul:env1),LFSaw.ar(2/(3*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*4*110,mul:env2),LFSaw.ar(2/(4*dur)),width:2));
+	Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*6*110,mul:env1),LFSaw.ar(2/(6*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*8*110,mul:env2),LFSaw.ar(2/(8*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*9*110,mul:env3),LFSaw.ar(2/(9*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*12*110,mul:env4),LFSaw.ar(2/(12*dur)),width:2));
 	}
 }).add;
 )
 
 (
 ( Pdef(\1, Pbind(\instrument, \id,
-	//\dur,5;
-	\dur,Pbrown(1,10,1,inf),
+	\dur,Pbrown(1,8,1,inf);
 
 			)).play(quant:1));
 ( Pdef(\2, Pbind(\instrument, \id,
-	//\dur,5;
-	\dur,Pbrown(1,10,1,inf),
+	\dur,Pbrown(1,8,1,inf);
 
 			)).play(quant:1));
 ( Pdef(\3, Pbind(\instrument, \id,
-	//\dur,5;
-	\dur,Pbrown(1,10,1,inf),
+	\dur,Pbrown(1,8,1,inf);
 
 			)).play(quant:1));
 ( Pdef(\4, Pbind(\instrument, \id,
-	//\dur,5;
-		\dur,Pbrown(1,10,1,inf),
+		\dur,Pbrown(1,8,1,inf);
+
+			)).play(quant:1));
+)
+
+
+(
+( Pdef(\5, Pbind(\instrument, \idb,
+	\dur,Pbrown(1,8,1,inf);
+
+			)).play(quant:1));
+( Pdef(\6, Pbind(\instrument, \idb,
+	\dur,Pbrown(1,8,1,inf);
+
+			)).play(quant:1));
+( Pdef(\7, Pbind(\instrument, \idb,
+	\dur,Pbrown(1,8,1,inf);
+
+			)).play(quant:1));
+( Pdef(\8, Pbind(\instrument, \idb,
+		\dur,Pbrown(1,8,1,inf);
 
 			)).play(quant:1));
 )
