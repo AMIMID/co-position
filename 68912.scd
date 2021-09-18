@@ -30,10 +30,10 @@ SynthDef.new(\id, {
 
 		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*3*55,mul:env1),LFSaw.ar(2/(3*dur)),width:2));
 		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*4*55,mul:env2),LFSaw.ar(2/(4*dur)),width:2));
-	Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*6*55,mul:env1),LFSaw.ar(2/(6*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*8*55,mul:env2),LFSaw.ar(2/(8*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*9*55,mul:env3),LFSaw.ar(2/(9*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*12*55,mul:env4),LFSaw.ar(2/(12*dur)),width:2));
+	Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*6*55,mul:env3),LFSaw.ar(2/(6*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*8*55,mul:env4),LFSaw.ar(2/(8*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*9*55,mul:env5),LFSaw.ar(2/(9*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*12*55,mul:env6),LFSaw.ar(2/(12*dur)),width:2));
 	}
 }).add;
 )
@@ -53,12 +53,12 @@ SynthDef.new(\idb, {
 	env5=EnvGen.ar(Env.perc(0.01,6,1/(9*dur),[-4,-4]),doneAction:2);
 	env6=EnvGen.ar(Env.perc(0.01,6,1/(12*dur),[-4,-4]),doneAction:2);
 
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*3*110,mul:env1),LFSaw.ar(2/(3*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*4*110,mul:env2),LFSaw.ar(2/(4*dur)),width:2));
-	Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*6*110,mul:env1),LFSaw.ar(2/(6*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*8*110,mul:env2),LFSaw.ar(2/(8*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*9*110,mul:env3),LFSaw.ar(2/(9*dur)),width:2));
-		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*12*110,mul:env4),LFSaw.ar(2/(12*dur)),width:2));
+	Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*3*55,mul:env1),LFSaw.ar(2/(3*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*4*55,mul:env2),LFSaw.ar(2/(4*dur)),width:2));
+	Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*6*55,mul:env3),LFSaw.ar(2/(6*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*8*55,mul:env4),LFSaw.ar(2/(8*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*9*55,mul:env5),LFSaw.ar(2/(9*dur)),width:2));
+		Out.ar(0,PanAz.ar(2,FSinOsc.ar(dur*12*55,mul:env6),LFSaw.ar(2/(12*dur)),width:2));
 	}
 }).add;
 )
