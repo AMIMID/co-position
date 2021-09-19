@@ -52,14 +52,14 @@ SynthDef.new(\idb, {
 	var m=0;
 		par.do{
 		m=m+1;
-		 env1=EnvGen.ar(Env.perc(0.04,6,pr1*(1/(n1*6)),[-4,-4]),doneAction:2);
-        env2=EnvGen.ar(Env.perc(0.04,6,pr2*(1/(n2*6.75*m)),[-4,-4]),doneAction:2);
-		env3=EnvGen.ar(Env.perc(0.04,6,pr3*(1/(n3*6.75*(9/8)*m)),[-4,-4]),doneAction:2);
-		env4=EnvGen.ar(Env.perc(0.04,6,pr4*(1/(n4*8*m)),[-4,-4]),doneAction:2);
-		env5=EnvGen.ar(Env.perc(0.04,6,pr5*(1/(n5*9*m)),[-4,-4]),doneAction:2);
-		env6=EnvGen.ar(Env.perc(0.04,6,pr6*(1/(n6*10.125*m)),[-4,-4]),doneAction:2);
-		env7=EnvGen.ar(Env.perc(0.04,6,pr7*(1/(n7*10.125*(9/8)*m)),[-4,-4]),doneAction:2);
-		env8=EnvGen.ar(Env.perc(0.04,6,pr8*(1/(n8*12*m)),[-4,-4]),doneAction:2);
+		 env1=EnvGen.ar(Env.perc(4,6,pr1*(1/(n1*6)),[-4,-4]),doneAction:2);
+        env2=EnvGen.ar(Env.perc(4,6,pr2*(1/(n2*6.75*m)),[-4,-4]),doneAction:2);
+		env3=EnvGen.ar(Env.perc(4,6,pr3*(1/(n3*6.75*(9/8)*m)),[-4,-4]),doneAction:2);
+		env4=EnvGen.ar(Env.perc(4,6,pr4*(1/(n4*8*m)),[-4,-4]),doneAction:2);
+		env5=EnvGen.ar(Env.perc(4,6,pr5*(1/(n5*9*m)),[-4,-4]),doneAction:2);
+		env6=EnvGen.ar(Env.perc(4,6,pr6*(1/(n6*10.125*m)),[-4,-4]),doneAction:2);
+		env7=EnvGen.ar(Env.perc(4,6,pr7*(1/(n7*10.125*(9/8)*m)),[-4,-4]),doneAction:2);
+		env8=EnvGen.ar(Env.perc(4,6,pr8*(1/(n8*12*m)),[-4,-4]),doneAction:2);
 
 		sum=PanAz.ar(2,FSinOsc.ar(n1*6*40,mul:env1),LFSaw.ar(1/6),env1,2);
 			sig1=PanAz.ar(2,FSinOsc.ar(n2*m*6.75*40,mul:env2),LFSaw.ar(1/(6.75*m)),env2,2);
