@@ -1,4 +1,4 @@
-TempoClock.default.tempo_(60/30);
+TempoClock.default.tempo_(60/10);
 s.options.numOutputBusChannels=8
 TempoClock.default.tempo_(120/20);
 ServerOptions.inDevices.postln;
@@ -26,8 +26,8 @@ SynthDef.new(\id, {
 		env3=EnvGen.ar(Env.perc(4,6,pr3*(2/(n3*9*m)),[-4,-4]),doneAction:2);
 		env4=EnvGen.ar(Env.perc(4,6,pr4*(2/(n4*12*m)),[-4,-4]),doneAction:2);
 
-		sum=PanAz.ar(2,FSinOsc.ar(n1*6*20,mul:env1),LFSaw.ar(1/6),env1,2);
-			sig1=PanAz.ar(2,FSinOsc.ar(n2*m*8*20,mul:env2),LFSaw.ar(1/(8)),env2,2);
+		sum=PanAz.ar(2,FSinOsc.ar(n1*6*40,mul:env1),LFSaw.ar(1/6),env1,2);
+			sig1=PanAz.ar(2,FSinOsc.ar(n2*m*8*40,mul:env2),LFSaw.ar(1/(8)),env2,2);
 				sig2=PanAz.ar(2,FSinOsc.ar(n3*m*9*20,mul:env3),LFSaw.ar(1/(9)),env3,2);
 				sig3=PanAz.ar(2,FSinOsc.ar(n4*m*12*20,mul:env4),LFSaw.ar(1/(12)),env4,2);
 		sum=sum+sig1+sig2+sig3;
@@ -44,10 +44,10 @@ SynthDef.new(\idb, {
 	var m=0;
 		par.do{
 		m=m+1;
-		 env1=EnvGen.ar(Env.perc(2,6,pr1*(2/(n1*6)),[-4,-4]),doneAction:2);
-		env2=EnvGen.ar(Env.perc(2,6,pr2*(2/(n2*8*m)),[-4,-4]),doneAction:2);
-		env3=EnvGen.ar(Env.perc(2,6,pr3*(2/(n3*9*m)),[-4,-4]),doneAction:2);
-		env4=EnvGen.ar(Env.perc(2,6,pr4*(2/(n4*12*m)),[-4,-4]),doneAction:2);
+		 env1=EnvGen.ar(Env.perc(0.01,6,pr1*(2/(n1*6)),[-4,-4]),doneAction:2);
+		env2=EnvGen.ar(Env.perc(0.01,6,pr2*(2/(n2*8*m)),[-4,-4]),doneAction:2);
+		env3=EnvGen.ar(Env.perc(0.01,6,pr3*(2/(n3*9*m)),[-4,-4]),doneAction:2);
+		env4=EnvGen.ar(Env.perc(0.01,6,pr4*(2/(n4*12*m)),[-4,-4]),doneAction:2);
 
 		sum=PanAz.ar(2,FSinOsc.ar(n1*6*40,mul:env1),LFSaw.ar(1/6),env1,2);
 			sig1=PanAz.ar(2,FSinOsc.ar(n2*m*8*40,mul:env2),LFSaw.ar(1/(8)),env2,2);
@@ -63,7 +63,7 @@ SynthDef.new(\idb, {
 (
 ( Pdef(\1, Pbind(\instrument, \id,
 		\dur,Pbrown(1,8,1,inf),
-	\par,Pbrown(1,8,1,inf),
+	\par,Pbrown(1,16,1,inf),
 		\pr1,Pexprand(0.1,1,inf),
 	\pr2,Pexprand(0.1,1,inf),
 	\pr3,Pexprand(0.1,1,inf),
@@ -77,7 +77,7 @@ SynthDef.new(\idb, {
 			)).play(quant:1));
 ( Pdef(\2, Pbind(\instrument, \id,
 	\dur,Pbrown(1,8,1,inf),
-	\par,Pbrown(1,8,1,inf),
+	\par,Pbrown(1,16,1,inf),
 		\pr1,Pexprand(0.1,1,inf),
 	\pr2,Pexprand(0.1,1,inf),
 	\pr3,Pexprand(0.1,1,inf),
@@ -90,7 +90,7 @@ SynthDef.new(\idb, {
 			)).play(quant:1));
 ( Pdef(\3, Pbind(\instrument, \id,
 	\dur,Pbrown(1,8,1,inf),
-	\par,Pbrown(1,8,1,inf),
+	\par,Pbrown(1,16,1,inf),
 		\pr1,Pexprand(0.1,1,inf),
 	\pr2,Pexprand(0.1,1,inf),
 	\pr3,Pexprand(0.1,1,inf),
@@ -103,7 +103,7 @@ SynthDef.new(\idb, {
 			)).play(quant:1));
 ( Pdef(\4, Pbind(\instrument, \id,
 	\dur,Pbrown(1,8,1,inf),
-	\par,Pbrown(1,8,1,inf),
+	\par,Pbrown(1,16,1,inf),
 		\pr1,Pexprand(0.1,1,inf),
 	\pr2,Pexprand(0.1,1,inf),
 	\pr3,Pexprand(0.1,1,inf),
@@ -120,7 +120,7 @@ SynthDef.new(\idb, {
 (
 ( Pdef(\5, Pbind(\instrument, \idb,
 	\dur,Pbrown(1,8,1,inf),
-	\par,Pbrown(1,8,1,inf),
+	\par,Pbrown(1,16,1,inf),
 		\pr1,Pexprand(0.1,1,inf),
 	\pr2,Pexprand(0.1,1,inf),
 	\pr3,Pexprand(0.1,1,inf),
@@ -133,7 +133,7 @@ SynthDef.new(\idb, {
 			)).play(quant:1));
 ( Pdef(\6, Pbind(\instrument, \idb,
 	\dur,Pbrown(1,8,1,inf),
-	\par,Pbrown(1,8,1,inf),
+	\par,Pbrown(1,16,1,inf),
 		\pr1,Pexprand(0.1,1,inf),
 	\pr2,Pexprand(0.1,1,inf),
 	\pr3,Pexprand(0.1,1,inf),
@@ -146,7 +146,7 @@ SynthDef.new(\idb, {
 			)).play(quant:1));
 ( Pdef(\7, Pbind(\instrument, \idb,
 	\dur,Pbrown(1,8,1,inf),
-	\par,Pbrown(1,8,1,inf),
+	\par,Pbrown(1,16,1,inf),
 		\pr1,Pexprand(0.1,1,inf),
 	\pr2,Pexprand(0.1,1,inf),
 	\pr3,Pexprand(0.1,1,inf),
@@ -159,7 +159,7 @@ SynthDef.new(\idb, {
 			)).play(quant:1));
 ( Pdef(\8, Pbind(\instrument, \idb,
 	\dur,Pbrown(1,8,1,inf),
-	\par,Pbrown(1,8,1,inf),
+	\par,Pbrown(1,16,1,inf),
 		\pr1,Pexprand(0.1,1,inf),
 	\pr2,Pexprand(0.1,1,inf),
 	\pr3,Pexprand(0.1,1,inf),
