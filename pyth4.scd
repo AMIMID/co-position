@@ -29,10 +29,10 @@ SynthDef.new(\id, {
 		env3=EnvGen.ar(Env.perc(4,6,pr3*(2/(n3*9*m)),[-4,-4]),doneAction:2);
 		env4=EnvGen.ar(Env.perc(4,6,pr4*(2/(n4*12*m)),[-4,-4]),doneAction:2);
 
-		sum=PanAz.ar(2,FSinOsc.ar(n1*6*20,mul:env1),LFSaw.ar(2/6),env1,1);
-			sig1=PanAz.ar(2,FSinOsc.ar(n2*m*8*20,mul:env2),LFSaw.ar(2/(8)),env2,1);
-				sig2=PanAz.ar(2,FSinOsc.ar(n3*m*9*20,mul:env3),LFSaw.ar(2/(9)),env3,1);
-				sig3=PanAz.ar(2,FSinOsc.ar(n4*m*12*20,mul:env4),LFSaw.ar(2/(12)),env4,1);
+		sum=PanAz.ar(2,FSinOsc.ar(n1*6*20,mul:env1),LFSaw.ar(n1/6),env1,1);
+			sig1=PanAz.ar(2,FSinOsc.ar(n2*m*8*20,mul:env2),LFSaw.ar(n2/(8)),env2,1);
+				sig2=PanAz.ar(2,FSinOsc.ar(n3*m*9*20,mul:env3),LFSaw.ar(n3/(9)),env3,1);
+				sig3=PanAz.ar(2,FSinOsc.ar(n4*m*12*20,mul:env4),LFSaw.ar(n4/(12)),env4,1);
 		sum=sum+sig1+sig2+sig3;
 	};
 		Out.ar(0,sum);
@@ -47,15 +47,15 @@ SynthDef.new(\idb, {
 	var m=0;
 		par.do{
 		m=m+1;
-		 env1=EnvGen.ar(Env.perc(0.05,6,pr1*(2/(n1*6)),[-4,-4]),doneAction:2);
-		env2=EnvGen.ar(Env.perc(0.05,6,pr2*(2/(n2*8*m)),[-4,-4]),doneAction:2);
-		env3=EnvGen.ar(Env.perc(0.05,6,pr3*(2/(n3*9*m)),[-4,-4]),doneAction:2);
-		env4=EnvGen.ar(Env.perc(0.05,6,pr4*(2/(n4*12*m)),[-4,-4]),doneAction:2);
+		 env1=EnvGen.ar(Env.perc(0.03,6,pr1*(2/(n1*6)),[-4,-4]),doneAction:2);
+		env2=EnvGen.ar(Env.perc(0.03,6,pr2*(2/(n2*8*m)),[-4,-4]),doneAction:2);
+		env3=EnvGen.ar(Env.perc(0.03,6,pr3*(2/(n3*9*m)),[-4,-4]),doneAction:2);
+		env4=EnvGen.ar(Env.perc(0.03,6,pr4*(2/(n4*12*m)),[-4,-4]),doneAction:2);
 
-		sum=PanAz.ar(2,FSinOsc.ar(n1*6*40,mul:env1),LFSaw.ar(3/6),env1,2);
-			sig1=PanAz.ar(2,FSinOsc.ar(n2*m*8*40,mul:env2),LFSaw.ar(3/(8)),env2,2);
-				sig2=PanAz.ar(2,FSinOsc.ar(n3*m*9*40,mul:env3),LFSaw.ar(3/(9)),env3,2);
-				sig3=PanAz.ar(2,FSinOsc.ar(n4*m*12*40,mul:env4),LFSaw.ar(3/(12)),env4,2);
+		sum=PanAz.ar(2,FSinOsc.ar(n1*6*40,mul:env1),LFSaw.ar(6),env1,2);
+			sig1=PanAz.ar(2,FSinOsc.ar(n2*m*8*40,mul:env2),LFSaw.ar((8)),env2,2);
+				sig2=PanAz.ar(2,FSinOsc.ar(n3*m*9*40,mul:env3),LFSaw.ar((9)),env3,2);
+				sig3=PanAz.ar(2,FSinOsc.ar(n4*m*12*40,mul:env4),LFSaw.ar((12)),env4,2);
 		sum=sum+sig1+sig2+sig3;
 	};
 		Out.ar(0,sum);
@@ -65,56 +65,56 @@ SynthDef.new(\idb, {
 (
 (
 ( Pdef(\1, Pbind(\instrument, \id,
-		\dur,Pbrown(1,8,2,inf),
+	\dur,Pbrown(1,8,2,inf),
 	\par,Pbrown(1,12,1,inf),
-		\pr1,Pexprand(0.1,1,inf),
-	\pr2,Pexprand(0.1,1,inf),
-	\pr3,Pexprand(0.1,1,inf),
-	\pr4,Pexprand(0.1,1,inf),
-	\n1,Pbrown(1,12,1,inf),
-	\n2,Pbrown(1,12,1,inf),
-	\n3,Pbrown(1,12,1,inf),
-	\n4,Pbrown(1,12,1,inf),
+		\pr1,Pexprand(0.5,1,inf),
+	\pr2,Pexprand(0.5,1,inf),
+	\pr3,Pexprand(0.5,1,inf),
+	\pr4,Pexprand(0.5,1,inf),
+	\n1,Pbrown(1,4,1,inf),
+	\n2,Pbrown(1,4,1,inf),
+	\n3,Pbrown(1,4,1,inf),
+	\n4,Pbrown(1,4,1,inf);
 
 
 			)).play(quant:1));
 ( Pdef(\2, Pbind(\instrument, \id,
-	\dur,Pbrown(1,8,2,inf),
+		\dur,Pbrown(1,8,2,inf),
 	\par,Pbrown(1,12,1,inf),
-		\pr1,Pexprand(0.1,1,inf),
-	\pr2,Pexprand(0.1,1,inf),
-	\pr3,Pexprand(0.1,1,inf),
-	\pr4,Pexprand(0.1,1,inf),
-	\n1,Pbrown(1,12,1,inf),
-	\n2,Pbrown(1,12,1,inf),
-	\n3,Pbrown(1,12,1,inf),
-	\n4,Pbrown(1,12,1,inf),
+		\pr1,Pexprand(0.5,1,inf),
+	\pr2,Pexprand(0.5,1,inf),
+	\pr3,Pexprand(0.5,1,inf),
+	\pr4,Pexprand(0.5,1,inf),
+	\n1,Pbrown(1,4,1,inf),
+	\n2,Pbrown(1,4,1,inf),
+	\n3,Pbrown(1,4,1,inf),
+	\n4,Pbrown(1,4,1,inf);
 
 			)).play(quant:1));
 ( Pdef(\3, Pbind(\instrument, \id,
-	\dur,Pbrown(1,8,2,inf),
+		\dur,Pbrown(1,8,2,inf),
 	\par,Pbrown(1,12,1,inf),
-		\pr1,Pexprand(0.1,1,inf),
-	\pr2,Pexprand(0.1,1,inf),
-	\pr3,Pexprand(0.1,1,inf),
-	\pr4,Pexprand(0.1,1,inf),
-	\n1,Pbrown(1,12,1,inf),
-	\n2,Pbrown(1,12,1,inf),
-	\n3,Pbrown(1,12,1,inf),
-	\n4,Pbrown(1,12,1,inf),
+		\pr1,Pexprand(0.5,1,inf),
+	\pr2,Pexprand(0.5,1,inf),
+	\pr3,Pexprand(0.5,1,inf),
+	\pr4,Pexprand(0.5,1,inf),
+\n1,Pbrown(1,4,1,inf),
+	\n2,Pbrown(1,4,1,inf),
+	\n3,Pbrown(1,4,1,inf),
+	\n4,Pbrown(1,4,1,inf);
 
 			)).play(quant:1));
 ( Pdef(\4, Pbind(\instrument, \id,
-	\dur,Pbrown(1,8,2,inf),
+		\dur,Pbrown(1,8,2,inf),
 	\par,Pbrown(1,12,1,inf),
-		\pr1,Pexprand(0.1,1,inf),
-	\pr2,Pexprand(0.1,1,inf),
-	\pr3,Pexprand(0.1,1,inf),
-	\pr4,Pexprand(0.1,1,inf),
-	\n1,Pbrown(1,12,1,inf),
-	\n2,Pbrown(1,12,1,inf),
-	\n3,Pbrown(1,12,1,inf),
-	\n4,Pbrown(1,12,1,inf),
+		\pr1,Pexprand(0.5,1,inf),
+	\pr2,Pexprand(0.5,1,inf),
+	\pr3,Pexprand(0.5,1,inf),
+	\pr4,Pexprand(0.5,1,inf),
+\n1,Pbrown(1,4,1,inf),
+	\n2,Pbrown(1,4,1,inf),
+	\n3,Pbrown(1,4,1,inf),
+	\n4,Pbrown(1,4,1,inf);
 
 			)).play(quant:1));
 );
@@ -124,53 +124,51 @@ SynthDef.new(\idb, {
 ( Pdef(\5, Pbind(\instrument, \idb,
 	\dur,Pbrown(1,8,2,inf),
 	\par,Pbrown(1,12,1,inf),
-		\pr1,Pexprand(0.1,1,inf),
-	\pr2,Pexprand(0.1,1,inf),
-	\pr3,Pexprand(0.1,1,inf),
-	\pr4,Pexprand(0.1,1,inf),
-	\n1,Pbrown(1,12,1,inf),
-	\n2,Pbrown(1,12,1,inf),
-	\n3,Pbrown(1,12,1,inf),
-	\n4,Pbrown(1,12,1,inf),
+		\pr1,Pexprand(0.5,1,inf),
+	\pr2,Pexprand(0.5,1,inf),
+	\pr3,Pexprand(0.5,1,inf),
+	\pr4,Pexprand(0.5,1,inf),
+\n1,Pbrown(1,4,1,inf),
+	\n2,Pbrown(1,4,1,inf),
+	\n3,Pbrown(1,4,1,inf),
+	\n4,Pbrown(1,4,1,inf);
 
 			)).play(quant:1));
 ( Pdef(\6, Pbind(\instrument, \idb,
 	\dur,Pbrown(1,8,2,inf),
 	\par,Pbrown(1,12,1,inf),
-		\pr1,Pexprand(0.1,1,inf),
-	\pr2,Pexprand(0.1,1,inf),
-	\pr3,Pexprand(0.1,1,inf),
-	\pr4,Pexprand(0.1,1,inf),
-	\n1,Pbrown(1,12,1,inf),
-	\n2,Pbrown(1,12,1,inf),
-	\n3,Pbrown(1,12,1,inf),
-	\n4,Pbrown(1,12,1,inf),
-
+		\pr1,Pexprand(0.5,1,inf),
+	\pr2,Pexprand(0.5,1,inf),
+	\pr3,Pexprand(0.5,1,inf),
+	\pr4,Pexprand(0.5,1,inf),
+\n1,Pbrown(1,4,1,inf),
+	\n2,Pbrown(1,4,1,inf),
+	\n3,Pbrown(1,4,1,inf),
+	\n4,Pbrown(1,4,1,inf);
 			)).play(quant:1));
 ( Pdef(\7, Pbind(\instrument, \idb,
 	\dur,Pbrown(1,8,2,inf),
 	\par,Pbrown(1,12,1,inf),
-		\pr1,Pexprand(0.1,1,inf),
-	\pr2,Pexprand(0.1,1,inf),
-	\pr3,Pexprand(0.1,1,inf),
-	\pr4,Pexprand(0.1,1,inf),
-	\n1,Pbrown(1,12,1,inf),
-	\n2,Pbrown(1,12,1,inf),
-	\n3,Pbrown(1,12,1,inf),
-	\n4,Pbrown(1,12,1,inf),
-
+		\pr1,Pexprand(0.5,1,inf),
+	\pr2,Pexprand(0.5,1,inf),
+	\pr3,Pexprand(0.5,1,inf),
+	\pr4,Pexprand(0.5,1,inf),
+	\n1,Pbrown(1,4,1,inf),
+	\n2,Pbrown(1,4,1,inf),
+	\n3,Pbrown(1,4,1,inf),
+	\n4,Pbrown(1,4,1,inf);
 			)).play(quant:1));
 ( Pdef(\8, Pbind(\instrument, \idb,
 	\dur,Pbrown(1,8,2,inf),
 	\par,Pbrown(1,12,1,inf),
-		\pr1,Pexprand(0.1,1,inf),
-	\pr2,Pexprand(0.1,1,inf),
-	\pr3,Pexprand(0.1,1,inf),
-	\pr4,Pexprand(0.1,1,inf),
-	\n1,Pbrown(1,12,1,inf),
-	\n2,Pbrown(1,12,1,inf),
-	\n3,Pbrown(1,12,1,inf),
-	\n4,Pbrown(1,12,1,inf),
+		\pr1,Pexprand(0.5,1,inf),
+	\pr2,Pexprand(0.5,1,inf),
+	\pr3,Pexprand(0.5,1,inf),
+	\pr4,Pexprand(0.5,1,inf),
+\n1,Pbrown(1,4,1,inf),
+	\n2,Pbrown(1,4,1,inf),
+	\n3,Pbrown(1,4,1,inf),
+	\n4,Pbrown(1,4,1,inf);
 
 
 			)).play(quant:1));
