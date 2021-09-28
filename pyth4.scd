@@ -30,7 +30,7 @@ Synth.new(\seefoam);
 	Out.ar(1,InFeedback.ar(3)*env);
 }).add)
 ( Pdef(\sound, Pbind(\instrument, \env,
-	\dur,Pbrown(360,1200,120,inf),
+	\dur,Pbrown(180,720,60,inf),
 			)).play(quant:1));
 
 (
