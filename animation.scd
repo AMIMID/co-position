@@ -1,3 +1,13 @@
+
+s.options.device_("USB Sound Device");
+s.options.numOutputBusChannels=8
+TempoClock.default.tempo_(60/30);
+s.options.memSize = 65536;
+s.options.numInputBusChannels=0;
+s.record(numChannels:2) ;
+~a= Buffer.read(s,path:"/Users/petrostatsiopoulos/Desktop/9/studio projects/recordings final/339326__inspectorj__bird-whistling-a mono.wav");
+~a.query;
+~a.numFrames
 (
 var w,v;
 var run = true, kapa, y, z,x=0,theta;
@@ -13,12 +23,12 @@ v = UserView.new(w,Rect(100,100,800,800)).background_(Color.black);
 v.drawFunc ={
 	Pen.translate(400,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////points
-	~p1=Polar.new(150,pi).asPoint;
+	~p1=Polar.new(300,pi).asPoint;
 1000.do{
-		Pen.width=0.1;
+		Pen.width=0.2;
 		Pen.line(~p1,Polar.new(ray,angle).asPoint);Pen.stroke;v.refresh;
 			Color(red:1,green:1,blue:1,alpha:1).set;
-		Pen.rotate(pi/64);Pen.stroke;v.refresh;
+		Pen.rotate(pi/16);Pen.stroke;v.refresh;
 			x=x+1;
 		y=(x+1)/x;
 			angle=angle*y;
@@ -34,9 +44,10 @@ v.drawFunc ={
 //////////////////////////////////////////////////////////////////////////////////
 (
 var w,run = true, kapa, y, z,x=0,theta;
-var ray=150;
+var ray=400;
 var angle=1,angle2=0;
 var a=2;
+(
 (
 SynthDef.new(\id1, {
 
@@ -46,38 +57,130 @@ SynthDef.new(\id1, {
 	var freq=1,audio=0,x=0,amp=1;
 
 	//freq=n*6*f;
-	    env=EnvGen.ar(Env.perc(a,4,1,[-4,-4]),doneAction:2);
-		32.do{
-		sig=PanAz.ar(2,BLowPass.ar(SinOsc.ar(f*2,mul:1/amp),l),LFSaw.ar(amp),width:2);
+	    env=EnvGen.ar(Env.perc(a,4,0.4,[-4,-4]),doneAction:2);
+		24.do{
+		sig=PanAz.ar(2,BLowPass.ar(FSinOsc.ar(f*2,mul:1/amp),l),LFSaw.ar(amp),width:2);
 		//sig=BLowPass.ar(SinOsc.ar(f*2,mul:1/amp),l);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
-		f=f*freq;
-		amp=amp*freq;
+		f=f*freq*n;
+		amp=amp*freq*n;
 	};
-		//+BBandPass.ar(PlayBuf.ar(1,b,BufRateScale.kr(0),startPos:sp),freq,pass,mul:(0.1/pass)),LFSaw.ar(2/6),width:2);
-~a = Amplitude.ar(audio*env, 0.01, 0.25);
-	SendReply.ar(Impulse.ar(100), '/a', ~a);
+
+
 		Out.ar(0,audio*env);
+	~a = Amplitude.ar(InFeedback.ar([0,1]), 0.01, 0.25);
+	~b = Pitch.kr(InFeedback.ar([0,1]));
+	SendReply.ar(Impulse.ar(100), '/a', ~a);
+	SendReply.ar(Impulse.ar(100), '/b', ~b);
 }).add;
+);
+(
+SynthDef.new(\id2, {
+
+		arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=20,l=440;
+	var sig,x=0,amp=1,audio=0;
+	var env,freq;
+
+	    env=EnvGen.ar(Env.perc(a,8,pr/8,[-4,-4]),doneAction:2);
+		24.do{
+		sig=PanAz.ar(2,FSinOsc.ar(f*8,mul:1/amp),LFSaw.ar(amp),width:2);
+		audio = audio +sig;
+		x=x+1;
+		freq=(x+1)/x;
+		f=f*freq*n;
+		amp=amp*freq*n;
+	};
+	audio=BLowPass.ar(audio,l);
+	Out.ar(0,audio*env);
+}).add;
+);
+(
+SynthDef.new(\id3, {
+
+		arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=20,l=440;
+	var sig,x=0,amp=1,audio=0;
+	var env,freq;
+
+	    env=EnvGen.ar(Env.perc(a,8,pr/9,[-4,-4]),doneAction:2);
+		24.do{
+		sig=PanAz.ar(2,FSinOsc.ar(f*9,mul:1/amp),LFSaw.ar(amp),width:2);
+		audio = audio +sig;
+		x=x+1;
+		freq=(x+1)/x;
+		f=f*freq*n;
+		amp=amp*freq*n;
+	};
+	audio=BLowPass.ar(audio,l);
+	Out.ar(0,audio*env);
+}).add;
+);
+(
+SynthDef.new(\id4, {
+
+		arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=20,l=440;
+	var sig,x=0,amp=1,audio=0;
+	var env,freq;
+
+	    env=EnvGen.ar(Env.perc(a,8,pr/12,[-4,-4]),doneAction:2);
+		24.do{
+		sig=PanAz.ar(2,FSinOsc.ar(f*12,mul:1/amp),LFSaw.ar(amp),width:2);
+		audio = audio +sig;
+		x=x+1;
+		freq=(x+1)/x;
+		f=f*freq*n;
+		amp=amp*freq*n;
+	};
+	audio=BLowPass.ar(audio,l);
+	Out.ar(0,audio*env);
+}).add;
+)
 );
 
 (
+
 ( Pdef(\1, Pbind(\instrument, \id1,
-	\dur,Pbrown(1,6,2,inf),
-	\l,Pbrown(220,2400,100,inf),
-	\sp,Pbrown(1,20324015,10000,inf),
-		\pr,Pexprand(1,1,inf),
-	\a,Pbrown(0.01,2,0.1,inf),
-	\f,Prand([60,60*(9/8),60*(9/8)*(9/8),80,90,90*(9/8),90*(9/8)*(9/8),120],inf),
-	\pass,Pexprand(0.0005,5,inf),
-	\n,Pbrown(1,4,1,inf);)).play(quant:1))
+	\dur,Pbrown(1,8,2,inf),
+	\l,Pbrown(440,4400,100,inf),
+		\pr,Pexprand(0.5,1,inf),
+	\a,Pbrown(0.01,2,0.01,inf),
+	\f,Prand([60,80,90,120],inf),
+	\n,Pbrown(1,8,1,inf);)).play(quant:1));
+
+( Pdef(\2, Pbind(\instrument, \id2,
+	\dur,Pbrown(1,8,2,inf),
+	\l,Pbrown(440,4400,100,inf),
+		\pr,Pexprand(0.5,1,inf),
+		\a,Pbrown(0.01,2,0.01,inf),
+	\f,Prand([60,80,90,120],inf),
+	\n,Pbrown(1,8,1,inf);)).play(quant:1));
+
+( Pdef(\3, Pbind(\instrument, \id3,
+	\dur,Pbrown(1,8,2,inf),
+	\l,Pbrown(440,4400,100,inf),
+		\pr,Pexprand(0.05,1,inf),
+		\a,Pbrown(0.01,2,0.01,inf),
+	\f,Prand([60,80,90,120],inf),
+	\n,Pbrown(1,8,1,inf);)).play(quant:1));
+
+( Pdef(\4, Pbind(\instrument, \id4,
+	\dur,Pbrown(1,8,2,inf),
+	\l,Pbrown(440,4400,100,inf),
+		\pr,Pexprand(0.05,1,inf),
+		\a,Pbrown(0.01,2,0.01,inf),
+	\f,Prand([60,80,90,120],inf),
+	\n,Pbrown(1,8,1,inf);)).play(quant:1));
+
 );
 (OSCdef(\amp1, { |msg|
 	~a = msg[3];
 	defer { ~v.refresh };
 }, '/a', s.addr));
+(OSCdef(\pitch, { |msg|
+	~b = msg[3];
+	defer { ~v.refresh };
+}, '/b', s.addr));
 
 (
 ///////0//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,12 +192,12 @@ SynthDef.new(\id1, {
 ~v.drawFunc ={
 	Pen.translate(400,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////points
-	~p1=Polar.new(150,pi).asPoint;
+	~p1=Polar.new(400,pi).asPoint;
 1000.do{
 		Pen.width=0.1;
-		Pen.line(~p1,Polar.new(ray,angle).asPoint);Pen.stroke;~v.refresh;
+		Pen.line(~p1,Polar.new(ray*~a,angle).asPoint);Pen.stroke;
 			Color(red:1,green:1,blue:1,alpha:1).set;
-		Pen.rotate(pi/120);Pen.stroke;~v.refresh;
+		Pen.rotate(~b);Pen.stroke;
 			x=x+1;
 		y=(x+1)/x;
 			angle=angle*y;
@@ -103,6 +206,10 @@ SynthDef.new(\id1, {
 			};
 
 };
-{ while { run } {~v.background_(Color.black); ~v.refresh; (1/1000).wait } }.fork(AppClock);
+
 )
 )
+
+///////////////////////////////////
+
+////////////////////////////////////////
