@@ -1,44 +1,13 @@
 
 s.options.device_("USB Sound Device");
 s.options.numOutputBusChannels=8
-TempoClock.default.tempo_(60/15);
+TempoClock.default.tempo_(60/30);
 s.options.memSize = 65536;
 s.options.numInputBusChannels=0;
 s.record(numChannels:2) ;
 ~a= Buffer.read(s,path:"/Users/petrostatsiopoulos/Desktop/9/studio projects/recordings final/339326__inspectorj__bird-whistling-a mono.wav");
 ~a.query;
 ~a.numFrames
-(
-var w,v;
-var run = true, kapa, y, z,x=0,theta;
-var ray=300;
-var angle=1,angle2=0;
-var a=2;
-///////0//////////////////////////////////////////////////////////////////////////////////////////////////
-    Window.closeAll;
-    w = Window("S",Rect(600,100,1000,1000),scroll:false).front.alwaysOnTop_(true);
-    w.alpha = 1;  w.view.background = Color.black;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////waves_radius
-v = UserView.new(w,Rect(100,100,800,800)).background_(Color.black);
-v.drawFunc ={
-	Pen.translate(400,400);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////points
-	~p1=Polar.new(300,pi).asPoint;
-1000.do{
-		Pen.width=0.2;
-		Pen.line(~p1,Polar.new(ray,angle).asPoint);Pen.stroke;v.refresh;
-			Color(red:1,green:1,blue:1,alpha:1).set;
-		Pen.rotate(pi/16);Pen.stroke;v.refresh;
-			x=x+1;
-		y=(x+1)/x;
-			angle=angle*y;
-		//ray=ray*y
-
-			};
-
-};
-{ while { run } {v.background_(Color.black); v.refresh; (1/10).wait } }.fork(AppClock);
-)
 
 ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////animation with sound
@@ -186,31 +155,32 @@ SynthDef.new(\id4, {
 }, '/b', s.addr));
 (OSCdef(\amp2, { |msg|
 	~c = msg[3];
-	defer { ~t.refresh; };
+	defer { ~v.refresh; };
 }, '/c', s.addr));
 (OSCdef(\pitch2, { |msg|
 	~d = msg[3];
-	defer { ~t.refresh };
+	defer { ~v.refresh };
 }, '/d', s.addr));
 
 
 (
 ///////0//////////////////////////////////////////////////////////////////////////////////////////////////
     Window.closeAll;
-    w = Window("S",Rect(600,100,1500,1000),scroll:false).front.alwaysOnTop_(true);
+    w = Window("S",Rect(600,100,1000,1000),scroll:false).front.alwaysOnTop_(true);
     w.alpha = 1;  w.view.background = Color.black;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////waves_radius
-~v = UserView.new(w,Rect(100,100,600,800)).background_(Color.black);
-~t = UserView.new(w,Rect(700,100,600,800)).background_(Color.black);
+~v = UserView.new(w,Rect(100,100,800,800)).background_(Color.black);
 ~v.drawFunc ={
-	Pen.translate(300,400);
+	Pen.translate(400,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////points
-	~p1=Point.new(200,200);
+	~p1=Point.new(0,400);
 1000.do{
 		Pen.width=0.1;
 		Pen.line(~p1,Polar.new(ray*~a,angle*~b).asPoint);Pen.stroke;
-			Color(red:1,green:1,blue:1,alpha:1).set;
-		Pen.rotate(pi/4);Pen.stroke;
+		Color(red:1,green:1,blue:0,alpha:1).set;
+		Pen.line(~p1,Polar.new(ray*~c,angle*~d).asPoint);Pen.stroke;
+			Color(red:1,green:0,blue:1,alpha:1).set;
+		Pen.rotate(pi/3);Pen.stroke;
 			x=x+1;
 		y=(x+1)/x;
 			angle=angle*y;
@@ -222,17 +192,7 @@ SynthDef.new(\id4, {
 ~t.drawFunc ={
 	Pen.translate(300,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////points
-	~p2=Point.new(200,200);
-1000.do{
-		Pen.width=0.1;
-		Pen.line(~p2,Polar.new(ray1*~c,angle1*~d).asPoint);Pen.stroke;
-			Color(red:1,green:1,blue:1,alpha:1).set;
-		Pen.rotate(pi/4);Pen.stroke;
-			x1=x1+1;
-		y1=(x1+1)/x1;
-			angle1=angle1*y1;
 
-			};
 
 
 };
