@@ -1,7 +1,7 @@
 
 s.options.device_("USB Sound Device");
 s.options.numOutputBusChannels=8
-TempoClock.default.tempo_(60/30);
+TempoClock.default.tempo_(40/70);
 s.options.memSize = 65536;
 s.options.numInputBusChannels=0;
 s.record(numChannels:2) ;
@@ -11,11 +11,6 @@ s.record(numChannels:2) ;
 
 ///////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////animation with sound
-(
-var w,run = true, kapa, y, z,x=0,theta,x1=0,y1;
-var ray1=100,ray=1000;
-var angle1=1,angle=1;
-var a=2;
 (
 (
 SynthDef.new(\id1, {
@@ -27,8 +22,8 @@ SynthDef.new(\id1, {
 
 	//freq=n*6*f;
 	    env=EnvGen.ar(Env.perc(a,4,pr/6,[-4,-4]),doneAction:2);
-		24.do{
-		sig=PanAz.ar(2,BLowPass.ar(FSinOsc.ar(f*6,mul:1/amp),l),LFSaw.ar(amp),width:2);
+		32.do{
+		sig=PanAz.ar(2,BLowPass.ar(FSinOsc.ar(f*6,mul:1/amp),l),SinOsc.ar(freq),width:2);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
@@ -51,13 +46,14 @@ SynthDef.new(\id1, {
 (
 SynthDef.new(\id2, {
 
-		arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=20,l=440;
-	var sig,x=0,amp=1,audio=0;
-	var env,freq;
+				arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=110,l=440;
+	var sig;
+	var env;
+	var freq=1,audio=0,x=0,amp=1;
 
 	    env=EnvGen.ar(Env.perc(a,8,pr/8,[-4,-4]),doneAction:2);
-		24.do{
-		sig=PanAz.ar(2,FSinOsc.ar(f*8,mul:1/amp),LFSaw.ar(amp),width:2);
+		32.do{
+		sig=PanAz.ar(2,FSinOsc.ar(f*8,mul:1/amp),SinOsc.ar(freq),width:2);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
@@ -71,13 +67,13 @@ SynthDef.new(\id2, {
 (
 SynthDef.new(\id3, {
 
-		arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=20,l=440;
-	var sig,x=0,amp=1,audio=0;
-	var env,freq;
-
+				arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=110,l=440;
+	var sig;
+	var env;
+	var freq=1,audio=0,x=0,amp=1;
 	    env=EnvGen.ar(Env.perc(a,8,pr/9,[-4,-4]),doneAction:2);
-		24.do{
-		sig=PanAz.ar(2,FSinOsc.ar(f*9,mul:1/amp),LFSaw.ar(amp),width:2);
+		32.do{
+		sig=PanAz.ar(2,FSinOsc.ar(f*9,mul:1/amp),SinOsc.ar(freq),width:2);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
@@ -91,13 +87,14 @@ SynthDef.new(\id3, {
 (
 SynthDef.new(\id4, {
 
-		arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=20,l=440;
-	var sig,x=0,amp=1,audio=0;
-	var env,freq;
+			arg dur=1,pr,pass=1,n=1,b=0,sp=10000,a=4,f=110,l=440;
+	var sig;
+	var env;
+	var freq=1,audio=0,x=0,amp=1;
 
 	    env=EnvGen.ar(Env.perc(a,8,pr/12,[-4,-4]),doneAction:2);
-		24.do{
-		sig=PanAz.ar(2,FSinOsc.ar(f*12,mul:1/amp),LFSaw.ar(amp),width:2);
+		32.do{
+		sig=PanAz.ar(2,FSinOsc.ar(f*12,mul:1/amp),SinOsc.ar(freq),width:2);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
@@ -108,40 +105,45 @@ SynthDef.new(\id4, {
 	Out.ar(0,audio*env);
 }).add;
 )
-);
+)
+(
+var w,run = true, kapa, y, z,x=0,theta,x1=0,y1;
+var ray1=100,ray=1000;
+var angle1=1,angle=1;
+var a=2;
 
 (
 
 ( Pdef(\1, Pbind(\instrument, \id1,
-	\dur,Pbrown(1,8,2,inf),
-	\l,Pbrown(440,1200,100,inf),
+	\dur,Pbrown(1,2,1,inf),
+	\l,Pbrown(1200,1200,20,inf),
 		\pr,Pexprand(0.5,1,inf),
-	\a,Pbrown(0.01,2,0.1,inf),
-	\f,Prand([60/2,80/2,90/2,120/2],inf),
+	\a,Pgauss(0.5,0.59,inf),
+	\f,Prand([60/4,80/4,90/4,120/4],inf),
 	\n,Pbrown(1,4,1,inf);)).play(quant:1));
 
 ( Pdef(\2, Pbind(\instrument, \id2,
-	\dur,Pbrown(1,8,2,inf),
-	\l,Pbrown(440,1200,100,inf),
+	\dur,Pbrown(1,2,1,inf),
+	\l,Pbrown(1200,1200,20,inf),
 		\pr,Pexprand(0.5,1,inf),
-		\a,Pbrown(0.01,2,0.1,inf),
-	\f,Prand([60/2,80/2,90/2,120/2],inf),
+		\a,Pgauss(0.5,0.59,inf),
+	\f,Prand([60/4,80/4,90/4,120/4],inf),
 	\n,Pbrown(1,4,1,inf);)).play(quant:1));
 
 ( Pdef(\3, Pbind(\instrument, \id3,
-	\dur,Pbrown(1,8,2,inf),
-	\l,Pbrown(440,1200,100,inf),
+	\dur,Pbrown(1,2,1,inf),
+	\l,Pbrown(1200,1200,20,inf),
 		\pr,Pexprand(0.5,1,inf),
-		\a,Pbrown(0.01,2,0.1,inf),
-		\f,Prand([60/2,80/2,90/2,120/2],inf),
+		\a,Pgauss(0.5,0.59,inf),
+		\f,Prand([60/4,80/4,90/4,120/4],inf),
 	\n,Pbrown(1,4,1,inf);)).play(quant:1));
 
 ( Pdef(\4, Pbind(\instrument, \id4,
-	\dur,Pbrown(1,8,2,inf),
-	\l,Pbrown(440,1200,100,inf),
+	\dur,Pbrown(1,2,1,inf),
+	\l,Pbrown(1200,1200,20,inf),
 		\pr,Pexprand(0.5,1,inf),
-		\a,Pbrown(0.01,2,0.1,inf),
-	\f,Prand([60/2,80/2,90/2,120/2],inf),
+		\a,Pgauss(0.5,0.59,inf),
+	\f,Prand([60/4,80/4,90/4,120/4],inf),
 	\n,Pbrown(1,4,1,inf);)).play(quant:1));
 
 );
@@ -173,13 +175,15 @@ SynthDef.new(\id4, {
 ~v.drawFunc ={
 	Pen.translate(400,400);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////points
-500.do{
-		Pen.width=0.1;
-		//Pen.line(Polar.new(ray*~c,angle*~d).asPoint,Polar.new(ray*~a,angle*~b).asPoint);Pen.stroke;
-		//Pen.quadCurveTo(Polar.new(ray*~c,angle*~d).asPoint,Polar.new(ray*~a,angle*~b).asPoint);Pen.stroke;
-		//Pen.arcTo(Polar.new(ray*~c,angle*~d).asPoint,Polar.new(ray*~a,angle*~b).asPoint,10);Pen.stroke;
-		Pen.addArc(Point.new(0,0),ray*~a,angle*~b,angle*~d);Pen.stroke;
-		Pen.addArc(Point.new(0,0),ray*~c,angle*~b,angle*~d);Pen.stroke;
+1000.do{
+		Pen.width=0.08;
+		Pen.line(Polar.new(ray*~c,angle*~d).asPoint,Polar.new(ray*~a,angle*~b).asPoint);Pen.stroke;
+		Color(red:1,green:1,blue:1,alpha:0.1).set;
+		Pen.quadCurveTo(Polar.new(ray*~c,angle*~d).asPoint,Polar.new(ray*~a,angle*~b).asPoint);Pen.stroke;
+		//Pen.arcTo(Polar.new(ray*~c,angle*~d).asPoint,Polar.new(ray*~a,angle*~b).asPoint,~a);Pen.stroke;
+		//Pen.arcTo(Polar.new(ray*~c,angle*~d).asPoint,Polar.new(ray*~a,angle*~b).asPoint,~c);Pen.stroke;
+		//Pen.addArc(Point.new(0,0),ray*~a,angle*~b,angle*~d);Pen.stroke;
+		//Pen.addArc(Point.new(0,0),ray*~c,angle*~b,angle*~d);Pen.stroke;
 		Color(red:1,green:1,blue:1,alpha:1).set;
 			x=x+1;
 		y=(x+1)/x;
@@ -189,14 +193,6 @@ SynthDef.new(\id4, {
 
 
 };
-~t.drawFunc ={
-	Pen.translate(300,400);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////points
-
-
-
-};
-
 )
 )
 
