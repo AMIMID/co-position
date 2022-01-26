@@ -18,7 +18,7 @@ SynthDef.new(\id1, {
 
 	    env=EnvGen.ar(Env.perc(a,8,pr/6,[-4,-4]),doneAction:2);
 		32.do{
-		sig=PanAz.ar(2,FSinOsc.ar(f*6,mul:1/amp),LFSaw.ar(amp),width:2);
+		sig=PanAz.ar(2,SinOsc.ar(f*6,mul:1/amp,phase:SinOsc.ar(6*amp)),LFSaw.ar(amp),width:2);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
@@ -38,7 +38,7 @@ SynthDef.new(\id2, {
 
 	    env=EnvGen.ar(Env.perc(a,8,pr/8,[-4,-4]),doneAction:2);
 		32.do{
-		sig=PanAz.ar(2,FSinOsc.ar(f*8,mul:1/amp),LFSaw.ar(amp),width:2);
+		sig=PanAz.ar(2,SinOsc.ar(f*8,mul:1/amp,phase:SinOsc.ar(8*amp)),LFSaw.ar(amp),width:2);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
@@ -58,7 +58,7 @@ SynthDef.new(\id3, {
 
 	    env=EnvGen.ar(Env.perc(a,8,pr/9,[-4,-4]),doneAction:2);
 		32.do{
-		sig=PanAz.ar(2,FSinOsc.ar(f*9,mul:1/amp),LFSaw.ar(amp),width:2);
+		sig=PanAz.ar(2,SinOsc.ar(f*9,mul:1/amp,phase:SinOsc.ar(9*amp)),LFSaw.ar(amp),width:2);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
@@ -78,7 +78,7 @@ SynthDef.new(\id4, {
 
 	    env=EnvGen.ar(Env.perc(a,8,pr/12,[-4,-4]),doneAction:2);
 		32.do{
-		sig=PanAz.ar(2,FSinOsc.ar(f*12,mul:1/amp),LFSaw.ar(amp),width:2);
+		sig=PanAz.ar(2,SinOsc.ar(f*12,mul:1/amp,phase:SinOsc.ar(12*amp)),LFSaw.ar(amp),width:2);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/x;
