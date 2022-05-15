@@ -8,16 +8,15 @@ SynthDef.new(\id1, {
 		var x1=0,x2=1,x3,y;
 	   envd=EnvGen.ar(Env.perc(attack,6,1/1,[-4,-4]),doneAction:2);
 		3.do{
+				x3=x1+x2;
+		x1=x2;
+		x2=x3;
 		env=EnvGen.ar(Env.perc(attack,10,amp/freq,[-4,-4]));
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand],[-4]));
-		sig=PanAz.ar(6,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(pan),width:1);
+		sig=PanAz.ar(2,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(1/x2),width:1);
 		audio = audio +sig;
 		x=x+1;
 			freq=(x+1)/1;
-			x3=x1+x2;
-		x1=x2;
-		x2=x3;
-		pan=1/(1+x2);
 	};
 	Out.ar(0,audio*envd*pr);
 }).add;
@@ -26,22 +25,22 @@ SynthDef.new(\id1, {
 (
 SynthDef.new(\id2, {
 
+
 		arg dur=1,detune=0,attack=4,a,b,c,d,e,f,g,k,l,m,n,o,p,q,r,s,t,u,v,w,interval=1,pr;
 	var sig,x=0,amp=1,audio=0,fund=800;
 	var env,freq=1,envd,envf,pan=1;
 		var x1=0,x2=1,x3,y;
 	   envd=EnvGen.ar(Env.perc(attack,6,1/1,[-4,-4]),doneAction:2);
 		3.do{
+				x3=x1+x2;
+		x1=x2;
+		x2=x3;
 		env=EnvGen.ar(Env.perc(attack,10,amp/freq,[-4,-4]));
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand],[-4]));
-		sig=PanAz.ar(6,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(pan),width:1);
+		sig=PanAz.ar(2,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(1/x2),width:1);
 		audio = audio +sig;
 		x=x+1;
 			freq=(x+1)/1;
-			x3=x1+x2;
-		x1=x2;
-		x2=x3;
-		pan=1/(1+x2);
 	};
 	Out.ar(0,audio*envd*pr);
 }).add;
@@ -55,16 +54,16 @@ SynthDef.new(\id3, {
 		var x1=0,x2=1,x3,y;
 	   envd=EnvGen.ar(Env.perc(attack,6,1/1,[-4,-4]),doneAction:2);
 		3.do{
+				x3=x1+x2;
+		x1=x2;
+		x2=x3;
 		env=EnvGen.ar(Env.perc(attack,10,amp/freq,[-4,-4]));
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand],[-4]));
-		sig=PanAz.ar(6,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(pan),width:1);
+		sig=PanAz.ar(2,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(1/x2),width:1);
 		audio = audio +sig;
 		x=x+1;
 			freq=(x+1)/1;
-			x3=x1+x2;
-		x1=x2;
-		x2=x3;
-		pan=1/(1+x2);
+
 	};
 	Out.ar(0,audio*envd*pr);
 }).add;
@@ -78,16 +77,15 @@ SynthDef.new(\id4, {
 		var x1=0,x2=1,x3,y;
 	   envd=EnvGen.ar(Env.perc(attack,6,1/1,[-4,-4]),doneAction:2);
 		3.do{
+				x3=x1+x2;
+		x1=x2;
+		x2=x3;
 		env=EnvGen.ar(Env.perc(attack,10,amp/freq,[-4,-4]));
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand],[-4]));
-		sig=PanAz.ar(6,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(pan),width:1);
+		sig=PanAz.ar(2,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(1/x2),width:1);
 		audio = audio +sig;
 		x=x+1;
 		freq=(x+1)/1;
-			x3=x1+x2;
-		x1=x2;
-		x2=x3;
-		pan=1/(1+x2);
 	};
 	Out.ar(0,audio*envd*pr);
 }).add;
@@ -101,16 +99,15 @@ SynthDef.new(\id5, {
 		var x1=0,x2=1,x3,y;
 	   envd=EnvGen.ar(Env.perc(attack,6,1/1,[-4,-4]),doneAction:2);
 		6.do{
+				x3=x1+x2;
+		x1=x2;
+		x2=x3;
 		env=EnvGen.ar(Env.perc(attack,10,amp/freq,[-4,-4]));
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand],[-4]));
-		sig=PanAz.ar(6,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(pan),width:1);
+		sig=PanAz.ar(2,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(1/x2),width:1);
 		audio = audio +sig;
 		x=x+1;
 			freq=1/(x+1);
-			x3=x1+x2;
-		x1=x2;
-		x2=x3;
-		pan=(x2+1)/1;
 	};
 	Out.ar(0,audio*envd*pr);
 }).add;
@@ -124,16 +121,15 @@ SynthDef.new(\id6, {
 		var x1=0,x2=1,x3,y;
 	   envd=EnvGen.ar(Env.perc(attack,6,1/1,[-4,-4]),doneAction:2);
 		6.do{
+				x3=x1+x2;
+		x1=x2;
+		x2=x3;
 		env=EnvGen.ar(Env.perc(attack,10,amp/freq,[-4,-4]));
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand],[-4]));
-		sig=PanAz.ar(6,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(pan),width:1);
+		sig=PanAz.ar(2,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(1/x2),width:1);
 		audio = audio +sig;
 		x=x+1;
 		freq=1/(x+1);
-			x3=x1+x2;
-		x1=x2;
-		x2=x3;
-		pan=(x2+1)/1;
 	};
 	Out.ar(0,audio*envd*pr);
 }).add;
@@ -147,16 +143,15 @@ SynthDef.new(\id7, {
 		var x1=0,x2=1,x3,y;
 	   envd=EnvGen.ar(Env.perc(attack,6,1/1,[-4,-4]),doneAction:2);
 		6.do{
+				x3=x1+x2;
+		x1=x2;
+		x2=x3;
 		env=EnvGen.ar(Env.perc(attack,10,amp/freq,[-4,-4]));
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand],[-4]));
-		sig=PanAz.ar(6,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(pan),width:1);
+		sig=PanAz.ar(2,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(1/x2),width:1);
 		audio = audio +sig;
 		x=x+1;
 		freq=1/(x+1);
-			x3=x1+x2;
-		x1=x2;
-		x2=x3;
-			pan=(x2+1)/1;
 	};
 	Out.ar(0,audio*envd*pr);
 }).add;
@@ -170,16 +165,15 @@ SynthDef.new(\id8, {
 		var x1=0,x2=1,x3,y;
 	   envd=EnvGen.ar(Env.perc(attack,6,1/1,[-4,-4]),doneAction:2);
 		6.do{
+				x3=x1+x2;
+		x1=x2;
+		x2=x3;
 		env=EnvGen.ar(Env.perc(attack,10,amp/freq,[-4,-4]));
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand,0.999.rand],[-4]));
-		sig=PanAz.ar(6,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(pan),width:1);
+		sig=PanAz.ar(2,SinOsc.ar((fund*freq)+envf,mul:env),LFNoise1.ar(1/x2),width:1);
 		audio = audio +sig;
 		x=x+1;
 		freq=1/(x+1);
-			x3=x1+x2;
-		x1=x2;
-		x2=x3;
-		pan=(x2+1)/1;
 	};
 	Out.ar(0,audio*envd*pr);
 }).add;
