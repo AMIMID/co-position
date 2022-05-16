@@ -51,7 +51,7 @@ SynthDef.new(\id2, {
 SynthDef.new(\id3, {
 
 		arg attack=4,a,b,c,d,e,f,g,k,l,m,n,o,p,q,r,s,t,u,v,w,interval=1,pr,i=1,y;
-	var sig,x=0,amp=1,audio=0,fund=120;
+	var sig,x=0,amp=1,audio=0,fund=240;
 	var env,freq=1,envd,envf;
 		var x1=0,x2=1,x3,z;
 	i=(y+interval)/interval;
@@ -75,7 +75,7 @@ SynthDef.new(\id3, {
 SynthDef.new(\id4, {
 
 		arg attack=4,a,b,c,d,e,f,g,k,l,m,n,o,p,q,r,s,t,u,v,w,interval=1,pr,i=1,y;
-	var sig,x=0,amp=1,audio=0,fund=120;
+	var sig,x=0,amp=1,audio=0,fund=240;
 	var env,freq=1,envd,envf;
 		var x1=0,x2=1,x3,z;
 	i=(y+interval)/interval;
@@ -147,7 +147,7 @@ SynthDef.new(\id6, {
 SynthDef.new(\id7, {
 
 		arg attack=4,a,b,c,d,e,f,g,k,l,m,n,o,p,q,r,s,t,u,v,w,interval=1,pr,i=1,y;
-	var sig,x=0,amp=1,audio=0,fund=120;
+	var sig,x=0,amp=1,audio=0,fund=240;
 	var env,freq=1,envd,envf;
 		var x1=0,x2=1,x3,z;
 	i=(y+interval)/interval;
@@ -171,7 +171,7 @@ SynthDef.new(\id7, {
 SynthDef.new(\id8, {
 
 		arg attack=4,a,b,c,d,e,f,g,k,l,m,n,o,p,q,r,s,t,u,v,w,interval=1,pr,i=1,y;
-	var sig,x=0,amp=1,audio=0,fund=120;
+	var sig,x=0,amp=1,audio=0,fund=240;
 	var env,freq=1,envd,envf;
 		var x1=0,x2=1,x3,z;
 	i=(y+interval)/interval;
