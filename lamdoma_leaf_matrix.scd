@@ -16,7 +16,7 @@ SynthDef.new(\id1, {
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand,((dur*12000)/((fund))).rand],[-4]));
 
 		sig1=PanAz.ar(2,SinOsc.ar(((fund*i)*under)+envf,mul:env1,phase:pi),pos:pan.linlin(0,360,0,1),width:2,orientation:0);
-		sig2=PanAz.ar(2,SinOsc.ar(((fund*ii)*over)+envf,mul:env2,phase:pi),pos:pan.linlin(0,360,0,1),width:2,orientation:0);
+		sig2=PanAz.ar(2,SinOsc.ar(((fund*ii)*over)+envf,mul:env2,phase:pi),pos:pan.linlin(0,360,1,0),width:2,orientation:0);
 
 		x=x+1;
 		over=(x+1)/1;
