@@ -3,24 +3,27 @@
 SynthDef.new(\id1, {
 
 	arg dur=1, attack=4,a,b,c,d,e,f,g,k,l,m,n,o,p,q,r,s,t,u,v,w,interval=1,pr,y=1;
-	var sig1,sig2,x=0,amp=1,fund=5120/8;  var env1,env2,envd,envf;
-	var under=1,over=1;  var an1=180,an2=180,pan1=an1.wrap(0,360),pan2=an2.wrap(0,360);
+	var sig1,sig2,x=0,amp=1,fund=7040/16;  var env1,env2,envd,envf;
+	var under=6,over=1/6;  var an1=180,an2=180,pan1=an1.wrap(0,360),pan2=an2.wrap(0,360);
 	var msig1,msig2,audio1,audio2,	i=(y+interval)/interval,ii=interval/(y+interval);
 
 	envd=EnvGen.ar(Env.sine((12*dur),amp),doneAction:2);
 
-		5.do{
+		6.do{
 		env1=EnvGen.ar(Env.perc(attack,(120*dur),amp/under,[-4,-4]));
 		 env2=EnvGen.ar(Env.perc(attack,(120*dur),amp/over,[-4,-4]));
 
 		envf=EnvGen.ar(Env.new([a.rand2,b.rand2,c.rand2,d.rand2,e.rand2,f.rand2,g.rand2,k.rand2,l.rand2,m.rand2,n.rand2,o.rand2,p.rand2,q.rand2,r.rand2,s.rand2,t.rand2,u.rand2,v.rand2,w.rand2],[(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand,(12*dur).rand],[-4]));
 
-		sig1=Pan2.ar(SinOsc.ar((((fund*i))*under)+envf,mul:env1,phase:pi),pos:pan1.linlin(0,360,-1,1));
-		sig2=Pan2.ar(SinOsc.ar((((fund*ii))*over)+envf,mul:env2,phase:pi),pos:pan2.linlin(0,360,-1,1));
-
+		//sig1=Pan2.ar(SinOsc.ar((((fund*i))*under)+envf,mul:env1,phase:pi),pos:pan1.linlin(0,360,-1,1));
+		//sig2=Pan2.ar(SinOsc.ar((((fund*ii))*over)+envf,mul:env2,phase:pi),pos:pan2.linlin(0,360,-1,1));
+		sig1=PanAz.ar(6,SinOsc.ar((((fund*i))*under)+envf,mul:env1,phase:pi),pos:pan1.linlin(0,360,-1,1),width:1,orientation:0);
+		sig2=PanAz.ar(6,SinOsc.ar((((fund*ii))*over)+envf,mul:env2,phase:pi),pos:pan2.linlin(0,360,-1,1),width:1,orientation:1);
 		x=x+1;
-		over=(x+1)/1;
-		 under=1/(x+1);
+		over=(x+1)/8;
+		 under=8/(x+1);
+		over.postln;
+		under.postln;
 
 		an1=an1-137.5;
 		 an2=an2+137.5;
@@ -85,7 +88,7 @@ SynthDef.new(\id1, {
 
 
 s.options.device_("USB Sound Device");
-s.options.numOutputBusChannels=4
+s.options.numOutputBusChannels=12
 TempoClock.default.tempo_(120/120);
 s.options.memSize = 65536;
 s.options.numInputBusChannels=0;
