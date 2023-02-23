@@ -12,7 +12,7 @@ s.record(bus:2,numChannels:1))
 
 s.options.numWireBufs = 1024*4;
 
-s.options.numOutputBusChannels=4;
+s.options.numOutputBusChannels=40;/////////////40tet1 +40tet2 +
 TempoClock.default.tempo_(120/60);
 s.options.memSize = 8192*8;
 s.waitForBoot
@@ -50,13 +50,13 @@ SynthDef.new(\t, {
 	edge2b = Out.ar(24,Pan2.ar(InFeedback.ar(8),LFSaw.ar(),level:env));
 	edge2c = Out.ar(26,Pan2.ar(InFeedback.ar(9),LFSaw.ar(),level:env));
 
-	edge3a = Out.ar(27,Pan2.ar(InFeedback.ar(10),LFSaw.ar(),level:env));
-	edge3b = Out.ar(29,Pan2.ar(InFeedback.ar(11),LFSaw.ar(),level:env));
-	edge3c = Out.ar(31,Pan2.ar(InFeedback.ar(12),LFSaw.ar(),level:env));
+	edge3a = Out.ar(28,Pan2.ar(InFeedback.ar(10),LFSaw.ar(),level:env));
+	edge3b = Out.ar(30,Pan2.ar(InFeedback.ar(11),LFSaw.ar(),level:env));
+	edge3c = Out.ar(32,Pan2.ar(InFeedback.ar(12),LFSaw.ar(),level:env));
 
-	edge4a = Out.ar(33,Pan2.ar(InFeedback.ar(13),LFSaw.ar(),level:env));
-	edge4b = Out.ar(35,Pan2.ar(InFeedback.ar(14),LFSaw.ar(),level:env));
-	edge4c = Out.ar(37,Pan2.ar(InFeedback.ar(15),LFSaw.ar(),level:env));
+	edge4a = Out.ar(34,Pan2.ar(InFeedback.ar(13),LFSaw.ar(),level:env));
+	edge4b = Out.ar(36,Pan2.ar(InFeedback.ar(14),LFSaw.ar(),level:env));
+	edge4c = Out.ar(38,Pan2.ar(InFeedback.ar(15),LFSaw.ar(),level:env));
 ////////////////////////////////////////////////////////////////////////////
 
 	v1a = Out.ar(0,LeakDC.ar(InFeedback.ar(16)),LFSaw.ar(),level:env);
@@ -73,19 +73,19 @@ SynthDef.new(\t, {
 	v2e = Out.ar(1,LeakDC.ar(InFeedback.ar(26)),LFSaw.ar(),level:env);
 	v2f = Out.ar(1,LeakDC.ar(InFeedback.ar(27)),LFSaw.ar(),level:env);
 
-	v3a = Out.ar(2,LeakDC.ar(InFeedback.ar(27)),LFSaw.ar(),level:env);
-	v3b = Out.ar(2,LeakDC.ar(InFeedback.ar(28)),LFSaw.ar(),level:env);
-	v3c = Out.ar(2,LeakDC.ar(InFeedback.ar(29)),LFSaw.ar(),level:env);
-	v3d = Out.ar(2,LeakDC.ar(InFeedback.ar(30)),LFSaw.ar(),level:env);
-	v3e = Out.ar(2,LeakDC.ar(InFeedback.ar(31)),LFSaw.ar(),level:env);
-	v3f = Out.ar(2,LeakDC.ar(InFeedback.ar(32)),LFSaw.ar(),level:env);
+	v3a = Out.ar(2,LeakDC.ar(InFeedback.ar(28)),LFSaw.ar(),level:env);
+	v3b = Out.ar(2,LeakDC.ar(InFeedback.ar(29)),LFSaw.ar(),level:env);
+	v3c = Out.ar(2,LeakDC.ar(InFeedback.ar(30)),LFSaw.ar(),level:env);
+	v3d = Out.ar(2,LeakDC.ar(InFeedback.ar(31)),LFSaw.ar(),level:env);
+	v3e = Out.ar(2,LeakDC.ar(InFeedback.ar(32)),LFSaw.ar(),level:env);
+	v3f = Out.ar(2,LeakDC.ar(InFeedback.ar(33)),LFSaw.ar(),level:env);
 
-	v4a = Out.ar(3,LeakDC.ar(InFeedback.ar(33)),LFSaw.ar(),level:env);
-	v4b = Out.ar(3,LeakDC.ar(InFeedback.ar(34)),LFSaw.ar(),level:env);
-	v4c = Out.ar(3,LeakDC.ar(InFeedback.ar(35)),LFSaw.ar(),level:env);
-	v4d = Out.ar(3,LeakDC.ar(InFeedback.ar(36)),LFSaw.ar(),level:env);
-	v4e = Out.ar(3,LeakDC.ar(InFeedback.ar(37)),LFSaw.ar(),level:env);
-	v4f = Out.ar(3,LeakDC.ar(InFeedback.ar(38)),LFSaw.ar(),level:env);
+	v4a = Out.ar(3,LeakDC.ar(InFeedback.ar(34)),LFSaw.ar(),level:env);
+	v4b = Out.ar(3,LeakDC.ar(InFeedback.ar(35)),LFSaw.ar(),level:env);
+	v4c = Out.ar(3,LeakDC.ar(InFeedback.ar(36)),LFSaw.ar(),level:env);
+	v4d = Out.ar(3,LeakDC.ar(InFeedback.ar(37)),LFSaw.ar(),level:env);
+	v4e = Out.ar(3,LeakDC.ar(InFeedback.ar(38)),LFSaw.ar(),level:env);
+	v4f = Out.ar(3,LeakDC.ar(InFeedback.ar(39)),LFSaw.ar(),level:env);
 
 
 }).add;
